@@ -36,6 +36,12 @@ class Book
     protected $category;
 
     /**
+     *
+     * @ORM\ManyToOne(targetEntity="Author", cascade={"merge", "persist"})
+     */
+    protected $author;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
@@ -166,6 +172,19 @@ class Book
     public function setCategory($category) {
         $this->category = $category;
         return $this;
+    }
+
+    public function getAuthor() {
+        return $this->author;
+    }
+
+    public function setAuthor($author) {
+        $this->author = $author;
+        return $this;
+    }
+
+    public function __toString() {
+        return '' . $this->title . ' - ' . $this->author;
     }
 
 

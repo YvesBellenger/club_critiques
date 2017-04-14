@@ -32,6 +32,13 @@ class Category
     protected $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255, unique=true)
+     */
+    protected $code;
+
+    /**
      *
      * @ORM\ManyToOne(targetEntity="Category", cascade={"merge", "persist"})
      */
@@ -80,6 +87,30 @@ class Category
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Category
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
 
         return $this;
     }
@@ -173,7 +204,11 @@ class Category
     }
 
     public function __toString() {
-        return $this->name;
+        if ($this->parentCategory) {
+            return '' . $this->parentCategory->name . ' - ' . $this->name;
+        } else {
+            return '' . $this->name;
+        }
     }
 
 

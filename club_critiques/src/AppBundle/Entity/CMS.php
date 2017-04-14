@@ -5,7 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CMSRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class CMS
 {
@@ -26,11 +27,32 @@ class CMS
     protected $code;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $status;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
     protected $position;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $footer;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $nav;
 
     /**
      * @var string
@@ -45,20 +67,6 @@ class CMS
      * @ORM\Column(type="text")
      */
     protected $content;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     */
-    protected $private;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     */
-    protected $status;
 
     /**
      * @var \DateTime
@@ -76,6 +84,7 @@ class CMS
 
     public function __construct()
     {
+        $this->position = 0;
     }
 
     /**
@@ -183,8 +192,46 @@ class CMS
         return $this;
     }
 
+    public function getFooter()
+    {
+        return $this->footer;
+    }
+
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+    }
+
+    public function getNav()
+    {
+        return $this->nav;
+    }
+
+    public function setNav($nav)
+    {
+        $this->nav = $nav;
+    }
+
     public function __toString()
     {
-        return $this->code;
+        return ''.$this->code;
+    }
+
+    /*** LIFE CYCLE EVENTS ***/
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->dateAdd = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->dateUpdate = new \DateTime();
     }
 }

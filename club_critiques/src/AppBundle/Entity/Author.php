@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="author")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AuthorRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Author
 {
@@ -168,6 +169,10 @@ class Author
     public function getName()
     {
         return $this->name;
+    }
+
+    public function __toString() {
+        return '' . $this->name;
     }
 }
 

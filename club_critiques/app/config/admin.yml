@@ -1,0 +1,38 @@
+sonata_admin:
+    title: Administration
+    dashboard:
+        groups:
+            content:
+              label: Contenus
+              label_catalogue: admin
+              item:
+                  - app.admin.author
+                  - app.admin.category
+                  - app.admin.book
+            cms:
+                label: CMS
+                label_catalogue: admin
+                item:
+                    - app.admin.cms
+
+services:
+    app.admin.category:
+        class: AppBundle\Admin\CategoryAdmin
+        arguments: [~, AppBundle\Entity\Category, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Catégorie }
+    app.admin.author:
+            class: AppBundle\Admin\AuthorAdmin
+            arguments: [~, AppBundle\Entity\Author, ~]
+            tags:
+                - { name: sonata.admin, manager_type: orm, label: Auteur }
+    app.admin.book:
+                class: AppBundle\Admin\BookAdmin
+                arguments: [~, AppBundle\Entity\Book, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: Livre }
+    app.admin.cms:
+                class: AppBundle\Admin\CMSAdmin
+                arguments: [~, AppBundle\Entity\CMS, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: CMS }
