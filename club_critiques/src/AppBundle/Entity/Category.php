@@ -204,7 +204,11 @@ class Category
     }
 
     public function __toString() {
-        return ''.$this->name;
+        if ($this->parentCategory) {
+            return '' . $this->parentCategory->name . ' - ' . $this->name;
+        } else {
+            return '' . $this->name;
+        }
     }
 
 
