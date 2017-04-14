@@ -1,0 +1,15 @@
+sonata_admin:
+    title: Administration
+    dashboard:
+        groups:
+            content:
+              label: Contenus
+              label_catalogue: admin
+              item:
+                  - app.admin.category
+services:
+    app.admin.category:
+        class: AppBundle\Admin\CategoryAdmin
+        arguments: [~, AppBundle\Entity\Category, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Catégorie }
