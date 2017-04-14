@@ -6,10 +6,17 @@ sonata_admin:
               label: Contenus
               label_catalogue: admin
               item:
+                  - app.admin.author
                   - app.admin.category
+
 services:
     app.admin.category:
         class: AppBundle\Admin\CategoryAdmin
         arguments: [~, AppBundle\Entity\Category, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Catégorie }
+    app.admin.author:
+            class: AppBundle\Admin\AuthorAdmin
+            arguments: [~, AppBundle\Entity\Author, ~]
+            tags:
+                - { name: sonata.admin, manager_type: orm, label: Auteur }
