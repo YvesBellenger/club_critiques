@@ -24,6 +24,7 @@ class CategoryAdmin extends AbstractAdmin
     {
         $datagridMapper->add('code');
         $datagridMapper->add('name');
+        $datagridMapper->add('status');
         $datagridMapper->add('parentCategory', null, ['label' => 'Catégorie parent']);
     }
 
