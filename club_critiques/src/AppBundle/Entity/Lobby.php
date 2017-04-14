@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="lobby")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\LobbyRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Lobby
 {
@@ -30,6 +31,24 @@ class Lobby
     public function getId()
     {
         return $this->id;
+    }
+
+    /*** LIFE CYCLE EVENTS ***/
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->dateAdd = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue()
+    {
+        $this->dateUpdate = new \DateTime();
     }
 }
 
