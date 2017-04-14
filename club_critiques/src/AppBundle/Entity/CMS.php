@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CMSRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class CMS
 {
@@ -15,7 +16,6 @@ class CMS
      * @ORM\Column(type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\HasLifecycleCallbacks()
      */
     protected $id;
 
@@ -36,7 +36,7 @@ class CMS
     /**
      * @var integer
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
     protected $position;
 
@@ -84,6 +84,7 @@ class CMS
 
     public function __construct()
     {
+        $this->position = 0;
     }
 
     /**
@@ -213,7 +214,7 @@ class CMS
 
     public function __toString()
     {
-        return $this->code;
+        return ''.$this->code;
     }
 
     /*** LIFE CYCLE EVENTS ***/
