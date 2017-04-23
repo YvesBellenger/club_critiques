@@ -5,13 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Book
+ * Content
  *
- * @ORM\Table(name="book")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
+ * @ORM\Table(name="content")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ContentRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Book
+class Content
 {
     /**
      * @var int
@@ -77,7 +77,7 @@ class Book
      *
      * @param string $title
      *
-     * @return Book
+     * @return Content
      */
     public function setTitle($title)
     {
@@ -100,7 +100,7 @@ class Book
      * Set data_add
      *
      *
-     * @return Book
+     * @return Content
      */
     public function setDateAdd($dateAdd)
     {
@@ -122,7 +122,7 @@ class Book
      * Set data_update
      *
      *
-     * @return Book
+     * @return Content
      */
     public function setDateUpdate($dateUpdate)
     {
@@ -146,7 +146,7 @@ class Book
      *
      * @param string $status
      *
-     * @return Book
+     * @return Content
      */
     public function setStatus($status)
     {
