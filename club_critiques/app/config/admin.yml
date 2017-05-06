@@ -8,7 +8,7 @@ sonata_admin:
               item:
                   - app.admin.author
                   - app.admin.category
-                  - app.admin.book
+                  - app.admin.content
             cms:
                 label: CMS
                 label_catalogue: admin
@@ -26,11 +26,11 @@ services:
             arguments: [~, AppBundle\Entity\Author, ~]
             tags:
                 - { name: sonata.admin, manager_type: orm, label: Auteur }
-    app.admin.book:
-                class: AppBundle\Admin\BookAdmin
-                arguments: [~, AppBundle\Entity\Book, ~]
+    app.admin.content:
+                class: AppBundle\Admin\ContentAdmin
+                arguments: [~, AppBundle\Entity\Content, ~]
                 tags:
-                    - { name: sonata.admin, manager_type: orm, label: Livre }
+                    - { name: sonata.admin, manager_type: orm, label: Contenu }
     app.admin.cms:
                 class: AppBundle\Admin\CMSAdmin
                 arguments: [~, AppBundle\Entity\CMS, ~]
