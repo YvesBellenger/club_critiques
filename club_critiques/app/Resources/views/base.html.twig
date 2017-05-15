@@ -15,9 +15,15 @@
                 <img src="{{ asset('img/logo.png') }}" />
                 <div class="user-actions">
                     <span class="user-actions-item glyphicon glyphicon-user">
-                        <a  {% if app.user %}href="{{ path('fos_user_profile_show') }}"{% else %}href="{{ path('fos_user_security_login') }}"{% endif %}>
-                            Mon compte
-                        </a>
+                        {% if app.user %}
+                            <a  href="{{ path('fos_user_profile_show') }}">
+                                Mon compte
+                            </a>
+                        {% else %}
+                            <a href="{{ path('fos_user_security_login') }}">
+                                Connexion
+                            </a>
+                        {% endif %}
                     </span>
                     {% if is_granted('ROLE_ADMIN') %}
                         <span class="user-actions-item glyphicon glyphicon-cog">
