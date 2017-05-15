@@ -19,11 +19,13 @@
                             Mon compte
                         </a>
                     </span>
-                    <span class="user-actions-item glyphicon glyphicon-cog">
-                        <a href="#">
-                            Administration
-                        </a>
-                    </span>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <span class="user-actions-item glyphicon glyphicon-cog">
+                            <a href="{{ path('sonata_admin_dashboard') }}">
+                                Administration
+                            </a>
+                        </span>
+                    {% endif %}
                 </div>
             </div>
             <div class="menu">
