@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Acl\Exception\Exception;
 
 class ContentController extends Controller
 {
@@ -24,12 +25,13 @@ class ContentController extends Controller
         $category = $categoryRepository->findOneByCode('livre');
         $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
 
-
         return $this->render('contents/contenus.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'contenus',
             'contents' => $contents,
             'categories' => $categories,
+            'selected_category_id' => 0,
+            'selected_sub_category_id' => 0,
             'subcategories' => $subcategories
         ]);
     }
@@ -41,17 +43,28 @@ class ContentController extends Controller
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
-        if ($request->get('category_id') > 0) {
-            $cat_id = $request->get('category_id');
-            $category = $categoryRepository->find($cat_id);
-            $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('category' => $category));
+        $categories = $categoryRepository->findBy(array('status' => 1, 'parentCategory' => null));
+        $category_id = $request->get('category_id');
+        $sub_category_id = $request->get('sub_category_id');
+        if ($sub_category_id > 0) {
+            $sub_category = $categoryRepository->find($sub_category_id);
+            $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('category' => $sub_category));
+            $sub_categories = $categoryRepository->findBy(array('parentCategory' => $sub_category->getParentCategory()));
+            $category_id = $sub_category->getParentCategory()->getId();
+        } else if ($category_id > 0) {
+            $category = $categoryRepository->find($category_id);
+            $contents = $doctrine->getRepository('AppBundle:Content')->getByCategory($category);
+            $sub_categories = $categoryRepository->findBy(array('parentCategory' => $category));
         } else {
             $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
-//            $sub_categories =
+            $sub_categories = $categoryRepository->getSubCategories();
         }
-
         return $this->render('contents/content-list.html.twig', [
-            'contents' => $contents ? : null
+            'contents' => $contents ? : null,
+            'subcategories' => $sub_categories,
+            'categories' => $categories,
+            'selected_category_id' => $category_id,
+            'selected_sub_category_id' => $sub_category_id
         ]);
     }
 }

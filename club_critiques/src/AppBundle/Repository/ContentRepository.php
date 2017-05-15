@@ -10,4 +10,17 @@ namespace AppBundle\Repository;
  */
 class ContentRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getByCategory($category)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat')
+            ->where('cat = :category')
+            ->orWhere('cat.parentCategory = :category')
+            ->andWhere('c.status = :status')
+            ->setParameter('category', $category)
+            ->setParameter('status', 1);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }
