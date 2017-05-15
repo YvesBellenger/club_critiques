@@ -15,7 +15,7 @@
         <span>22/03/2017 - 20h</span>
     </div>
     <div class="wrapper">
-        {% if isset(cms) %}
+        {% if cms %}
         <div class="concept">
             <h2>{{ cms.title }}</h2>
             <p>{{ cms.content|raw }}</p>
@@ -23,67 +23,22 @@
         {% endif %}
         <div class="clear"></div>
         <div class="featured">
-            <h2>A la une</h2>
-            <div class="content-list">
-                <div class="row">
-                    <div class="featured-item">
-                        <a href="#">
-                            <img src="https://unsplash.it/200/300/?random">
-                        </a>
-                        <div class="book-infos">
-                            <span>Titre</span>
-                            <span>Autheur</span>
+            {% if block_home %}
+                <h2>A la une</h2>
+                <div class="content-list">
+                    {% for content in block_home.contents  %}
+                        <div class="col-md-4 featured-item">
+                            <a href="#">
+                                <img src="https://unsplash.it/200/300/?random">
+                            </a>
+                            <div class="book-infos">
+                                <span>{{ content.title }}</span>
+                                <span>{{ content.author.name }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="featured-item">
-                        <a href="#">
-                            <img src="https://unsplash.it/200/300/?random">
-                        </a>
-                        <div class="book-infos">
-                            <span>Titre</span>
-                            <span>Autheur</span>
-                        </div>
-                    </div>
-                    <div class="featured-item">
-                        <a href="#">
-                            <img src="https://unsplash.it/200/300/?random">
-                        </a>
-                        <div class="book-infos">
-                            <span>Titre</span>
-                            <span>Autheur</span>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
-                <div class="row">
-                    <div class="featured-item">
-                        <a href="#">
-                            <img src="https://unsplash.it/200/300/?random">
-                        </a>
-                        <div class="book-infos">
-                            <span>Titre</span>
-                            <span>Autheur</span>
-                        </div>
-                    </div>
-                    <div class="featured-item">
-                        <a href="#">
-                            <img src="https://unsplash.it/200/300/?random">
-                        </a>
-                        <div class="book-infos">
-                            <span>Titre</span>
-                            <span>Autheur</span>
-                        </div>
-                    </div>
-                    <div class="featured-item">
-                        <a href="#">
-                            <img src="https://unsplash.it/200/300/?random">
-                        </a>
-                        <div class="book-infos">
-                            <span>Titre</span>
-                            <span>Autheur</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
         </div>
         <div class="clear"></div>
     </div>

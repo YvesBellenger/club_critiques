@@ -15,12 +15,14 @@ class DefaultController extends Controller
     {
         $doctrine = $this->getDoctrine();
         $cms_home = $doctrine->getRepository('AppBundle:CMS')->findOneByCode('home');
+        $block_home = $doctrine->getRepository('AppBundle:BlockContent')->findOneByCode('a-la-une');
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'accueil',
-            'cms' => $cms_home
+            'cms' => $cms_home,
+            'block_home' => $block_home
         ]);
     }
 }
