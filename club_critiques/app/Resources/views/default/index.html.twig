@@ -15,10 +15,12 @@
         <span>22/03/2017 - 20h</span>
     </div>
     <div class="wrapper">
+        {% if isset(cms) %}
         <div class="concept">
             <h2>{{ cms.title }}</h2>
             <p>{{ cms.content|raw }}</p>
         </div>
+        {% endif %}
         <div class="clear"></div>
         <div class="featured">
             <h2>A la une</h2>
