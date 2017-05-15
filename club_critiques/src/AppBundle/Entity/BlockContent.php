@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * BlockContent
  *
  * @ORM\Table(name="block_content")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BlockContentRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class BlockContent
@@ -31,9 +32,26 @@ class BlockContent
     protected $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="Content", mappedBy="blockcontent", cascade={"all"}, fetch="EAGER")
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255, unique=true)
+     */
+    protected $code;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Content", cascade={"persist"})
+     * @ORM\JoinTable(name="content_block",
+     *      joinColumns={@ORM\JoinColumn(name="block_content_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")}
+     * )
      */
     private $contents;
+
+    /**
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    protected $status;
 
     /**
      * @var \DateTime
@@ -85,6 +103,28 @@ class BlockContent
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set code
+     *
+     *
+     * @return BlockContent
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     */
+
+    public function getCode()
+    {
+        return $this->code;
     }
 
     public function getContents()
@@ -142,6 +182,29 @@ class BlockContent
         return $this->dateUpdate;
     }
 
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return User
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
 
     /*** LIFE CYCLE EVENTS ***/
