@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block js %}
+    <script src="{{ asset('js/contenus.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="wrapper">
+        <h1>Contenus</h1>
+        <div class="filters">
+            <div class="form-group">
+                <span>Catégorie: </span>
+                <select id="category" class="form-control inline" onchange="onChangeCategory(this);">
+                    <option value="0">------</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <span>Sous catégorie: </span>
+                <select id="sub-category" class="form-control inline" onchange="onChangeCategory(this);">
+                    <option value="0">------</option>
+                    {% for subcategory in subcategories %}
+                        <option value="{{ subcategory.id }}">{{ subcategory.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div id="contents">
+            {{ include('contents/content-list.html.twig', { 'contents': contents }) }}
+        </div>
+    </div>
+{% endblock %}

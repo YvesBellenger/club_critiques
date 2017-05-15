@@ -1,0 +1,13 @@
+<div class="content-list">
+    {% for content in contents  %}
+        <div class="col-md-4 featured-item">
+            <a href="#">
+                <img src="https://unsplash.it/200/300/?random">
+            </a>
+            <div class="book-infos">
+                <span>{{ content.title }}</span>
+                <span>{{ content.author.name }}</span>
+            </div>
+        </div>
+    {% endfor %}
+</div>
