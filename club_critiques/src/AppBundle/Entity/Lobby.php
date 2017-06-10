@@ -22,6 +22,26 @@ class Lobby
      */
     private $id;
 
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="date_start", type="datetime")
+     */
+    public $date_start;
+
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Content", cascade={"merge", "persist"})
+     */
+    public $content;
+
+    /**
+     *
+     * @ORM\Column(name="status", type="boolean")
+     */
+    public $status;
+
 
     /**
      * Get id
@@ -31,6 +51,28 @@ class Lobby
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set date_start
+     *
+     *
+     * @return Lobby
+     */
+    public function setDateStart($dateStart)
+    {
+        $this->date_start = $dateStart;
+        return $this;
+    }
+
+    /**
+     * Get date_start
+     *
+     */
+
+    public function getDateStart()
+    {
+        return $this->date_start;
     }
 
     /*** LIFE CYCLE EVENTS ***/
