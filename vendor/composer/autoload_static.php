@@ -50,6 +50,14 @@ class ComposerStaticInitaefe4044518dcdbf7cde1d9f1cb2a984
         array (
             'Psr\\Log\\' => 8,
         ),
+        'N' => 
+        array (
+            'Negotiation\\' => 12,
+        ),
+        'F' => 
+        array (
+            'FOS\\RestBundle\\' => 15,
+        ),
         'D' => 
         array (
             'Doctrine\\Common\\Cache\\' => 22,
@@ -165,6 +173,14 @@ class ComposerStaticInitaefe4044518dcdbf7cde1d9f1cb2a984
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
+        'Negotiation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation',
+        ),
+        'FOS\\RestBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/friendsofsymfony/rest-bundle',
+        ),
         'Doctrine\\Common\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
@@ -172,6 +188,13 @@ class ComposerStaticInitaefe4044518dcdbf7cde1d9f1cb2a984
     );
 
     public static $prefixesPsr0 = array (
+        'J' => 
+        array (
+            'JsonpCallbackValidator' => 
+            array (
+                0 => __DIR__ . '/..' . '/willdurand/jsonp-callback-validator/src',
+            ),
+        ),
         'F' => 
         array (
             'FOS\\UserBundle' => 
@@ -184,6 +207,10 @@ class ComposerStaticInitaefe4044518dcdbf7cde1d9f1cb2a984
             'Doctrine\\Common\\Lexer\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
+            'Doctrine\\Common\\Inflector\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
             ),
             'Doctrine\\Common\\Annotations\\' => 
             array (

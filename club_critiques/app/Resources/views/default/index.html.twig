@@ -9,10 +9,14 @@
         </form>
     </div>
     <div class="floating-menu second">
-        <p>Prochain salon</p>
-        <span>Madame Bovary</span>
-        <span>Gustave Flaubert</span>
-        <span>22/03/2017 - 20h</span>
+        {% if (next_lobby is not null and (next_lobby.date_start|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s'))) %}
+            <p>Prochain salon</p>
+            <span>{{ next_lobby.content.title }}</span>
+            <span>{{ next_lobby.content.author.name }}</span>
+            <span>{{ next_lobby.date_start|date('d/m/Y') }} - {{ next_lobby.date_start|date('H') }}h{{ next_lobby.date_start|date('i') }}</span>
+        {% else %}
+            <p>Aucun salon prévu</p>
+        {% endif %}
     </div>
     <div class="wrapper">
         {% if cms %}
@@ -26,7 +30,34 @@
             {% if block_home %}
                 <h2>A la une</h2>
                 <div class="content-list">
-                    {% for content in block_home.contents  %}
+                    {% for key,content in block_home.contents  %}
+                        <div class="modal fade modal-fullscreen force-fullscreen" id="modal_{{ key }}" tabindex="-1" role="dialog" aria-labelledby="label" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">{{ content.title }}</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="https://unsplash.it/200/300/?random" class="content-image"/>
+                                        <div class="content-infos">
+                                            <p>{{ content.title }}</p>
+                                            <p>{{ content.author.name }}</p>
+                                            <p>Catégorie : <span>content.category.toString</span></p>
+                                            <p>Lorem ipsum dolor sit amet.</p>
+                                        </div>
+                                        <div class="suggestions">
+                                            <img src="https://unsplash.it/200/300/?random" />
+                                            <img src="https://unsplash.it/200/300/?random" />
+                                            <img src="https://unsplash.it/200/300/?random" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
                         <div class="col-md-4 featured-item">
                             <a href="#">
                                 <img src="https://unsplash.it/200/300/?random">

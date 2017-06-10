@@ -30,6 +30,13 @@ class Content
     protected $title;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    protected $description;
+
+    /**
      *
      * @ORM\ManyToOne(targetEntity="Category", cascade={"merge", "persist"})
      */
@@ -94,6 +101,29 @@ class Content
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * $description
+     *
+     * @return Content
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**
