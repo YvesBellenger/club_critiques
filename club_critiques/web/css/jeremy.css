@@ -1,0 +1,25 @@
+
+/* Page d'une oeuvre */
+
+.cover-oeuvre img{
+    max-height: 700px !important;
+}
+
+.footer{
+    position: static !important ;
+}
+
+.wrap-oeuvre{
+    margin-top: 40px;
+}
+.wrap-suggestions{
+    margin-top: 40px;
+    margin-bottom: 100px;
+
+}
+
+.wrap-suggestions h3, .wrap-suggestions h4{
+    text-align: center;
+}
+
+/* Fin de page d'une oeuvre */
