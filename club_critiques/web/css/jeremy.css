@@ -1,3 +1,22 @@
+/* Général */
+
+.nom{
+    text-transform: uppercase;
+}
+.mini-livre{
+
+}
+
+.wrap-mini-livres{
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+.wrap-mini-livres h3, .wrap-mini-livres h4{
+    text-align: center;
+}
+
+/* Fin général */
 
 /* Page d'une oeuvre */
 
@@ -12,14 +31,45 @@
 .wrap-oeuvre{
     margin-top: 40px;
 }
-.wrap-suggestions{
-    margin-top: 40px;
-    margin-bottom: 100px;
-
-}
-
-.wrap-suggestions h3, .wrap-suggestions h4{
-    text-align: center;
-}
 
 /* Fin de page d'une oeuvre */
+
+/* Page de profil */
+
+.wrap-floating-menu{
+    display: flex;
+}
+.floating-menu-profile{
+    width: 18% !important;
+}
+
+.floating-menu-profile p{
+    text-align: left !important;
+}
+
+.photo-profil {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.photo-profil img{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+}
+
+.wrap-form div{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.wrap-form textarea{
+    resize: vertical;
+    height: 150px;
+}
+
+/* Fin de page de profil */

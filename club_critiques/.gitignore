@@ -17,5 +17,5 @@
 /data/
 app/.htpasswd
 .DS_Store
-.idea/*
+.idea/
 bash.exe.stackdump
