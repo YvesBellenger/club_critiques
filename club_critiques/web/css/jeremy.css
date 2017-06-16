@@ -3,20 +3,31 @@
 .nom{
     text-transform: uppercase;
 }
-.mini-livre{
+.mini-content{
 
 }
 
-.wrap-mini-livres{
+.wrap-mini-contents{
     margin-top: 40px;
     margin-bottom: 100px;
 }
 
-.wrap-mini-livres h3, .wrap-mini-livres h4{
+.wrap-mini-contents h3, .wrap-mini-contents h4{
     text-align: center;
 }
 
 /* Fin général */
+
+/* Page des contenus */
+
+#contenus{
+
+}
+
+#contenus h1{
+    text-align: center;
+}
+/* Fin page des contenus */
 
 /* Page d'une oeuvre */
 
