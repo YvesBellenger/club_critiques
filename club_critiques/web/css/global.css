@@ -1,11 +1,35 @@
 /** GENERAL **/
 
+
+
+/** NAVBAR **/
+
+.navbar.navbar-default{
+    position : fixed;
+    top : 0;
+    width : 100%;
+}
+
+.main-nav{
+    display: flex;
+    padding-top : 10px;
+    padding-bottom : 10px;
+}
+
+.menu, .logo, .user-actions{
+    margin : auto;
+}
+
+.floating-menu, .floating-menu.second, .wrapper{
+    margin-top : 77px;
+}
+
 .menu {
-    width: 100%;
-    background-color: #25283C;
+    /*width: 100%;*/
+    /*background-color: #25283C;*/
     display: inline-block;
     vertical-align: bottom;
-    margin-top: 10px;
+   /* margin-top: 10px; */
 }
 .menu-item {
     display: inline-block;
@@ -18,19 +42,27 @@
 }
 
 .menu-item.active {
-    background-color: #70BEB1;
+    /*background-color: #70BEB1;*/
 }
 
-.menu-item span a{
-    color: white;
+.menu-item:hover{
+    border-bottom: solid 2px #70BEB1;
+}
+
+.menu-item span a, .user-actions span a{
+   /* color: white;*/
+    color : #25283C;
+    text-decoration : none;
+    font-size: 15px;
+    font-weight: 400;
 }
 
 .logo {
-    width: 100%;
-    padding-top: 10px;
+    /*width: 100%;*/
+    /*padding-top: 10px;*/
 }
 .logo img{
-    width: 200px;
+    width: 150px;
 }
 
 .logo, .user-actions {
@@ -39,7 +71,7 @@
 
 .user-actions {
     float: right;
-    margin-right: 10px;
+   /* margin-right: 10px;*/
 }
 .user-actions-item {
     display: block;
@@ -52,7 +84,7 @@
     border: 1px solid grey;
     text-align: center;
     vertical-align: middle;
-    position: fixed;
+   /* position: fixed;*/
     bottom: 0;
     background-color: #CEE8DF;
 }
@@ -85,7 +117,7 @@
 }
 
 .floating-menu.second {
-    top: 45%;
+    top: 30%;
 }
 
 .content-list {
