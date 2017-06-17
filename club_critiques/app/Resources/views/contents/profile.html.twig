@@ -60,22 +60,37 @@
             <h2 class="col-md-offset-3"> Contactez NOM Prénom</h2>
         </div>
         <div class="wrap-form">
+            {{ form_start(form) }}
+
             <div class="row">
                 <label class="col-md-offset-4 col-md-1">Nom : </label>
-                <input type="text" class="col-md-3"> </input>
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
             </div>
             <div class="row">
                 <label class="col-md-offset-4 col-md-1">Email : </label>
-                <input type="text" class="col-md-3"> </input>
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
             </div>
             <div class="row">
                 <label class="col-md-offset-4 col-md-1">Sujet : </label>
-                <input type="text" class="col-md-3"> </input>
+                {{ form_widget(form.subject) }}
+                {{ form_errors(form.subject) }}
             </div>
             <div class="row">
                 <label class="col-md-offset-4 col-md-1">Message : </label>
-                <textarea class="col-md-3"> </textarea>
+                {{ form_widget(form.message) }}
+                {{ form_errors(form.message) }}
             </div>
+            <div style="display:none">
+                {{ form_rest(form) }}
+            </div>
+            <div class="row">
+                <input type="submit" value="Envoyer" class="col-md-offset-5">
+            </div>
+
+
+            {{ form_end(form) }}
         </div>
 
     </div>
