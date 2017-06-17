@@ -1,0 +1,100 @@
+/* Général */
+
+.logo {
+    text-align: center;
+}
+
+.menu{
+    height: 60px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.menu-connexion{
+    justify-content: flex-end;
+}
+.nom{
+    text-transform: uppercase;
+}
+.mini-content{
+
+}
+
+.wrap-mini-contents{
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+.wrap-mini-contents h3, .wrap-mini-contents h4{
+    text-align: center;
+}
+
+/* Fin général */
+
+/* Page des contenus */
+
+#contenus{
+
+}
+
+#contenus h1{
+    text-align: center;
+}
+/* Fin page des contenus */
+
+/* Page d'une oeuvre */
+
+.cover-oeuvre img{
+    max-height: 700px !important;
+}
+
+.footer{
+    position: static !important ;
+}
+
+.wrap-oeuvre{
+    margin-top: 40px;
+}
+
+/* Fin de page d'une oeuvre */
+
+/* Page de profil */
+
+.wrap-floating-menu{
+    display: flex;
+}
+.floating-menu-profile{
+    width: 18% !important;
+}
+
+.floating-menu-profile p{
+    text-align: left !important;
+}
+
+.photo-profil {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.photo-profil img{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    right: -9999px;
+    bottom: -9999px;
+    margin: auto;
+}
+
+.wrap-form div{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.wrap-form textarea{
+    resize: vertical;
+    height: 150px;
+}
+
+/* Fin de page de profil */

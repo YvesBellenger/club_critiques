@@ -1,33 +1,39 @@
 <div class="filters">
-    <div class="form-group">
-        <span>Catégorie: </span>
-        <select id="category" class="form-control inline" onchange="onChangeCategory(this);">
-            <option value="0">------</option>
-            {% for category in categories %}
-                <option value="{{ category.id }}" {% if selected_category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
-            {% endfor %}
-        </select>
+    <div class="row">
+        <div class="form-group">
+            <span class="col-md-2 col-md-offset-3"> Catégorie : </span>
+            <select id="category" class="form-control inline" onchange="onChangeCategory(this);">
+                <option value="0">------</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if selected_category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
-    <div class="form-group">
-        <span>Sous catégorie: </span>
-        <select id="sub-category" class="form-control inline" onchange="onChangeSubCategory(this);">
-            <option value="0">------</option>
-            {% for subcategory in subcategories %}
-                <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>
-            {% endfor %}
-        </select>
+    <div class="row">
+        <div class="form-group">
+            <span class="col-md-2 col-md-offset-3">Sous catégorie : </span>
+            <select id="sub-category" class="form-control inline" onchange="onChangeSubCategory(this);">
+                <option value="0">------</option>
+                {% for subcategory in subcategories %}
+                    <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
     </div>
 </div>
-<div class="content-list">
-    {% for content in contents  %}
-        <div class="col-md-4 featured-item">
-            <a href="#">
-                <img src="https://unsplash.it/200/300/?random">
-            </a>
-            <div class="book-infos">
-                <span>{{ content.title }}</span>
-                <span>{{ content.author.name }}</span>
+<div class="row">
+    <div class="col-md-offset-3 wrap-mini-contents content-list">
+        {% for content in contents  %}
+            <div class="col-md-4 featured-item mini-content">
+                <a href="#">
+                    <img src="https://unsplash.it/200/300/?random">
+                </a>
+                <div class="book-infos">
+                    <h3>{{ content.title }}</h3>
+                    <a href="#"><h4>{{ content.author.name }}</h4></a>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>

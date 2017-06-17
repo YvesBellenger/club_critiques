@@ -8,31 +8,12 @@
         {% block js %}{% endblock %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link rel="stylesheet" href="{{ asset('css/global.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/jeremy.css') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
             <div class="logo">
-                <img src="{{ asset('img/logo.png') }}" />
-                <div class="user-actions">
-                    <span class="user-actions-item glyphicon glyphicon-user">
-                        {% if app.user %}
-                            <a  href="{{ path('fos_user_profile_show') }}">
-                                Mon compte
-                            </a>
-                        {% else %}
-                            <a href="{{ path('fos_user_security_login') }}">
-                                Connexion
-                            </a>
-                        {% endif %}
-                    </span>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <span class="user-actions-item glyphicon glyphicon-cog">
-                            <a href="{{ path('sonata_admin_dashboard') }}">
-                                Administration
-                            </a>
-                        </span>
-                    {% endif %}
-                </div>
+                <a href="{{ path('homepage') }}"><img src="{{ asset('img/logo.png') }}" /></a>
             </div>
             <div class="menu">
                 <div class="menu-item first {% if controller == 'accueil' %}active{% endif %}">
@@ -50,6 +31,30 @@
                         <a class="" href="#">Salons</a>
                     </span>
                 </div>
+                <div class="menu-item menu-connexion {% if controller == 'profile'  %}active {% endif %}">
+                    {% if app.user %}
+                        <span>
+                            <a  href="{{ path('fos_user_profile_show') }}">
+                                Mon compte
+                            </a>
+                        </span>
+                    {% else %}
+                        <span>
+                            <a href="{{ path('fos_user_security_login') }}">
+                                Connexion
+                            </a>
+                        </span>
+                    {% endif %}
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                <div class="menu-item menu-connexion">
+                    <span>
+                        <a href="{{ path('sonata_admin_dashboard') }}">
+                            Administration
+                        </a>
+                    </span>
+                </div>
+                {% endif %}
             </div>
 
         {% block body %}{% endblock %}
