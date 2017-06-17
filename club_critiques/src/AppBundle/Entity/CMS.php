@@ -43,6 +43,13 @@ class CMS
     /**
      * @var integer
      *
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    protected $column_footer;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(type="boolean")
      */
     protected $footer;
@@ -82,6 +89,7 @@ class CMS
      */
     protected $dateUpdate;
 
+
     public function __construct()
     {
         $this->position = 0;
@@ -96,8 +104,8 @@ class CMS
     }
 
     /**
-     * @return int
-     */
+ * @return int
+ */
     public function getPosition()
     {
         return $this->position;
@@ -109,6 +117,23 @@ class CMS
     public function setPosition($position)
     {
         $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getColumnFooter()
+    {
+        return $this->column_footer;
+    }
+
+    /**
+     * @return CMS
+     */
+    public function setColumnFooter($column_footer)
+    {
+        $this->column_footer = $column_footer;
         return $this;
     }
 
