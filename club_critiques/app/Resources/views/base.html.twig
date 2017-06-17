@@ -39,12 +39,26 @@
                                 Mon compte
                             </a>
                         </span>
+                </div>
+                <div class="menu-item menu-connexion">
+                    <span>
+                        <a href="{{ path('fos_user_security_logout') }}">
+                            Se déconnecter
+                        </a>
+                    </span>
                     {% else %}
                         <span>
                             <a href="{{ path('fos_user_security_login') }}">
                                 Connexion
                             </a>
                         </span>
+                </div>
+                <div class="menu-item menu-connexion {% if  controller is defined and controller == 'register/'%}active {% endif %}">
+                    <span>
+                        <a href="{{ path('fos_user_registration_register') }}">
+                            S'inscrire
+                        </a>
+                    </span>
                     {% endif %}
                 </div>
                 {% if is_granted('ROLE_ADMIN') %}
