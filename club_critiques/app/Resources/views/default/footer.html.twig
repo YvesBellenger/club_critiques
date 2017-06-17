@@ -9,7 +9,7 @@
                     {% if (footer is defined and footer is not null) %}
                         {% for element in footer %}
                             {% if element.column_footer == i %}
-                                <a href="#">{{ element.name }}</a>
+                                <a href="{{ path('cms', {'id': element.id}) }}">{{ element.name }}</a>
                             {% endif %}
                         {% endfor %}
                     {% endif %}
