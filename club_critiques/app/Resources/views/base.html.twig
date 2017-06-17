@@ -31,6 +31,7 @@
                         <a class="" href="#">Salons</a>
                     </span>
                 </div>
+                {{ render(controller('AppBundle:Front/Default:menu')) }}
                 <div class="menu-item menu-connexion {% if  controller is defined and controller == 'profile'%}active {% endif %}">
                     {% if app.user %}
                         <span>

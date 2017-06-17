@@ -1,0 +1,8 @@
+
+{% for item in menu %}
+    <div class="menu-item {% if cms_id is defined and cms_id == item.id %}active{% endif %}">
+        <span>
+            <a class="" href="#">{{ item.name }}</a>
+        </span>
+    </div>
+{% endfor %}

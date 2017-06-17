@@ -28,7 +28,16 @@ class CMSRepository extends \Doctrine\ORM\EntityRepository
         return $footer;
     }
 
+    // Récupération des éléments du menu
     public function getMenu() {
 
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.status = :status')
+            ->andWhere('c.nav = :nav')
+            ->setParameter('status', 1)
+            ->setParameter('nav', 1)
+            ->orderBy('c.position')
+            ->setMaxResults(6);
+         return $qb->getQuery()->getResult();
     }
 }
