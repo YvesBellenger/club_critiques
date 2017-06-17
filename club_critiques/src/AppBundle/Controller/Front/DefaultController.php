@@ -22,7 +22,7 @@ class DefaultController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'accueil',
             'cms' => $cms_home,
-            'next_lobby' => $next_lobby[0],
+            'next_lobby' => !empty($next_lobby) ? $next_lobby[0] : null,
             'block_home' => $block_home
         ]);
     }
