@@ -1,0 +1,20 @@
+<div id="footer">
+    <div class="nav-footer">
+        <div class="row">
+            <div class="col-md-3 col-footer" id="social-medias">
+                <p>Suivez nous sur :</p>
+            </div>
+            {% for i in 1..3 %}
+                <div id="footer-col-{{ i }}" class="col-md-3 col-footer">
+                    {% if (footer is defined and footer is not null) %}
+                        {% for element in footer %}
+                            {% if element.column_footer == i %}
+                                <a href="#">{{ element.name }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

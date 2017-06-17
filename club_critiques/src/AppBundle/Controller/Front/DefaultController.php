@@ -17,6 +17,7 @@ class DefaultController extends Controller
         $cms_home = $doctrine->getRepository('AppBundle:CMS')->findOneByCode('home');
         $block_home = $doctrine->getRepository('AppBundle:BlockContent')->findOneByCode('a-la-une');
         $next_lobby = $doctrine->getRepository('AppBundle:Lobby')->findBy(array('status' => 1), array('date_start' => 'ASC'), 1);
+
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
@@ -24,6 +25,15 @@ class DefaultController extends Controller
             'cms' => $cms_home,
             'next_lobby' => !empty($next_lobby) ? $next_lobby[0] : null,
             'block_home' => $block_home
+        ]);
+    }
+
+    public function footerAction(Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+
+        return $this->render('default/footer.html.twig', [
+            'footer' => $doctrine->getRepository('AppBundle:CMS')->getFooter(),
         ]);
     }
 }
