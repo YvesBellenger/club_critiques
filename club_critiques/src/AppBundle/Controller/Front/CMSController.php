@@ -26,6 +26,7 @@ class CMSController extends Controller
         return $this->render('cms/cms.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'cms',
+            'cms_id' => $cms_id,
             'cms' => $cms
         ]);
     }

@@ -36,4 +36,13 @@ class DefaultController extends Controller
             'footer' => $doctrine->getRepository('AppBundle:CMS')->getFooter(),
         ]);
     }
+
+    public function menuAction(Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+
+        return $this->render('default/menu.html.twig', [
+            'menu' => $doctrine->getRepository('AppBundle:CMS')->getMenu(),
+        ]);
+    }
 }
