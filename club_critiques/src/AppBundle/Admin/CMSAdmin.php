@@ -22,7 +22,7 @@ class CMSAdmin extends AbstractAdmin
         $formMapper->add('nav', null, ['label' => 'Apparait dans le menu']);
         $formMapper->add('footer', null, ['label' => 'Apparait dans le footer']);
         $formMapper->add('column_footer', 'choice', ['label' => 'Colonne', 'choices' => CMS::$columns]);
-        $formMapper->add('position', 'choice', ['label' => 'Position', 'choices' => array(1 => "1",2 => "2",3 => "3",4 => "4")]);
+        $formMapper->add('position', 'integer', ['label' => 'Position']);
         $formMapper->add('status', null, ['label' => 'En ligne']);
     }
 
