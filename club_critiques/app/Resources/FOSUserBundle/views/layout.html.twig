@@ -1,27 +1,26 @@
 {% extends 'base.html.twig' %}
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('css/login.css') }}">{% endblock %}
 {% block body %}
     <div>
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
         {% endif %}
-        <form action="{{ path("fos_user_security_check") }}" method="post" class="form-signin">
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-            <div class="login-container">
-                <h1>Connexion</h1><br>
-                <form>
-                    <label for="username">Nom d'utilisateur</label>
-                    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-                    <label for="password">Mot de passe</label>
-                    <input type="password" id="password" name="_password" required="required" />
-                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                    <label for="remember_me">Se souvenir de moi</label>
-                    <input type="submit" class="login login-submit" id="_submit" name="_submit" value="Valider" />
-                </form>
-                <div class="login-help">
-                    <a href="{{ path('fos_user_registration_register') }}">Créer un compte</a> - <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
-                </div>
-            </div>
-        </form>
     </div>
-{% endblock %}
+
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+{% endblock body %}
