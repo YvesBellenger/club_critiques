@@ -58,9 +58,7 @@
             </div>
 
         {% block body %}{% endblock %}
-        <div class="footer">
-            Ceci est le footer
-        </div>
+        {{ render(controller('AppBundle:Front/Default:footer')) }}
         {% block javascripts %}{% endblock %}
     </body>
 </html>
