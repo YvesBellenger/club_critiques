@@ -16,22 +16,22 @@
                 <a href="{{ path('homepage') }}"><img src="{{ asset('img/logo.png') }}" /></a>
             </div>
             <div class="menu">
-                <div class="menu-item first {% if controller is defined and controller == 'accueil' %}active{% endif %}">
+                <div class="menu-item first {% if controller is defined and controller == 'accueil'%}active{% endif %}">
                 <span>
                     <a href="{{ path('homepage') }}">Accueil</a>
                 </span>
                 </div>
-                <div class="menu-item {% if controller is defined and controller == 'contenus' %}active{% endif %}">
+                <div class="menu-item {% if controller is defined and controller == 'contenus'%}active{% endif %}">
                 <span>
                     <a href="{{ path('contenus') }}">Contenus</a>
                 </span>
                 </div>
-                <div class="menu-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
+                <div class="menu-item {% if controller is defined and controller == 'salons'%}active{% endif %}">
                     <span>
                         <a class="" href="#">Salons</a>
                     </span>
                 </div>
-                <div class="menu-item menu-connexion {% if  controller is defined and controller == 'profile'  %}active {% endif %}">
+                <div class="menu-item menu-connexion {% if  controller is defined and controller == 'profile'%}active {% endif %}">
                     {% if app.user %}
                         <span>
                             <a  href="{{ path('fos_user_profile_show') }}">
