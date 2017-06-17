@@ -10,4 +10,25 @@ namespace AppBundle\Repository;
  */
 class CMSRepository extends \Doctrine\ORM\EntityRepository
 {
+    // Récupération des éléments du footer
+    public function getFooter() {
+
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.status = :status')
+            ->andWhere('c.footer = :footer')
+            ->setParameter('status', 1)
+            ->setParameter('footer', 1)
+            ->add('orderBy','c.column_footer ASC, c.position ASC')   ;
+        $footer_elements = $qb->getQuery()->getResult();
+
+        $footer = array();
+        foreach ($footer_elements as $element) {
+            $footer[$element->column_footer] = $element;
+        }
+        return $footer;
+    }
+
+    public function getMenu() {
+
+    }
 }
