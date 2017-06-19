@@ -76,11 +76,13 @@ class ContentController extends Controller
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
         $content = $doctrine->getRepository('AppBundle:Content')->find($request->get('id'));
-
+        $other_contents = $doctrine->getRepository('AppBundle:Content')->getSuggestions($content);
+        shuffle($other_contents);
         return $this->render('contents/content.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'oeuvre',
-            'content' => $content
+            'content' => $content,
+            'other_contents' => $other_contents
         ]);
     }
 }
