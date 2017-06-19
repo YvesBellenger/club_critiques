@@ -30,7 +30,7 @@
                     {% if other_contents[i] is defined %}
                         <div class="col-md-2 suggestion mini-content">
                             <a href="{{ path('contenu', {'id': other_contents[i].id}) }}"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
-                            <h3>{{ other_contents[i].title }}</h3>
+                            <h3><a href="{{ path('contenu', {'id': other_contents[i].id}) }}">{{ other_contents[i].title }}</a></h3>
                             <a href="#"><h4>{{ other_contents[i].author.name }}</h4></a>
                         </div>
                     {% endif %}

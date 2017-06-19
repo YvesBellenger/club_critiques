@@ -31,39 +31,13 @@
                 <h2>A la une</h2>
                 <div class="content-list">
                     {% for key,content in block_home.contents  %}
-                        <div class="modal fade modal-fullscreen force-fullscreen" id="modal_{{ key }}" tabindex="-1" role="dialog" aria-labelledby="label" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h4 class="modal-title">{{ content.title }}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <img src="https://unsplash.it/200/300/?random" class="content-image"/>
-                                        <div class="content-infos">
-                                            <p>{{ content.title }}</p>
-                                            <p>{{ content.author.name }}</p>
-                                            <p>Catégorie : <span>content.category.toString</span></p>
-                                            <p>Lorem ipsum dolor sit amet.</p>
-                                        </div>
-                                        <div class="suggestions">
-                                            <img src="https://unsplash.it/200/300/?random" />
-                                            <img src="https://unsplash.it/200/300/?random" />
-                                            <img src="https://unsplash.it/200/300/?random" />
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                    </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
 
                         <div class="col-md-4 featured-item">
-                            <a href="#">
+                            <a href="{{ path('contenu', {'id': content.id}) }}">
                                 <img src="https://unsplash.it/200/300/?random">
                             </a>
                             <div class="book-infos">
-                                <span>{{ content.title }}</span>
+                                <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
                                 <span>{{ content.author.name }}</span>
                             </div>
                         </div>
