@@ -1,9 +1,18 @@
-{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
 {% block js %}
     <script src="{{ asset('js/contenus.js') }}"></script>
 {% endblock %}
-{% block body %}
+{% block fos_user_content %}
     <div class="floating-menu floating-menu-profile">
+        <h5>Mon profil</h5>
+        <p>
+            <a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a><br>
+            <a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a><br>
+            <a href="#">Gérer mes contacts</a><br>
+        </p>
+    </div>
+    <div class="floating-menu second floating-menu-profile">
         <a href="#"><button>Contacter</button></a>
     </div>
 
@@ -18,7 +27,8 @@
                 <div class="col-md-6 ">
                     <div class="description-profil">
                         <h1><span class="nom">Nom</span> Prénom</h1>
-                        <a href="#"><h2>email@adressemail.com</h2></a>
+                        <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
+                        <a href="#"><h2>{{ 'profile.show.email'|trans }}: {{ user.email }}</h2></a>
                         <p class="paragraphe-description">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt mollis ipsum, a commodo enim mollis ac. Sed nec purus nec nulla rutrum auctor eu sed massa. Maecenas id metus lorem. Vivamus viverra et lorem vitae porta. Nam tempus gravida mollis. Nullam a enim nibh. Proin ullamcorper arcu feugiat nulla lacinia gravida facilisis dictum felis. Nullam sit amet nisi nec dolor malesuada mattis. Suspendisse nec magna non justo scelerisque faucibus nec at sapien. Donec tristique bibendum nulla, vitae ultrices turpis consectetur vitae. Sed dapibus in enim non eleifend. Cras scelerisque rutrum interdum. Phasellus fringilla magna nulla, vitae pharetra arcu varius vitae. Praesent id pellentesque nisi, nec volutpat mi. Integer gravida porta dui, ac ornare est fermentum tincidunt. Duis egestas nisi ac luctus pellentesque. <br><br>
                         </p>
@@ -29,7 +39,7 @@
         </div>
         <div class="row">
             <div class="col-md-offset-3 wrap-mini-contents">
-                <h2>Pour échanger</h2>
+                <h2>Mes livres à échanger</h2>
                 <div class="col-md-2 mini-content echange">
                     <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
                     <h3>Titre</h3>
@@ -46,43 +56,6 @@
                     <a href="#"><h4>Auteur</h4></a>
                 </div>
             </div>
-        </div>
-        <hr>
-        <div class="row">
-            <h2 class="col-md-offset-3"> Contactez NOM Prénom</h2>
-        </div>
-        <div class="wrap-form">
-            {{ form_start(form) }}
-
-            <div class="row">
-                <label class="col-md-offset-4 col-md-1">Nom : </label>
-                {{ form_widget(form.name) }}
-                {{ form_errors(form.name) }}
-            </div>
-            <div class="row">
-                <label class="col-md-offset-4 col-md-1">Email : </label>
-                {{ form_widget(form.email) }}
-                {{ form_errors(form.email) }}
-            </div>
-            <div class="row">
-                <label class="col-md-offset-4 col-md-1">Sujet : </label>
-                {{ form_widget(form.subject) }}
-                {{ form_errors(form.subject) }}
-            </div>
-            <div class="row">
-                <label class="col-md-offset-4 col-md-1">Message : </label>
-                {{ form_widget(form.message) }}
-                {{ form_errors(form.message) }}
-            </div>
-            <div style="display:none">
-                {{ form_rest(form) }}
-            </div>
-            <div class="row">
-                <input type="submit" value="Envoyer" class="col-md-offset-5">
-            </div>
-
-
-            {{ form_end(form) }}
         </div>
 
     </div>
