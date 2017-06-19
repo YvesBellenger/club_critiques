@@ -1,6 +1,7 @@
 {
     "require": {
         "friendsofsymfony/user-bundle": "~1.3",
-        "friendsofsymfony/rest-bundle": "^2.1"
+        "friendsofsymfony/rest-bundle": "^2.1",
+        "egeloen/ckeditor-bundle": "^4.0"
     }
 }
