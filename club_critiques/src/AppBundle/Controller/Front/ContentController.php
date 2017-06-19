@@ -67,4 +67,18 @@ class ContentController extends Controller
             'selected_sub_category_id' => $sub_category_id
         ]);
     }
+
+    /**
+     * @Route("/contenu/{id}", name="contenu")
+     */
+    public function contenuActions (Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+        $categoryRepository = $doctrine->getRepository('AppBundle:Category');
+
+        return $this->render('contents/description-oeuvre.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'controller' => 'oeuvre',
+        ]);
+    }
 }
