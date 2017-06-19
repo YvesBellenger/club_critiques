@@ -20,53 +20,53 @@ class Content
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
-    protected $title;
+    public $title;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="text")
      */
-    protected $description;
+    public $description;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Category", cascade={"merge", "persist"})
      */
-    protected $category;
+    public $category;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Author", cascade={"merge", "persist"})
      */
-    protected $author;
+    public $author;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
      */
-    protected $dateAdd;
+    public $dateAdd;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_update", type="datetime", nullable=true)
      */
-    protected $dateUpdate;
+    public $dateUpdate;
 
     /**
      *
      * @ORM\Column(name="status", type="boolean")
      */
-    protected $status;
+    public $status;
 
 
     /**
