@@ -18,7 +18,7 @@ class ContentAdmin extends AbstractAdmin
         $formMapper->add('category', 'entity', ['label' => 'Catégorie', 'required' => true, 'class' => 'AppBundle\Entity\Category']);
         $formMapper->add('author', null, ['label' => 'Auteur', 'required' => true]);
         $formMapper->add('title', 'text', ['label' => 'Titre', 'required' => true]);
-        $formMapper->add('description', 'text', ['label' => 'Description', 'required' => true]);
+        $formMapper->add('description', CKEditorType::class, ['label' => 'Description', 'required' => true]);
         $formMapper->add('status', null, ['label' => 'En ligne']);
     }
 
