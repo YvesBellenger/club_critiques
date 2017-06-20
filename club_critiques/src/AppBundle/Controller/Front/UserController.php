@@ -78,7 +78,10 @@ class UserController extends Controller
     public function addToContactAction(Request $request)
     {
         $doctrine = $this->getDoctrine();
-        $user = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
-
+        $contact = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
+        $user = $this->get('security.context')->getToken()->getUser();
+        $user->addContact($contact);
+        $this->addFlash("success", "L'utilisateur a bien été ajouté à vos contacts.");
+        return $this->redirectToRoute('user', ['id' => $contact->id]);
     }
 }
