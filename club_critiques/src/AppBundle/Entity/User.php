@@ -36,6 +36,14 @@ class User extends BaseUser
     protected $lastName;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    public $description;
+
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinTable(name="user_contacts",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
@@ -117,6 +125,29 @@ class User extends BaseUser
     public function getDateUpdate()
     {
         return $this->dateUpdate;
+    }
+
+    /**
+     * Set description
+     *
+     * $description
+     *
+     * @return Content
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
 
