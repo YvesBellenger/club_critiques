@@ -53,6 +53,24 @@ class User extends BaseUser
     private $contacts;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Content", cascade={"persist"})
+     * @ORM\JoinTable(name="user_contents_share",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")}
+     * )
+     */
+    public $contentsToShare;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Content", cascade={"persist"})
+     * @ORM\JoinTable(name="user_contents_wanted",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")}
+     * )
+     */
+    public $contentsWanted;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
@@ -76,6 +94,8 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->contacts = new ArrayCollection();
+        $this->contentsToShare = new ArrayCollection();
+        $this->contentsWanted = new ArrayCollection();
         $this->status = 1;
     }
 
@@ -132,7 +152,7 @@ class User extends BaseUser
      *
      * $description
      *
-     * @return Content
+     * @return User
      */
     public function setDescription($description)
     {
@@ -197,6 +217,76 @@ class User extends BaseUser
     public function removeContact(\AppBundle\Entity\User $contact)
     {
         $this->contacts->removeElement($contact);
+    }
+
+    /**
+     * Get contentsToShare
+     *
+     * @return ArrayCollection
+     */
+    public function getContentsToShare()
+    {
+        return $this->contentsToShare;
+    }
+
+    /**
+     * Add contentToShare
+     *
+     * @param \AppBundle\Entity\Content $content
+     * @return User
+     */
+    public function addContentToShare(\AppBundle\Entity\Content $content)
+    {
+        if(!$this->contentsToShare->contains($content)) {
+            $this->contentsToShare[] = $content;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove contentToShare
+     *
+     * @param \AppBundle\Entity\Content $content
+     */
+    public function removeContentToShare(\AppBundle\Entity\User $content)
+    {
+        $this->contentsToShare->removeElement($content);
+    }
+
+    /**
+     * Get contentsWanted
+     *
+     * @return ArrayCollection
+     */
+    public function getContentsWanted()
+    {
+        return $this->contentsWanted;
+    }
+
+    /**
+     * Add contentWanted
+     *
+     * @param \AppBundle\Entity\Content $content
+     * @return User
+     */
+    public function addContentWanted(\AppBundle\Entity\Content $content)
+    {
+        if(!$this->contentsWanted->contains($content)) {
+            $this->contentsWanted[] = $content;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove contentWanted
+     *
+     * @param \AppBundle\Entity\Content $content
+     */
+    public function removeContentWanted(\AppBundle\Entity\User $content)
+    {
+        $this->contentsWanted->removeElement($content);
     }
 
     /**
