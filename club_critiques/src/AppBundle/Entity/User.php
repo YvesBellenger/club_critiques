@@ -3,6 +3,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +36,15 @@ class User extends BaseUser
     protected $lastName;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinTable(name="user_contacts",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="contact_id", referencedColumnName="id")}
+     * )
+     */
+    private $contacts;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
@@ -57,6 +67,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->contacts = new ArrayCollection();
         $this->status = 1;
     }
 
@@ -120,6 +131,41 @@ class User extends BaseUser
     {
         $this->status = $status;
         return $this;
+    }
+
+    /**
+     * Get contacts
+     *
+     * @return User
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * Add contacts
+     *
+     * @param \AppBundle\Entity\User $contact
+     * @return User
+     */
+    public function addContact(\AppBundle\Entity\User $contact)
+    {
+        if(!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove contact
+     *
+     * @param \AppBundle\Entity\User $contact
+     */
+    public function removeContact(\AppBundle\Entity\User $contact)
+    {
+        $this->contacts->removeElement($contact);
     }
 
     /**
