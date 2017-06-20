@@ -19,21 +19,21 @@ class User extends BaseUser
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      */
-    protected $firstName;
+    public $firstName;
 
     /**
      * @var string
      *
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
-    protected $lastName;
+    public $lastName;
 
     /**
      * @var string
@@ -57,20 +57,20 @@ class User extends BaseUser
      *
      * @ORM\Column(name="date_add", type="datetime")
      */
-    protected $dateAdd;
+    public $dateAdd;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_update", type="datetime", nullable=true)
      */
-    protected $dateUpdate;
+    public $dateUpdate;
 
     /**
      *
      * @ORM\Column(name="status", type="boolean")
      */
-    protected $status;
+    public $status;
 
     public function __construct()
     {
