@@ -1,11 +1,11 @@
 /** GENERAL **/
 
 .menu {
-    width: 100%;
-    background-color: #25283C;
+    /*width: 100%;*/
+    /*background-color: #25283C;*/
     display: inline-block;
     vertical-align: bottom;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
 }
 .menu-item {
     display: inline-block;
@@ -18,20 +18,19 @@
 }
 
 .menu-item.active {
-    background-color: #70BEB1;
+    /*background-color: #70BEB1;*/
 }
 
 .menu-item span a, .menu-item span a:hover, .menu-item span a:visited  {
     text-decoration: none;
-    color: white;
 }
 
 .logo {
-    width: 100%;
-    padding-top: 10px;
+    /*width: 100%;*/
+    /*padding-top: 10px;*/
 }
 .logo img{
-    width: 200px;
+    width: 125px;
 }
 
 .logo, .user-actions {
@@ -39,12 +38,19 @@
 }
 
 .user-actions {
-    float: right;
-    margin-right: 10px;
+    display: flex;
+    justify-content: flex-end;
+    /*margin-right: 10px;*/
 }
 .user-actions-item {
     display: block;
     padding: 10px;
+    border: 1px solid grey;
+    text-align: center;
+    vertical-align: middle;
+    /* position: fixed;*/
+    bottom: 0;
+    background-color: #CEE8DF;
 }
 
 .form-group {
@@ -107,12 +113,22 @@
     text-align: justify;
 }
 
+.btn-primary{
+    background-color: #25283C !important;
+    border-color : #70BEB1 !important;
+}
+
+.btn-primary:hover, .menu-item .btn-primary a:hover,
+.btn-primary:hover, .menu-item .btn-primary a:visited {
+    background-color: #70BEB1 !important;
+    color : #ffffff !important;
+}
+
 /* Footer */
 #footer {
     color: white;
     height: 150px;
     background-color: #25283C;
-
 }
 
 #footer .nav-footer {
@@ -134,4 +150,44 @@
 #footer .nav-footer .row .col-footer {
     text-align: center;
     text-decoration: none;
+}
+
+/** NAVBAR **/
+
+.navbar{
+    border-radius : 0px !important;
+    position : fixed;
+    top : 0;
+    width : 100%;
+    background-color: #25283C;
+}
+
+.main-nav{
+     display: flex;
+     padding-top : 10px;
+     padding-bottom : 10px;
+ }
+
+.menu, .logo, .user-actions{
+     margin : auto;
+ }
+
+.floating-menu, .floating-menu.second, .wrapper{
+     /*margin-top : 77px;*/
+    margin-top : 100px;
+ }
+
+.floating-menu .second{
+    margin-top : 45px;
+}
+
+.menu-item span a, .user-actions span a{
+     color : #FFFFFF;
+     text-decoration : none;
+     font-size: 15px;
+     font-weight: 400;
+ }
+
+.menu-item span a:hover{
+    color: #70BEB1;
 }
