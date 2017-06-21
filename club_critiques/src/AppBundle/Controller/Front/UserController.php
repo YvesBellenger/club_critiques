@@ -15,6 +15,7 @@ class UserController extends Controller
     {
         $doctrine = $this->getDoctrine();
         $user = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
+
         // Create the form according to the FormType created previously.
         // And give the proper parameters
         $form = $this->createForm('AppBundle\Form\ContactType',null,array(
