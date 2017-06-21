@@ -73,7 +73,7 @@
                                 <td>{{ content.category }}</td>
                                 <td>{{ content.title }}</td>
                                 <td>{{ content.author.name }}</td>
-                                <td><a href="{{ path('user_remove_content', {'type': constant('User::CONTENT_WANTED')}) }}">Supprimer</a></td>
+                                <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="{{ constant('User::CONTENT_WANTED') }}" onclick="onRemoveContent(this)">Supprimer</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -100,7 +100,7 @@
                             <td>{{ content.category }}</td>
                             <td>{{ content.title }}</td>
                             <td>{{ content.author.name }}</td>
-                            <td><a href="{{ path('user_remove_content', {'type': constant('User::CONTENT_TO_SHARE')}) }}">Supprimer</a></td>
+                            <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="{{ constant('User::CONTENT_TO_SHARE') }}" onclick="onRemoveContent(this)">Supprimer</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

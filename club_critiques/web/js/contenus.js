@@ -42,3 +42,18 @@ function onAddContent(elt) {
             alert('Error : ' + errorThrown);
         });
 }
+
+function onRemoveContent(elt) {
+    $.ajax({
+        type: "POST",
+        url: 'content/remove',
+        data: {'content_id': $(elt).data('content-id'), 'type': $(elt).data('type')},
+        async: false
+    })
+        .done(function(response){
+            alert('le contenu a bien été supprimé');
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            alert('Error : ' + errorThrown);
+        });
+}
