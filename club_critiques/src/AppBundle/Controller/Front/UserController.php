@@ -90,11 +90,11 @@ class UserController extends Controller
      * @Route("/profil", name="profil")
      */
     public function profilAction (Request $request) {
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('fos_user_security_login');
         } else {
-            return $this->render('profile/user.html.twig', [
+            return $this->render('profile/profil.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'controller' => 'user',
                 'user' => $user,
