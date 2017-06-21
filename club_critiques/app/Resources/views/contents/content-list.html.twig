@@ -32,6 +32,10 @@
                 <div class="book-infos">
                     <h3>{{ content.title }}</h3>
                     <a href="#"><h4>{{ content.author.name }}</h4></a>
+                    {% if modeAdd %}
+                        <a href="#">Ajouter à ma liste de recherche</a>
+                        <a href="#">Ajouter à ma liste d'échange</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
