@@ -79,7 +79,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p>Aucun contenu</p>
+                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
             {% endif %}
         </div>
         <div class="row">
@@ -106,7 +106,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p>Aucun contenu</p>
+                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
             {% endif %}
         </div>
     </div>
