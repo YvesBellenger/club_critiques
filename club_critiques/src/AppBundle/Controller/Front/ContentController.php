@@ -133,6 +133,7 @@ class ContentController extends Controller
             $em->persist($user);
             $em->flush();
         }
-        return new Response();
+        $this->addFlash("success", "Le contenu a bien été supprimé de votre liste.");
+        return $this->redirectToRoute('profil');
     }
 }
