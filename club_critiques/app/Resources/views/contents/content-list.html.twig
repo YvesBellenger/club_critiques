@@ -23,11 +23,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-offset-3 wrap-mini-contents content-list">
+    <div class="col-md-offset-1 wrap-mini-contents content-list">
         {% for content in contents  %}
-            <div class="col-md-4 featured-item mini-content">
+            <div class="col-md-2  mini-content">
                 <a href="#">
-                    <img src="https://unsplash.it/200/300/?random">
+                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
                 </a>
                 <div class="book-infos">
                     <h3>{{ content.title }}</h3>
@@ -39,5 +39,13 @@
                 </div>
             </div>
         {% endfor %}
+        <div class="col-md-2 mini-content">
+            <a href="#">
+                <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+            </a>
+            <div class="book-infos">
+                <h3>Ajouter un livre</h3>
+            </div>
+        </div>
     </div>
 </div>
