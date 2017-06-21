@@ -33,8 +33,8 @@
                     <h3>{{ content.title }}</h3>
                     <a href="#"><h4>{{ content.author.name }}</h4></a>
                     {% if modeAdd %}
-                        <a href="#">Ajouter à ma liste de recherche</a>
-                        <a href="#">Ajouter à ma liste d'échange</a>
+                        <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="{{ constant('User::CONTENT_WANTED')} }}" onclick="onAddContent(this)">Ajouter à ma liste de souhait</a>
+                        <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="{{ constant('User::CONTENT_TO_SHARE')} }}" onclick="onAddContent(this)">Ajouter à ma liste d'échange</a>
                     {% endif %}
                 </div>
             </div>
