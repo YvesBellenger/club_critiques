@@ -31,7 +31,7 @@
         </div>
         <div class="row">
             {% if user.getContacts().count > 0 %}
-                <table>
+                <table class="list-contact">
                     <thead>
                     <tr>
                         <th>Nom</th>
@@ -58,7 +58,7 @@
         <div class="row">
             <h2>Ce que je cherche</h2>
             {% if user.getContentsWanted().count > 0 %}
-                <table>
+                <table class="table-list-content">
                     <thead>
                         <tr>
                             <th>Catégorie</th>
@@ -85,7 +85,7 @@
         <div class="row">
             <h2>Ce que j'ai</h2>
             {% if user.getContentsToShare().count > 0 %}
-                <table>
+                <table class="table-list-content">
                     <thead>
                     <tr>
                         <th>Catégorie</th>
