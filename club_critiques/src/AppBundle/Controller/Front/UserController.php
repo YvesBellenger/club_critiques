@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * @Route("/user", name="user")
+     * @Route("/user/{id}", name="user")
      */
     public function userActions (Request $request)
     {
         $doctrine = $this->getDoctrine();
-
+        $user = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
         // Create the form according to the FormType created previously.
         // And give the proper parameters
         $form = $this->createForm('AppBundle\Form\ContactType',null,array(
@@ -44,6 +44,7 @@ class UserController extends Controller
         return $this->render('contents/user.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'user',
+            'user' => $user,
             'form' => $form->createView()
         ]);
     }
@@ -69,5 +70,18 @@ class UserController extends Controller
             ->setBody($data["message"]."<br>ContactMail :".$data["email"]);
 
         return $mailer->send($message);
+    }
+
+    /**
+     * @Route("/user/{id}/add", name="user_add")
+     */
+    public function addToContactAction(Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+        $contact = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
+        $user = $this->get('security.context')->getToken()->getUser();
+        $user->addContact($contact);
+        $this->addFlash("success", "L'utilisateur a bien été ajouté à vos contacts.");
+        return $this->redirectToRoute('user', ['id' => $contact->id]);
     }
 }

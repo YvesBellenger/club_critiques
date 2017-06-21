@@ -5,6 +5,7 @@
 {% block body %}
     <div class="floating-menu floating-menu-profile">
         <a href="#"><button>Contacter</button></a>
+        <a href="{{ path('user_add', {'id': user.id}) }}"><button>Ajouter aux contacts</button></a>
     </div>
 
     <div class="wrapper container-fluid">
@@ -17,11 +18,10 @@
                 </div>
                 <div class="col-md-6 ">
                     <div class="description-profil">
-                        <h1><span class="nom">Nom</span> Prénom</h1>
-                        <a href="#"><h2>email@adressemail.com</h2></a>
-                        <p class="paragraphe-description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut tincidunt mollis ipsum, a commodo enim mollis ac. Sed nec purus nec nulla rutrum auctor eu sed massa. Maecenas id metus lorem. Vivamus viverra et lorem vitae porta. Nam tempus gravida mollis. Nullam a enim nibh. Proin ullamcorper arcu feugiat nulla lacinia gravida facilisis dictum felis. Nullam sit amet nisi nec dolor malesuada mattis. Suspendisse nec magna non justo scelerisque faucibus nec at sapien. Donec tristique bibendum nulla, vitae ultrices turpis consectetur vitae. Sed dapibus in enim non eleifend. Cras scelerisque rutrum interdum. Phasellus fringilla magna nulla, vitae pharetra arcu varius vitae. Praesent id pellentesque nisi, nec volutpat mi. Integer gravida porta dui, ac ornare est fermentum tincidunt. Duis egestas nisi ac luctus pellentesque. <br><br>
-                        </p>
+                        <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
+                        <div class="paragraphe-description">
+                            {{ user.description }}
+                        </div>
                     </div>
 
                 </div>
@@ -49,7 +49,7 @@
         </div>
         <hr>
         <div class="row">
-            <h2 class="col-md-offset-3"> Contactez NOM Prénom</h2>
+            <h2 class="col-md-offset-3"> Contactez {{ user.lastName }} {{ user.firstName }}</h2>
         </div>
         <div class="wrap-form">
             {{ form_start(form) }}
