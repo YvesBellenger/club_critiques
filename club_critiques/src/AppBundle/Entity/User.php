@@ -40,7 +40,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     public $description;
 
@@ -251,7 +251,7 @@ class User extends BaseUser
      *
      * @param \AppBundle\Entity\Content $content
      */
-    public function removeContentToShare(\AppBundle\Entity\User $content)
+    public function removeContentToShare(\AppBundle\Entity\Content $content)
     {
         $this->contentsToShare->removeElement($content);
     }
@@ -286,7 +286,7 @@ class User extends BaseUser
      *
      * @param \AppBundle\Entity\Content $content
      */
-    public function removeContentWanted(\AppBundle\Entity\User $content)
+    public function removeContentWanted(\AppBundle\Entity\Content $content)
     {
         $this->contentsWanted->removeElement($content);
     }

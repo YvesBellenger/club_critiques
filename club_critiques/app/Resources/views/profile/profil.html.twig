@@ -61,6 +61,7 @@
                 <table class="table-list-content">
                     <thead>
                         <tr>
+                            <th>Type</th>
                             <th>Catégorie</th>
                             <th>Titre</th>
                             <th>Auteur</th>
@@ -70,10 +71,11 @@
                     <tbody>
                         {% for content in user.getContentsWanted() %}
                             <tr>
-                                <td>{{ content.category }}</td>
+                                <td>{{ content.category.parentCategory }}</td>
+                                <td>{{ content.category.name }}</td>
                                 <td>{{ content.title }}</td>
                                 <td>{{ content.author.name }}</td>
-                                <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="{{ constant('User::CONTENT_WANTED') }}" onclick="onRemoveContent(this)">Supprimer</a></td>
+                                <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onRemoveContent(this)">Supprimer</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -88,6 +90,7 @@
                 <table class="table-list-content">
                     <thead>
                     <tr>
+                        <th>Type</th>
                         <th>Catégorie</th>
                         <th>Titre</th>
                         <th>Auteur</th>
@@ -97,10 +100,11 @@
                     <tbody>
                     {% for content in user.getContentsToShare() %}
                         <tr>
-                            <td>{{ content.category }}</td>
+                            <td>{{ content.category.parentCategory }}</td>
+                            <td>{{ content.category.name }}</td>
                             <td>{{ content.title }}</td>
                             <td>{{ content.author.name }}</td>
-                            <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="{{ constant('User::CONTENT_TO_SHARE') }}" onclick="onRemoveContent(this)">Supprimer</a></td>
+                            <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onRemoveContent(this)">Supprimer</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>

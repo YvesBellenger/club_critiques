@@ -52,6 +52,7 @@ function onRemoveContent(elt) {
     })
         .done(function(response){
             alert('le contenu a bien été supprimé');
+            $(elt).parent().parent().remove();
         })
         .fail(function(jqXHR, textStatus, errorThrown){
             alert('Error : ' + errorThrown);

@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
 class ContentController extends Controller
@@ -101,12 +102,17 @@ class ContentController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         } else {
             $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            dump($content);
             if ($request->get('type') == User::CONTENT_TO_SHARE) {
                 $user->addContentToShare($content);
             } else {
                 $user->addContentWanted($content);
             }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
         }
+        return new Response();
     }
 
     /**
@@ -123,6 +129,10 @@ class ContentController extends Controller
             } else {
                 $user->removeContentWanted($content);
             }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
         }
+        return new Response();
     }
 }
