@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="row">
-            {% if contact_list.length > 0 %}
+            {% if contact_list is defined and contact_list.length > 0 %}
                 <table>
                     <thead>
                         <tr>
