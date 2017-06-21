@@ -46,7 +46,7 @@
                             <td>{{ contact.lastName }}</td>
                             <td>{{ contact.firstName }}</td>
                             <td>{{ contact.email }}</td>
-                            <td><a href="{{ path('user', {'id': contact.id}) }}">Voir le profil</a></td>
+                            <td><a href="{{ path('user', {'id': contact.id}) }}">Voir le profil</a><a href="{{ path('user_remove', {'id': contact.id}) }}">Supprimer</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -75,7 +75,7 @@
                                 <td>{{ content.category.name }}</td>
                                 <td>{{ content.title }}</td>
                                 <td>{{ content.author.name }}</td>
-                                <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onRemoveContent(this)">Supprimer</a></td>
+                                <td><a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}">Supprimer</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -104,7 +104,7 @@
                             <td>{{ content.category.name }}</td>
                             <td>{{ content.title }}</td>
                             <td>{{ content.author.name }}</td>
-                            <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onRemoveContent(this)">Supprimer</a></td>
+                            <td><a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}">Supprimer</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
