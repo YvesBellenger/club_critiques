@@ -80,8 +80,11 @@ class UserController extends Controller
     {
         $doctrine = $this->getDoctrine();
         $contact = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->getUser();
         $user->addContact($contact);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
         $this->addFlash("success", "L'utilisateur a bien été ajouté à vos contacts.");
         return $this->redirectToRoute('user', ['id' => $contact->id]);
     }
