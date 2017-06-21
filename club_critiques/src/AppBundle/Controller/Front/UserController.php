@@ -90,6 +90,22 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/user/{id}/remove", name="user_remove")
+     */
+    public function removeContactAction(Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+        $contact = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
+        $user = $this->getUser();
+        $user->removeContact($contact);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+        $this->addFlash("success", "L'utilisateur a bien été supprimé de vos contacts.");
+        return $this->redirectToRoute('profil');
+    }
+
+    /**
      * @Route("/profil", name="profil")
      */
     public function profilAction (Request $request) {
