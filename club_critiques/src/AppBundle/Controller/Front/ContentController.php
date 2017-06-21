@@ -108,4 +108,21 @@ class ContentController extends Controller
             }
         }
     }
+
+    /**
+     * @Route("/content/remove", name="user_remove_content")
+     */
+    public function userRemoveContentAction (Request $request) {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            if ($request->get('type') == User::CONTENT_TO_SHARE) {
+                $user->removeContentToShare($content);
+            } else {
+                $user->removeContentWanted($content);
+            }
+        }
+    }
 }
