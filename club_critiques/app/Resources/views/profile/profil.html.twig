@@ -31,7 +31,7 @@
         </div>
         <div class="row">
             {% if user.getContacts().count > 0 %}
-                <table>
+                <table class="list-contact">
                     <thead>
                     <tr>
                         <th>Nom</th>
@@ -58,9 +58,10 @@
         <div class="row">
             <h2>Ce que je cherche</h2>
             {% if user.getContentsWanted().count > 0 %}
-                <table>
+                <table class="table-list-content">
                     <thead>
                         <tr>
+                            <th>Type</th>
                             <th>Catégorie</th>
                             <th>Titre</th>
                             <th>Auteur</th>
@@ -70,24 +71,26 @@
                     <tbody>
                         {% for content in user.getContentsWanted() %}
                             <tr>
-                                <td>{{ content.category }}</td>
+                                <td>{{ content.category.parentCategory }}</td>
+                                <td>{{ content.category.name }}</td>
                                 <td>{{ content.title }}</td>
                                 <td>{{ content.author.name }}</td>
-                                <td><a href="{{ path('user_remove_content', {'type': constant('User::CONTENT_WANTED')}) }}">Supprimer</a></td>
+                                <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onRemoveContent(this)">Supprimer</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <p>Aucun contenu</p>
+                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
             {% endif %}
         </div>
         <div class="row">
             <h2>Ce que j'ai</h2>
             {% if user.getContentsToShare().count > 0 %}
-                <table>
+                <table class="table-list-content">
                     <thead>
                     <tr>
+                        <th>Type</th>
                         <th>Catégorie</th>
                         <th>Titre</th>
                         <th>Auteur</th>
@@ -97,16 +100,17 @@
                     <tbody>
                     {% for content in user.getContentsToShare() %}
                         <tr>
-                            <td>{{ content.category }}</td>
+                            <td>{{ content.category.parentCategory }}</td>
+                            <td>{{ content.category.name }}</td>
                             <td>{{ content.title }}</td>
                             <td>{{ content.author.name }}</td>
-                            <td><a href="{{ path('user_remove_content', {'type': constant('User::CONTENT_TO_SHARE')}) }}">Supprimer</a></td>
+                            <td><a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onRemoveContent(this)">Supprimer</a></td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <p>Aucun contenu</p>
+                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
             {% endif %}
         </div>
     </div>

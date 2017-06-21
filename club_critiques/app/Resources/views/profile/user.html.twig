@@ -30,7 +30,7 @@
         {% if user.getContentsToShare().count > 0 or user.getContentsWanted().count > 0 %}
             <h2>Pour échanger</h2>
             {% if user.getContentsWanted().count > 0 %}
-                <h3>Je recherche</h3>
+                <h3>Ce que je cherche</h3>
                 <div class="row">
                     <div class="col-md-offset-3 wrap-mini-contents">
                         {% for content in user.getContentsWanted() %}
@@ -44,7 +44,7 @@
                 </div>
             {% endif %}
             {% if user.getContentsToShare().count > 0 %}
-                <h3>J'échange</h3>
+                <h3>Ce que j'ai</h3>
                 <div class="row">
                     <div class="col-md-offset-3 wrap-mini-contents">
                         {% for content in user.getContentsToShare() %}

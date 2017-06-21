@@ -32,6 +32,10 @@
                 <div class="book-infos">
                     <h3>{{ content.title }}</h3>
                     <a href="#"><h4>{{ content.author.name }}</h4></a>
+                    {% if modeAdd %}
+                        <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)">Ajouter à ma liste de souhait</a>
+                        <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)">Ajouter à ma liste d'échange</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

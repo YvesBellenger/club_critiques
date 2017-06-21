@@ -2,9 +2,11 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
 class ContentController extends Controller
@@ -14,6 +16,10 @@ class ContentController extends Controller
      */
     public function contenusActions (Request $request)
     {
+        $modeAdd = false;
+        if ($request->query->has('modeAdd')) {
+            $modeAdd = true;
+        }
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
@@ -32,6 +38,7 @@ class ContentController extends Controller
             'categories' => $categories,
             'selected_category_id' => 0,
             'selected_sub_category_id' => 0,
+            'modeAdd' => $modeAdd,
             'subcategories' => $subcategories
         ]);
     }
@@ -84,5 +91,48 @@ class ContentController extends Controller
             'content' => $content,
             'other_contents' => $other_contents
         ]);
+    }
+
+    /**
+     * @Route("/content/add", name="user_add_content")
+     */
+    public function userAddContentAction (Request $request) {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            dump($content);
+            if ($request->get('type') == User::CONTENT_TO_SHARE) {
+                $user->addContentToShare($content);
+            } else {
+                $user->addContentWanted($content);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+        return new Response();
+    }
+
+    /**
+     * @Route("/content/remove", name="user_remove_content")
+     */
+    public function userRemoveContentAction (Request $request) {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            if ($request->get('type') == User::CONTENT_TO_SHARE) {
+                $user->removeContentToShare($content);
+            } else {
+                $user->removeContentWanted($content);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+        return new Response();
     }
 }
