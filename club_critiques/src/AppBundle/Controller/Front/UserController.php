@@ -85,4 +85,20 @@ class UserController extends Controller
         $this->addFlash("success", "L'utilisateur a bien été ajouté à vos contacts.");
         return $this->redirectToRoute('user', ['id' => $contact->id]);
     }
+
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profilAction (Request $request) {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            return $this->render('profile/profil.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'controller' => 'user',
+                'user' => $user,
+            ]);
+        }
+    }
 }

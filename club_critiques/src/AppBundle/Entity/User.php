@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends BaseUser
 {
+    const CONTENT_TO_SHARE = 1;
+    const CONTENT_WANTED = 2;
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
