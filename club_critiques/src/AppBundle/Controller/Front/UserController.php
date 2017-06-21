@@ -41,7 +41,7 @@ class UserController extends Controller
             }
         }
 
-        return $this->render('contents/user.html.twig', [
+        return $this->render('profile/user.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'user',
             'user' => $user,
