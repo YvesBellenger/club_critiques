@@ -2,9 +2,11 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
 class ContentController extends Controller
@@ -14,6 +16,10 @@ class ContentController extends Controller
      */
     public function contenusActions (Request $request)
     {
+        $modeAdd = false;
+        if ($request->query->has('modeAdd')) {
+            $modeAdd = true;
+        }
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
@@ -32,6 +38,7 @@ class ContentController extends Controller
             'categories' => $categories,
             'selected_category_id' => 0,
             'selected_sub_category_id' => 0,
+            'modeAdd' => $modeAdd,
             'subcategories' => $subcategories
         ]);
     }
@@ -66,5 +73,67 @@ class ContentController extends Controller
             'selected_category_id' => $category_id,
             'selected_sub_category_id' => $sub_category_id
         ]);
+    }
+
+    /**
+     * @Route("/contenu/{id}", name="contenu")
+     */
+    public function contenuActions (Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+        $categoryRepository = $doctrine->getRepository('AppBundle:Category');
+        $content = $doctrine->getRepository('AppBundle:Content')->find($request->get('id'));
+        $other_contents = $doctrine->getRepository('AppBundle:Content')->getSuggestions($content);
+        shuffle($other_contents);
+        return $this->render('contents/content.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'controller' => 'oeuvre',
+            'content' => $content,
+            'other_contents' => $other_contents
+        ]);
+    }
+
+    /**
+     * @Route("/content/add", name="user_add_content")
+     */
+    public function userAddContentAction (Request $request) {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            dump($content);
+            if ($request->get('type') == User::CONTENT_TO_SHARE) {
+                $user->addContentToShare($content);
+            } else {
+                $user->addContentWanted($content);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+        return new Response();
+    }
+
+    /**
+     * @Route("/content/remove", name="user_remove_content")
+     */
+    public function userRemoveContentAction (Request $request) {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            if ($request->get('type') == User::CONTENT_TO_SHARE) {
+                $user->removeContentToShare($content);
+            } else {
+                $user->removeContentWanted($content);
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+        $this->addFlash("success", "Le contenu a bien été supprimé de votre liste.");
+        return $this->redirectToRoute('profil');
     }
 }

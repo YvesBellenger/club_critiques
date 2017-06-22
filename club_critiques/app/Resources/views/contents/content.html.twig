@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block js %}
+    <script src="{{ asset('js/contenus.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="wrapper container-fluid">
+        <div class="row">
+            <div class="col-md-offset-3 wrap-oeuvre">
+                <div class="">
+                    <div class="col-md-3 cover-oeuvre">
+                        <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="description-oeuvre">
+                        <h1>{{ content.title }}</h1>
+                        <a href="#"><h2>{{ content.author.name }}</h2></a>
+                        <p class="paragraphe-description">
+                            {{ content.description }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 wrap-mini-contents">
+                <h2>Autres suggestions</h2>
+                {% for i in 0..2 %}
+                    {% if other_contents[i] is defined %}
+                        <div class="col-md-2 suggestion mini-content">
+                            <a href="{{ path('contenu', {'id': other_contents[i].id}) }}"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                            <h3><a href="{{ path('contenu', {'id': other_contents[i].id}) }}">{{ other_contents[i].title }}</a></h3>
+                            <a href="#"><h4>{{ other_contents[i].author.name }}</h4></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

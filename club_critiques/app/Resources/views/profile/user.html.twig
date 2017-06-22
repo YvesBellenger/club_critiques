@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+{% block js %}
+    <script src="{{ asset('js/contenus.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="floating-menu floating-menu-profile">
+        <a href="#"><button>Contacter</button></a>
+        <a href="{{ path('user_add', {'id': user.id}) }}"><button>Ajouter aux contacts</button></a>
+    </div>
+
+    <div class="wrapper container-fluid">
+        <div class="row">
+            <div class="col-md-offset-3 wrap-profil">
+                <div class="">
+                    <div class="col-md-3 photo-profil">
+                        <img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}">
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="description-profil">
+                        <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
+                        <div class="paragraphe-description">
+                            {{ user.description }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% if user.getContentsToShare().count > 0 or user.getContentsWanted().count > 0 %}
+            <h2>Pour échanger</h2>
+            {% if user.getContentsWanted().count > 0 %}
+                <h3>Ce que je cherche</h3>
+                <div class="row">
+                    <div class="col-md-offset-3 wrap-mini-contents">
+                        {% for content in user.getContentsWanted() %}
+                            <div class="col-md-2 mini-content echange">
+                                <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                                <h3>{{ content.title }}</h3>
+                                <a href="#"><h4>{{ content.author.name }}</h4></a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            {% if user.getContentsToShare().count > 0 %}
+                <h3>Ce que j'ai</h3>
+                <div class="row">
+                    <div class="col-md-offset-3 wrap-mini-contents">
+                        {% for content in user.getContentsToShare() %}
+                            <div class="col-md-2 mini-content echange">
+                                <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                                <h3>{{ content.title }}</h3>
+                                <a href="#"><h4>{{ content.author.name }}</h4></a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        <hr>
+        <div class="row">
+            <h2 class="col-md-offset-3"> Contactez {{ user.lastName }} {{ user.firstName }}</h2>
+        </div>
+        <div class="wrap-form">
+            {{ form_start(form) }}
+
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Nom : </label>
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </div>
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Email : </label>
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
+            </div>
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Sujet : </label>
+                {{ form_widget(form.subject) }}
+                {{ form_errors(form.subject) }}
+            </div>
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Message : </label>
+                {{ form_widget(form.message) }}
+                {{ form_errors(form.message) }}
+            </div>
+            <div style="display:none">
+                {{ form_rest(form) }}
+            </div>
+            <div class="row">
+                <input type="submit" value="Envoyer" class="col-md-offset-5">
+            </div>
+
+
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+{% endblock %}

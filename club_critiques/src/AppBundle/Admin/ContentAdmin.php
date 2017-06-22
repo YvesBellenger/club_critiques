@@ -15,9 +15,10 @@ class ContentAdmin extends AbstractAdmin
         $entity = new Category();
         $query = $this->modelManager->getEntityManager($entity)->createQuery('SELECT * FROM \AppBundle\Entity\Category c WHERE parentCategory NOT NULL ORDER BY c.nameASC');
 
-        $formMapper->add('title', 'text', ['label' => 'Titre', 'required' => true]);
         $formMapper->add('category', 'entity', ['label' => 'Catégorie', 'required' => true, 'class' => 'AppBundle\Entity\Category']);
         $formMapper->add('author', null, ['label' => 'Auteur', 'required' => true]);
+        $formMapper->add('title', 'text', ['label' => 'Titre', 'required' => true]);
+        $formMapper->add('description', CKEditorType::class, ['label' => 'Description', 'required' => true]);
         $formMapper->add('status', null, ['label' => 'En ligne']);
     }
 

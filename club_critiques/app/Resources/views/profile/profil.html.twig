@@ -1,0 +1,117 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block js %}
+    <script src="{{ asset('js/contenus.js') }}"></script>
+{% endblock %}
+{% block fos_user_content %}
+    <div class="wrapper container-fluid">
+        <div class="row">
+            <div class="col-md-offset-3 wrap-profil">
+                <div class="">
+                    <div class="col-md-3 photo-profil">
+                        <img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}">
+                    </div>
+                    <a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a><br>
+                    <a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a><br>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="description-profil">
+                        <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
+                        <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
+                        <a href="#"><h2>{{ 'profile.show.email'|trans }}: {{ user.email }}</h2></a>
+                        <div class="paragraphe-description">
+                            {{ user.description }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% if user.getContacts().count > 0 %}
+                <table class="list-contact">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for contact in user.getContacts() %}
+                        <tr>
+                            <td>{{ contact.lastName }}</td>
+                            <td>{{ contact.firstName }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td><a href="{{ path('user', {'id': contact.id}) }}">Voir le profil</a><a href="{{ path('user_remove', {'id': contact.id}) }}">Supprimer</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun contacts</p>
+            {% endif %}
+        </div>
+        <div class="row">
+            <h2>Ce que je cherche</h2>
+            {% if user.getContentsWanted().count > 0 %}
+                <table class="table-list-content">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Catégorie</th>
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for content in user.getContentsWanted() %}
+                            <tr>
+                                <td>{{ content.category.parentCategory }}</td>
+                                <td>{{ content.category.name }}</td>
+                                <td>{{ content.title }}</td>
+                                <td>{{ content.author.name }}</td>
+                                <td><a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}">Supprimer</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
+            {% endif %}
+        </div>
+        <div class="row">
+            <h2>Ce que j'ai</h2>
+            {% if user.getContentsToShare().count > 0 %}
+                <table class="table-list-content">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Catégorie</th>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for content in user.getContentsToShare() %}
+                        <tr>
+                            <td>{{ content.category.parentCategory }}</td>
+                            <td>{{ content.category.name }}</td>
+                            <td>{{ content.title }}</td>
+                            <td>{{ content.author.name }}</td>
+                            <td><a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}">Supprimer</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -78,6 +78,14 @@ fos_user:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
 
+ivory_ck_editor:
+    input_sync: true
+    default_config: base_config
+    configs:
+        base_config:
+            toolbar: [ [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ], ['SpellChecker'], ['Scayt'], [ 'Link','Unlink','Anchor' ], [ 'pbckcode', 'Image', 'Video', 'Table', 'HorizontalRule' ,'SpecialChar' ], [ 'Maximize' ], [ 'Source' ], "/", [ 'Bold','Italic','Underline','Strike','-','RemoveFormat' ], [ 'NumberedList','BulletedList','-','Outdent','Indent','-', 'Blockquote', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ], [ 'Styles', 'Format' ], [ "About" ] ]
+            allowedContent: true
+
 sonata_block:
     default_contexts: [cms]
     blocks:

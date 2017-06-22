@@ -23,4 +23,20 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    public function getSuggestions($content)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.category = :category')
+            ->orWhere('c.author = :author')
+            ->andWhere('c.status = :status')
+            ->andWhere('c.id != :content_id')
+            ->setParameter('category', $content->category)
+            ->setParameter('author', $content->author)
+            ->setParameter('content_id', $content->id)
+            ->setParameter('status', 1);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }

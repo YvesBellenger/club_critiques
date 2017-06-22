@@ -1,0 +1,78 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block js %}
+    <script src="{{ asset('js/contenus.js') }}"></script>
+{% endblock %}
+{% block fos_user_content %}
+    <div class="wrapper container-fluid">
+        <div class="row">
+            <div class="col-md-offset-3 wrap-profil">
+                <div class="">
+                    <div class="col-md-3 photo-profil">
+                        <img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}">
+                    </div>
+                    <a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a><br>
+                    <a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a><br>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="description-profil">
+                        <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
+                        <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
+                        <a href="#"><h2>{{ 'profile.show.email'|trans }}: {{ user.email }}</h2></a>
+                        <div class="paragraphe-description">
+                            {{ user.description }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% if contact_list is defined and contact_list.length > 0 %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contact_list %}
+                            <tr>
+                                <td>{{ contact.lastName }}</td>
+                                <td>{{ contact.firstName }}</td>
+                                <td>{{ contact.email }}</td>
+                                <td><a href="{{ path('user', {'id': contact.id}) }}">Voir le profil</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun contacts</p>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 wrap-mini-contents">
+                <h2>Mes livres à échanger</h2>
+                <div class="col-md-2 mini-content echange">
+                    <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                    <h3>Titre</h3>
+                    <a href="#"><h4>Auteur</h4></a>
+                </div>
+                <div class="col-md-2 col-md-offset-1 mini-content echange">
+                    <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                    <h3>Titre</h3>
+                    <a href="#"><h4>Auteur</h4></a>
+                </div>
+                <div class="col-md-2 col-md-offset-1 mini-content echange">
+                    <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                    <h3>Titre</h3>
+                    <a href="#"><h4>Auteur</h4></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
