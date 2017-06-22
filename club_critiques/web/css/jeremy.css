@@ -4,12 +4,12 @@
     text-align: center;
 }
 
-.menu{
-    height: 60px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
+/*.menu{*/
+    /*height: 60px;*/
+    /*display: flex;*/
+    /*justify-content: flex-start;*/
+    /*align-items: center;*/
+/*}*/
 
 .menu-connexion{
     justify-content: flex-end;
@@ -71,6 +71,10 @@
 .floating-menu-profile p{
     text-align: left !important;
 }
+
+/*.floating-menu .second{*/
+    /*top : 30%;*/
+/*}*/
 
 .photo-profil {
     width: 300px;
