@@ -4,6 +4,18 @@
     text-align: center;
 }
 
+.add-content{
+    border:solid 1px black;
+}
+
+.img-responsive{
+    min-width: 210px;
+    max-width: 210px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
 /*.menu{*/
     /*height: 60px;*/
     /*display: flex;*/
@@ -99,6 +111,10 @@
 .wrap-form textarea{
     resize: vertical;
     height: 150px;
+}
+
+#liens-profil{
+    text-align: center;
 }
 
 /* Fin de page de profil */
