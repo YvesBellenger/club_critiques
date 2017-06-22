@@ -1,0 +1,45 @@
+/****** FLOATING MENU ******/
+
+.floating-menu{
+    top: 21%;
+}
+
+.floating-menu.second{
+    top: 43%;
+    margin-top: 10px;
+}
+
+.form-control{
+    display: inline-block;
+
+}
+
+.floating-menu .form-control{
+    margin-bottom: 10px;
+}
+
+.floating-menu form{
+    display: flex;
+    flex-direction: column;
+}
+
+.floating-menu form .btn-default{
+    /*align-self: flex-end;*/
+    width: 100%;
+    background-color: #25283C;
+    /*border-color : #70BEB1;*/
+    color: #FFFFFF;
+}
+
+.floating-menu form .btn-default:hover{
+    background-color: #70BEB1;
+    border-color: #70BEB1;
+}
+
+/****** FOOTER ******/
+
+#footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

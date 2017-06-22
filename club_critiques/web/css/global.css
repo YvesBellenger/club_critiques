@@ -80,10 +80,6 @@
     display: block;
 }
 
-.floating-menu.second {
-    top: 45%;
-}
-
 .content-list {
     text-align: center;
     margin-bottom: 50px;
@@ -172,14 +168,10 @@
      margin : auto;
  }
 
-.floating-menu, .floating-menu.second, .wrapper{
+.wrapper{
      /*margin-top : 77px;*/
     margin-top : 100px;
  }
-
-.floating-menu .second{
-    margin-top : 45px;
-}
 
 .menu-item span a, .user-actions span a{
      color : #FFFFFF;
