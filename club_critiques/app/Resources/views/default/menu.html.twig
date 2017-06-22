@@ -1,8 +1,9 @@
 
+
 {% for item in menu %}
     <div class="menu-item {% if cms_id is defined and cms_id == item.id %}active{% endif %}">
-        <span>
-            <a href="{{ path('cms', {'id' : item.id}) }}">{{ item.name }}</a>
-        </span>
+    <span>
+        <a href="{{ path('cms', {'id' : item.id}) }}">{{ item.name }}</a>
+    </span>
     </div>
 {% endfor %}
