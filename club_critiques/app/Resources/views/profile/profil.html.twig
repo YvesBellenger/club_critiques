@@ -9,12 +9,16 @@
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-md-offset-3 wrap-profil">
-                <div class="">
-                    <div class="col-md-3 photo-profil">
+                <div class="col-md-3">
+                    <div class="photo-profil">
                         <img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}">
                     </div>
-                    <a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a><br>
-                    <a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a><br>
+                    <div id="liens-profil">
+                        <a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a><br>
+                        <a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a><br>
+                    </div>
+                </div>
+
                 </div>
                 <div class="col-md-6 ">
                     <div class="description-profil">
@@ -23,6 +27,8 @@
                         <a href="#"><h2>{{ 'profile.show.email'|trans }}: {{ user.email }}</h2></a>
                         <div class="paragraphe-description">
                             {{ user.description }}
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie pretium viverra. Suspendisse id dui dictum eros pretium feugiat. Vestibulum id nisl semper, tincidunt lacus ac, consequat sapien. Ut tincidunt quis magna eget ultricies. Curabitur vitae mollis odio. Nullam convallis ipsum ac semper tincidunt. Vivamus ac dui efficitur, tristique ex eu, tincidunt elit. Mauris et condimentum justo. Phasellus facilisis arcu sit amet ipsum viverra sodales. Maecenas vitae felis eget nibh sodales pulvinar in sit amet libero. Aenean ut massa elit.<br><br>
+                                Proin sollicitudin sagittis sem eget lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed congue lectus ut consectetur aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent pellentesque neque vehicula tristique finibus. Cras imperdiet elementum enim, eget dignissim massa cursus vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam hendrerit massa non pretium lobortis. Fusce suscipit consequat sem, rutrum consectetur nisi sodales et.</p>
                         </div>
                     </div>
 
