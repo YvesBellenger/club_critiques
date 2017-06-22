@@ -1,3 +1,8 @@
+html, body{
+    width: 100%;
+    height: 100%;
+}
+
 /****** FLOATING MENU ******/
 
 .floating-menu{
@@ -39,7 +44,7 @@
 /****** FOOTER ******/
 
 #footer{
-    position: fixed;
+    position: relative;
     bottom: 0;
     width: 100%;
 }
