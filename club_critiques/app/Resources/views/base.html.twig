@@ -41,10 +41,10 @@
                     </div>
 
                     <div class="user-actions col-md-4">
-                        <div class="menu-item menu-connexion {% if  controller is defined and controller == 'profile' %}active {% endif %}">
+                        <div class="menu-item menu-connexion {% if  controller is defined and controller == 'profil' %}active {% endif %}">
                             {% if app.user %}
                             <span>
-                                <a href="{{ path('fos_user_profile_show') }}">
+                                <a href="{{ path('profil') }}">
                                     Mon compte
                                 </a>
                             </span>

@@ -8,19 +8,20 @@
 {% block fos_user_content %}
     <div class="wrapper container-fluid">
         <div class="row">
-            <div class="col-md-offset-3 wrap-profil">
+            <div class="col-md-offset-2 wrap-profil">
                 <div class="col-md-3">
                     <div class="photo-profil">
                         <img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}">
+                        <div id="liens-profil">
+                            <a href="{{ path('fos_user_profile_edit') }}"><button>Editer mes informations</button></a><br>
+                            <a href="{{ path('fos_user_change_password') }}"><button>Editer mon mot de passe</button></a><br>
+                        </div>
                     </div>
-                    <div id="liens-profil">
-                        <a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a><br>
-                        <a href="{{ path('fos_user_change_password') }}">Modifier mon mot de passe</a><br>
-                    </div>
+
                 </div>
 
                 </div>
-                <div class="col-md-6 ">
+                <div class="col-md-5 ">
                     <div class="description-profil">
                         <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
                         <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
@@ -36,88 +37,66 @@
             </div>
         </div>
         <div class="row">
+            <div class="wrap-mini-contacts">
+                <h2 class="col-md-offset-1">Mes contacts</h2>
             {% if user.getContacts().count > 0 %}
-                <table class="list-contact">
-                    <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Email</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for contact in user.getContacts() %}
-                        <tr>
-                            <td>{{ contact.lastName }}</td>
-                            <td>{{ contact.firstName }}</td>
-                            <td>{{ contact.email }}</td>
-                            <td><a href="{{ path('user', {'id': contact.id}) }}">Voir le profil</a><a href="{{ path('user_remove', {'id': contact.id}) }}">Supprimer</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                {% for contact in user.getContacts() %}
+                    <div class="col-md-2 mini-contact">
+                        <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                        <h3>{{ contact.username }}</h3>
+                        <a href="{{ path('user_remove_content', {'content_id': contact.id, 'type': 2}) }}"><button>Supprimer</button></a>
+                    </div>
+                {% endfor %}
             {% else %}
                 <p>Aucun contacts</p>
             {% endif %}
+            </div>
         </div>
         <div class="row">
-            <h2>Ce que je cherche</h2>
+            <div class="wrap-mini-contents">
+            <h2 class="col-md-offset-1">Ce que je cherche</h2>
             {% if user.getContentsWanted().count > 0 %}
-                <table class="table-list-content">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Catégorie</th>
-                            <th>Titre</th>
-                            <th>Auteur</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for content in user.getContentsWanted() %}
-                            <tr>
-                                <td>{{ content.category.parentCategory }}</td>
-                                <td>{{ content.category.name }}</td>
-                                <td>{{ content.title }}</td>
-                                <td>{{ content.author.name }}</td>
-                                <td><a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}">Supprimer</a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
+                {% for content in user.getContentsWanted() %}
+                    <div class="col-md-2 mini-content echange">
+                        <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                        <h3>{{ content.title }}</h3>
+                        <a href="#"><h4>{{ content.author.name }}</h4></a>
+                        <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Supprimer</button></a>
+                    </div>
+                {% endfor %}
             {% endif %}
+                <div class="col-md-2 mini-content">
+                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
+                        <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+                    </a>
+                    <div class="book-infos">
+                        <h3>Ajouter un livre</h3>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
-            <h2>Ce que j'ai</h2>
+            <div class="wrap-mini-contents">
+            <h2 class="col-md-offset-1">Ce que j'ai</h2>
             {% if user.getContentsToShare().count > 0 %}
-                <table class="table-list-content">
-                    <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Catégorie</th>
-                        <th>Titre</th>
-                        <th>Auteur</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for content in user.getContentsToShare() %}
-                        <tr>
-                            <td>{{ content.category.parentCategory }}</td>
-                            <td>{{ content.category.name }}</td>
-                            <td>{{ content.title }}</td>
-                            <td>{{ content.author.name }}</td>
-                            <td><a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}">Supprimer</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <a href="{{ path("contenus", {'modeAdd': 1}) }}">Ajouter un contenu</a>
+                {% for content in user.getContentsToShare() %}
+                    <div class="col-md-2 mini-content echange">
+                        <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                        <h3>{{ content.title }}</h3>
+                        <a href="#"><h4>{{ content.author.name }}</h4></a>
+                        <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button>Supprimer</button></a>
+                    </div>
+                {% endfor %}
             {% endif %}
+                <div class="col-md-2 mini-content">
+                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
+                        <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+                    </a>
+                    <div class="book-infos">
+                        <h3>Ajouter un livre</h3>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
