@@ -29,36 +29,65 @@
                 </div>
             </div>
         </div>
-        {% if user.getContentsToShare().count > 0 or user.getContentsWanted().count > 0 %}
-            <h2>Pour échanger</h2>
-            {% if user.getContentsWanted().count > 0 %}
-                <h3>Ce que je cherche</h3>
+
+
+        <div class="wrap-mini-contacts">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Contacts de {{ user.username }}</h2>
+                </div>
+            </div>
+            {% if user.getContacts().count > 0 %}
                 <div class="row">
-                    <div class="col-md-offset-3 wrap-mini-contents">
-                        {% for content in user.getContentsWanted() %}
-                            <div class="col-md-2 mini-content echange">
-                                <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
-                                <h3>{{ content.title }}</h3>
-                                <a href="#"><h4>{{ content.author.name }}</h4></a>
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {% for contact in user.getContacts() %}
+                        <div class="col-md-2 mini-contact">
+                            <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                            <h3>{{ contact.username }}</h3>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="row">
+                    <p>Aucun contacts</p>
                 </div>
             {% endif %}
-            {% if user.getContentsToShare().count > 0 %}
-                <h3>Ce que j'ai</h3>
+        </div>
+
+        {% if user.getContentsWanted().count > 0 %}
+            <div class="wrap-mini-contents">
                 <div class="row">
-                    <div class="col-md-offset-3 wrap-mini-contents">
-                        {% for content in user.getContentsToShare() %}
-                            <div class="col-md-2 mini-content echange">
-                                <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
-                                <h3>{{ content.title }}</h3>
-                                <a href="#"><h4>{{ content.author.name }}</h4></a>
-                            </div>
-                        {% endfor %}
+                    <div class="col-md-12">
+                        <h2>Ce que {{ user.username }} cherche</h2>
                     </div>
                 </div>
-            {% endif %}
+                <div class="row">
+                {% for content in user.getContentsWanted() %}
+                    <div class="col-md-2 mini-content echange">
+                        <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                        <h3>{{ content.title }}</h3>
+                        <a href="#"><h4>{{ content.author.name }}</h4></a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if user.getContentsToShare().count > 0 %}
+            <div class="wrap-mini-contents">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Ce que {{ user.username }} propose</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for content in user.getContentsToShare() %}
+                        <div class="col-md-2 mini-content echange">
+                            <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                            <h3>{{ content.title }}</h3>
+                            <a href="#"><h4>{{ content.author.name }}</h4></a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         {% endif %}
         <hr>
         <div class="row">

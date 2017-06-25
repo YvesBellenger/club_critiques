@@ -17,68 +17,81 @@
                             <a href="{{ path('fos_user_change_password') }}"><button>Editer mon mot de passe</button></a><br>
                         </div>
                     </div>
-
                 </div>
-
+            </div>
+            <div class="col-md-5 ">
+                <div class="description-profil">
+                    <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
+                    <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
+                    <a href="#"><h2>{{ 'profile.show.email'|trans }}: {{ user.email }}</h2></a>
+                    <div class="paragraphe-description">
+                        {{ user.description }}
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie pretium viverra. Suspendisse id dui dictum eros pretium feugiat. Vestibulum id nisl semper, tincidunt lacus ac, consequat sapien. Ut tincidunt quis magna eget ultricies. Curabitur vitae mollis odio. Nullam convallis ipsum ac semper tincidunt. Vivamus ac dui efficitur, tristique ex eu, tincidunt elit. Mauris et condimentum justo. Phasellus facilisis arcu sit amet ipsum viverra sodales. Maecenas vitae felis eget nibh sodales pulvinar in sit amet libero. Aenean ut massa elit.<br><br>
+                            Proin sollicitudin sagittis sem eget lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed congue lectus ut consectetur aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent pellentesque neque vehicula tristique finibus. Cras imperdiet elementum enim, eget dignissim massa cursus vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam hendrerit massa non pretium lobortis. Fusce suscipit consequat sem, rutrum consectetur nisi sodales et.</p>
+                    </div>
                 </div>
-                <div class="col-md-5 ">
-                    <div class="description-profil">
-                        <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
-                        <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
-                        <a href="#"><h2>{{ 'profile.show.email'|trans }}: {{ user.email }}</h2></a>
-                        <div class="paragraphe-description">
-                            {{ user.description }}
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie pretium viverra. Suspendisse id dui dictum eros pretium feugiat. Vestibulum id nisl semper, tincidunt lacus ac, consequat sapien. Ut tincidunt quis magna eget ultricies. Curabitur vitae mollis odio. Nullam convallis ipsum ac semper tincidunt. Vivamus ac dui efficitur, tristique ex eu, tincidunt elit. Mauris et condimentum justo. Phasellus facilisis arcu sit amet ipsum viverra sodales. Maecenas vitae felis eget nibh sodales pulvinar in sit amet libero. Aenean ut massa elit.<br><br>
-                                Proin sollicitudin sagittis sem eget lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed congue lectus ut consectetur aliquet. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent pellentesque neque vehicula tristique finibus. Cras imperdiet elementum enim, eget dignissim massa cursus vel. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam hendrerit massa non pretium lobortis. Fusce suscipit consequat sem, rutrum consectetur nisi sodales et.</p>
+            </div>
+        </div>
+
+        <div class="wrap-mini-contacts">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Mes contacts</h2>
+                </div>
+            </div>
+            {% if user.getContacts().count > 0 %}
+                <div class="row">
+                    {% for contact in user.getContacts() %}
+                        <div class="col-md-2 mini-contact">
+                            <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                            <h3>{{ contact.username }}</h3>
+                            <a href="{{ path('user_remove', {'id': contact.id}) }}"><button>Supprimer</button></a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="row">
+                    <p>Aucun contacts</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="wrap-mini-contents">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Ce que je cherche</h2>
+                </div>
+            </div>
+            {% if user.getContentsWanted().count > 0 %}
+                <div class="row">
+                    {% for content in user.getContentsWanted() %}
+                        <div class="col-md-2 mini-content echange">
+                            <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                            <h3>{{ content.title }}</h3>
+                            <a href="#"><h4>{{ content.author.name }}</h4></a>
+                            <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Supprimer</button></a>
+                        </div>
+                    {% endfor %}
+            {% endif %}
+                    <div class="col-md-2 mini-content">
+                        <a href="{{ path("contenus", {'modeAdd': 1}) }}">
+                            <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+                        </a>
+                        <div class="book-infos">
+                            <h3>Ajouter un livre</h3>
                         </div>
                     </div>
+                </div>
+        </div>
 
+        <div class="wrap-mini-contents">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Ce que j'ai</h2>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="wrap-mini-contacts">
-                <h2 class="col-md-offset-1">Mes contacts</h2>
-            {% if user.getContacts().count > 0 %}
-                {% for contact in user.getContacts() %}
-                    <div class="col-md-2 mini-contact">
-                        <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
-                        <h3>{{ contact.username }}</h3>
-                        <a href="{{ path('user_remove_content', {'content_id': contact.id, 'type': 2}) }}"><button>Supprimer</button></a>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>Aucun contacts</p>
-            {% endif %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="wrap-mini-contents">
-            <h2 class="col-md-offset-1">Ce que je cherche</h2>
-            {% if user.getContentsWanted().count > 0 %}
-                {% for content in user.getContentsWanted() %}
-                    <div class="col-md-2 mini-content echange">
-                        <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
-                        <h3>{{ content.title }}</h3>
-                        <a href="#"><h4>{{ content.author.name }}</h4></a>
-                        <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Supprimer</button></a>
-                    </div>
-                {% endfor %}
-            {% endif %}
-                <div class="col-md-2 mini-content">
-                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
-                        <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
-                    </a>
-                    <div class="book-infos">
-                        <h3>Ajouter un livre</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="wrap-mini-contents">
-            <h2 class="col-md-offset-1">Ce que j'ai</h2>
             {% if user.getContentsToShare().count > 0 %}
+                <div class="row">
                 {% for content in user.getContentsToShare() %}
                     <div class="col-md-2 mini-content echange">
                         <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
@@ -88,15 +101,15 @@
                     </div>
                 {% endfor %}
             {% endif %}
-                <div class="col-md-2 mini-content">
-                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
-                        <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
-                    </a>
-                    <div class="book-infos">
-                        <h3>Ajouter un livre</h3>
+                    <div class="col-md-2 mini-content">
+                        <a href="{{ path("contenus", {'modeAdd': 1}) }}">
+                            <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+                        </a>
+                        <div class="book-infos">
+                            <h3>Ajouter un livre</h3>
+                        </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 {% endblock %}
