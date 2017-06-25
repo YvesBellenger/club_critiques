@@ -9,6 +9,10 @@
                 <div class="">
                     <div class="col-md-3 cover-oeuvre">
                         <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
+                        <div id="liens-profil">
+                            <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a>
+                            <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)"><button>Ajouter à ma liste d'échange</button></a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6 ">

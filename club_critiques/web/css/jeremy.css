@@ -16,6 +16,24 @@
     display: block;
 }
 
+button{
+    border: 0px;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 0 1px rgba(0,0,0,0.1);
+    background-color: #6ebeb1;
+    font-family: roboto;
+    font-size: 14px;
+    width: 210px;
+    padding: 10px 10px 10px 10px;
+}
+
+button:hover {
+    border: 0px;
+    text-shadow: 0 1px rgba(0,0,0,0.3);
+    background-color: #439486;
+}
+
 /*.menu{*/
     /*height: 60px;*/
     /*display: flex;*/
@@ -33,14 +51,19 @@
 
 }
 
-.wrap-mini-contents{
+.wrap-mini-contents,wrap-mini-contacts {
     margin-top: 40px;
     margin-bottom: 100px;
 }
 
-.wrap-mini-contents h3, .wrap-mini-contents h4{
+.wrap-mini-contents, .wrap-mini-contacts{
     text-align: center;
 }
+
+.wrap-mini-contents h2, .wrap-mini-contacts h2{
+    text-align: left;
+}
+
 
 /* Fin général */
 
@@ -84,23 +107,18 @@
     text-align: left !important;
 }
 
+
+
 /*.floating-menu .second{*/
     /*top : 30%;*/
 /*}*/
 
 .photo-profil {
     width: 300px;
-    height: 300px;
     overflow: hidden;
 }
 
 .photo-profil img{
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-    right: -9999px;
-    bottom: -9999px;
-    margin: auto;
 }
 
 .wrap-form div{
@@ -114,6 +132,7 @@
 }
 
 #liens-profil{
+    margin-top: 30px;
     text-align: center;
 }
 
