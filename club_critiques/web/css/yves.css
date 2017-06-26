@@ -12,8 +12,23 @@ body {
     margin-bottom: 60px;
 }
 
+h2{
+    margin-bottom: 20px;
+}
+
 .wrapper{
-    min-height: 100vh;
+    /*min-height: 100vh;*/
+}
+
+.wrapper.container-fluid{
+    margin-bottom: 180px;
+}
+
+.wrapper.container-fluid .float-menu{
+    position: fixed;
+    right: 0;
+    padding-left: 5%;
+    margin-top: 20px;
 }
 
 /****** NAVBAR ****AZ**/
@@ -56,11 +71,11 @@ body {
 /****** FLOATING MENU ******/
 
 .floating-menu{
-    top: 21%;
+    /*top: 21%;*/
 }
 
 .floating-menu.second{
-    top: 43%;
+    /*top: 43%;*/
     margin-top: 10px;
 }
 
@@ -97,5 +112,5 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
-    margin-top: 80px;
+    /*margin-top: 80px;*/
 }
