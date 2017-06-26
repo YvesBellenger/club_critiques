@@ -30,16 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-8 col-md-offset-1">
-                    <div class="concept">
-                        <h2>{{ cms.title }}</h2>
-                        <p>{{ cms.content|raw }}</p>
-                    </div>
-                </div>
-            </div>
         {% endif %}
-        <div class="clear"></div>
         <div class="featured row">
             {% if block_home %}
                 <div class="col-md-9 col-md-offset-1">
@@ -56,56 +47,49 @@
                                     <span>{{ content.author.name }}</span>
                                 </div>
                             </div>
-                            <div class="col-md-4 featured-item">
-                                <a href="{{ path('contenu', {'id': content.id}) }}">
-                                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
-                                </a>
-                                <div class="book-infos">
-                                    <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
-                                    <span>{{ content.author.name }}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 featured-item">
-                                <a href="{{ path('contenu', {'id': content.id}) }}">
-                                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
-                                </a>
-                                <div class="book-infos">
-                                    <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
-                                    <span>{{ content.author.name }}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 featured-item">
-                                <a href="{{ path('contenu', {'id': content.id}) }}">
-                                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
-                                </a>
-                                <div class="book-infos">
-                                    <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
-                                    <span>{{ content.author.name }}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 featured-item">
-                                <a href="{{ path('contenu', {'id': content.id}) }}">
-                                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
-                                </a>
-                                <div class="book-infos">
-                                    <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
-                                    <span>{{ content.author.name }}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-4 featured-item">
-                                <a href="{{ path('contenu', {'id': content.id}) }}">
-                                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
-                                </a>
-                                <div class="book-infos">
-                                    <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
-                                    <span>{{ content.author.name }}</span>
-                                </div>
-                            </div>
                         {% endfor %}
                     </div>
                 </div>
 
             {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-md-offset-1">
+                <h2>NOUS CONTACTER</h2>
+            </div>
+        </div>
+        <div class="contact row">
+            <div class="col-md-6 col-md-offset-3">
+                <form action="#" method="post">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Nom :</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Email :</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="email" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Sujet :</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="subject">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Message :</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" rows="8" id="message"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="submit" class="btn btn-primary pull-right">Envoyer</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="clear"></div>
     </div>

@@ -114,3 +114,29 @@ h2{
     width: 100%;
     /*margin-top: 80px;*/
 }
+
+/****** FORMULAIRE DE CONTACT ******/
+
+.form-group.row button.btn-primary{
+    border-color: #25283C !important;
+}
+
+.form-group.row button.btn-primary:hover{
+    border-color: #70BEB1 !important;
+}
+
+.contact form .form-group.row:last-child{
+    padding-right: 15px;
+}
+
+.contact form{
+    margin-top: 50px;
+}
+
+.form-control:focus{
+    border-color: #70BEB1;
+}
+
+.contact .form-group{
+    width: 80%;
+}
