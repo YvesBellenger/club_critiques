@@ -1,0 +1,113 @@
+<<<<<<< HEAD
+/*html, body{*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.wrapper{
+    min-height: 100vh;
+}
+
+/****** NAVBAR ****AZ**/
+
+.navbar{
+    border-radius : 0px !important;
+    position : fixed;
+    top : 0;
+    width : 100%;
+    background-color: #25283C;
+    z-index: 10;
+}
+
+.main-nav{
+    display: flex;
+    padding-top : 10px;
+    padding-bottom : 10px;
+}
+
+.menu, .logo, .user-actions{
+    margin : auto;
+}
+
+.wrapper{
+    /*margin-top : 77px;*/
+    margin-top : 100px;
+}
+
+.menu-item span a, .user-actions span a{
+    color : #FFFFFF;
+    text-decoration : none;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.menu-item span a:hover{
+    color: #70BEB1;
+=======
+html, body{
+    width: 100%;
+    height: 100%;
+>>>>>>> 18a49ec753a32978538b93d3f910b16f8cc71dc6
+}
+
+/****** FLOATING MENU ******/
+
+.floating-menu{
+    top: 21%;
+}
+
+.floating-menu.second{
+    top: 43%;
+    margin-top: 10px;
+}
+
+.form-control{
+    display: inline-block;
+
+}
+
+.floating-menu .form-control{
+    margin-bottom: 10px;
+}
+
+.floating-menu form{
+    display: flex;
+    flex-direction: column;
+}
+
+.floating-menu form .btn-default{
+    /*align-self: flex-end;*/
+    width: 100%;
+    background-color: #25283C;
+    /*border-color : #70BEB1;*/
+    color: #FFFFFF;
+}
+
+.floating-menu form .btn-default:hover{
+    background-color: #70BEB1;
+    border-color: #70BEB1;
+}
+
+/****** FOOTER ******/
+
+#footer{
+<<<<<<< HEAD
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 80px;
+=======
+    position: relative;
+    bottom: 0;
+    width: 100%;
+>>>>>>> 18a49ec753a32978538b93d3f910b16f8cc71dc6
+}
