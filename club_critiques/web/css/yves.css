@@ -1,6 +1,56 @@
-html, body{
-    width: 100%;
-    height: 100%;
+/*html, body{*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+/*}*/
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.wrapper{
+    min-height: 100vh;
+}
+
+/****** NAVBAR ****AZ**/
+
+.navbar{
+    border-radius : 0px !important;
+    position : fixed;
+    top : 0;
+    width : 100%;
+    background-color: #25283C;
+    z-index: 10;
+}
+
+.main-nav{
+    display: flex;
+    padding-top : 10px;
+    padding-bottom : 10px;
+}
+
+.menu, .logo, .user-actions{
+    margin : auto;
+}
+
+.wrapper{
+    /*margin-top : 77px;*/
+    margin-top : 100px;
+}
+
+.menu-item span a, .user-actions span a{
+    color : #FFFFFF;
+    text-decoration : none;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.menu-item span a:hover{
+    color: #70BEB1;
 }
 
 /****** FLOATING MENU ******/
@@ -44,7 +94,8 @@ html, body{
 /****** FOOTER ******/
 
 #footer{
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
+    margin-top: 80px;
 }
