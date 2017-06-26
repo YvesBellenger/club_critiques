@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*html, body{*/
     /*width: 100%;*/
     /*height: 100%;*/
@@ -51,6 +52,11 @@ body {
 
 .menu-item span a:hover{
     color: #70BEB1;
+=======
+html, body{
+    width: 100%;
+    height: 100%;
+>>>>>>> 18a49ec753a32978538b93d3f910b16f8cc71dc6
 }
 
 /****** FLOATING MENU ******/
@@ -94,8 +100,14 @@ body {
 /****** FOOTER ******/
 
 #footer{
+<<<<<<< HEAD
     position: absolute;
     bottom: 0;
     width: 100%;
     margin-top: 80px;
+=======
+    position: relative;
+    bottom: 0;
+    width: 100%;
+>>>>>>> 18a49ec753a32978538b93d3f910b16f8cc71dc6
 }
