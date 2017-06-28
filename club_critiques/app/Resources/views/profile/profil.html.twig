@@ -39,8 +39,8 @@
                     <h2>Mes contacts</h2>
                 </div>
             </div>
-            {% if user.getContacts().count > 0 %}
-                <div class="row">
+            <div class="row">
+                {% if user.getContacts().count > 0 %}
                     {% for contact in user.getContacts() %}
                         <div class="col-md-2 mini-contact">
                             <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
@@ -48,12 +48,10 @@
                             <a href="{{ path('user_remove', {'id': contact.id}) }}"><button>Supprimer</button></a>
                         </div>
                     {% endfor %}
-                </div>
-            {% else %}
-                <div class="row">
+                {% else %}
                     <p>Aucun contacts</p>
-                </div>
-            {% endif %}
+                {% endif %}
+            </div>
         </div>
 
         <div class="wrap-mini-contents">
@@ -62,26 +60,27 @@
                     <h2>Ce que je cherche</h2>
                 </div>
             </div>
-            {% if user.getContentsWanted().count > 0 %}
-                <div class="row">
-                    {% for content in user.getContentsWanted() %}
-                        <div class="col-md-2 mini-content echange">
-                            <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
-                            <h3>{{ content.title }}</h3>
-                            <a href="#"><h4>{{ content.author.name }}</h4></a>
-                            <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Supprimer</button></a>
-                        </div>
-                    {% endfor %}
-            {% endif %}
-                    <div class="col-md-2 mini-content">
-                        <a href="{{ path("contenus", {'modeAdd': 1}) }}">
-                            <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
-                        </a>
-                        <div class="book-infos">
-                            <h3>Ajouter un livre</h3>
-                        </div>
+            <div class="row">
+                {% if user.getContentsWanted().count > 0 %}
+
+                        {% for content in user.getContentsWanted() %}
+                            <div class="col-md-2 mini-content echange">
+                                <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                                <h3>{{ content.title }}</h3>
+                                <a href="#"><h4>{{ content.author.name }}</h4></a>
+                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Supprimer</button></a>
+                            </div>
+                        {% endfor %}
+                {% endif %}
+                <div class="col-md-2 mini-content">
+                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
+                        <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+                    </a>
+                    <div class="book-infos">
+                        <h3>Ajouter un livre</h3>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div class="wrap-mini-contents">
@@ -90,8 +89,8 @@
                     <h2>Ce que j'ai</h2>
                 </div>
             </div>
+            <div class="row">
             {% if user.getContentsToShare().count > 0 %}
-                <div class="row">
                 {% for content in user.getContentsToShare() %}
                     <div class="col-md-2 mini-content echange">
                         <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
@@ -101,15 +100,15 @@
                     </div>
                 {% endfor %}
             {% endif %}
-                    <div class="col-md-2 mini-content">
-                        <a href="{{ path("contenus", {'modeAdd': 1}) }}">
-                            <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
-                        </a>
-                        <div class="book-infos">
-                            <h3>Ajouter un livre</h3>
-                        </div>
+                <div class="col-md-2 mini-content">
+                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
+                        <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+                    </a>
+                    <div class="book-infos">
+                        <h3>Ajouter un livre</h3>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 {% endblock %}

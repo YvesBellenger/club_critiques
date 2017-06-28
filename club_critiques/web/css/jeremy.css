@@ -88,6 +88,25 @@ button:hover {
     position: static !important ;
 }
 
+#note-oeuvre div{
+    display: inline-block;
+    border:1px solid black;
+    width:30px;
+    height: 30px;
+}
+
+#note-oeuvre div:hover{
+    cursor: pointer;
+}
+
+.note-active, .note-actuelle{
+    background-color: yellow;
+}
+
+.note-inactive{
+    background-color: white !important;
+}
+
 .wrap-oeuvre{
     margin-top: 40px;
 }
