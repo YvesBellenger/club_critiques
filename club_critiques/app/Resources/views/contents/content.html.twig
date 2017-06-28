@@ -32,9 +32,9 @@
                     <div class="description-oeuvre">
                         <h1>{{ content.title }}</h1>
                         <a href="#"><h2>{{ content.author.name }}</h2></a>
-                        <p class="paragraphe-description">
-                            {{ content.description }}
-                        </p>
+                        <div class="paragraphe-description">
+                            {{ content.description|trans|row }}
+                        </div>
                     </div>
 
                 </div>
