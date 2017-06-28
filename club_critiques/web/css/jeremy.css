@@ -90,7 +90,6 @@ button:hover {
 
 #note-oeuvre div{
     display: inline-block;
-    border:1px solid black;
     width:30px;
     height: 30px;
 }
@@ -100,11 +99,13 @@ button:hover {
 }
 
 .note-active, .note-actuelle{
-    background-color: yellow;
+    background-image: url('../img/note_active.png');
+    background-size: 100%;
 }
 
 .note-inactive{
-    background-color: white !important;
+    background-image: url('../img/note_inactive.png'); !important;
+    background-size: 100%;
 }
 
 .wrap-oeuvre{

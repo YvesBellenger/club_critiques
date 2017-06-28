@@ -17,10 +17,17 @@
                 </div>
                 <div class="col-md-6 ">
                     <div id="note-oeuvre" data-content-id="{{ content.id }}">
-                        <div id="1" {% if note_user[0] is defined and note_user[0].note >= 1 %} class="note-active {% if note_user[0].note == 1 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %} ></div>
-                        <div id="2" {% if note_user[0] is defined and note_user[0].note >= 2 %} class="note-active {% if note_user[0].note == 2 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %}></div>
-                        <div id="3" {% if note_user[0] is defined and note_user[0].note >= 3 %} class="note-active {% if note_user[0].note == 3 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %}></div>
-                        <div id="4" {% if note_user[0] is defined and note_user[0].note >= 4 %} class="note-active {% if note_user[0].note == 4 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %}></div>
+                        {% if note_user[0] is defined %}
+                            <div id="1" class="{% if note_user[0].note >= 1 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 1 %}note-actuelle{% endif %}"></div>
+                            <div id="2" class="{% if note_user[0].note >= 2 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 2 %}note-actuelle{% endif %}"></div>
+                            <div id="3" class="{% if note_user[0].note >= 3 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 3 %}note-actuelle{% endif %}"></div>
+                            <div id="4" class="{% if note_user[0].note >= 4 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 4 %}note-actuelle{% endif %}"></div>
+                        {% else %}
+                            <div id="1" class="note-inactive"></div>
+                            <div id="2" class="note-inactive"></div>
+                            <div id="3" class="note-inactive"></div>
+                            <div id="4" class="note-inactive"></div>
+                        {% endif %}
                     </div>
                     <div class="description-oeuvre">
                         <h1>{{ content.title }}</h1>
