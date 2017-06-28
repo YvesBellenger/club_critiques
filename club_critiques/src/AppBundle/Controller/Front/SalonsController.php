@@ -26,9 +26,32 @@ class SalonsController extends Controller
 
     public function salonListeAction(Request $request)
     {
+
+        $modeAdd = false;
+        if ($request->query->has('modeAdd')) {
+            $modeAdd = true;
+        }
+        $doctrine = $this->getDoctrine();
+        $categoryRepository = $doctrine->getRepository('AppBundle:Category');
+
+        /** Filters **/
+        $categories = $categoryRepository->findBy(array('parentCategory' => null));
+        $subcategories = $categoryRepository->getSubCategories();
+
+        /** Contents **/
+        $category = $categoryRepository->findOneByCode('livre');
+        $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
+
+
         return $this->render('salons/salons-list.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'salons-liste'
+            'controller' => 'salons-liste',
+            'contents' => $contents,
+            'categories' => $categories,
+            'selected_category_id' => 0,
+            'selected_sub_category_id' => 0,
+            'modeAdd' => $modeAdd,
+            'subcategories' => $subcategories
         ]);
     }
 }
