@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\Note;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,12 +85,19 @@ class ContentController extends Controller
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
         $content = $doctrine->getRepository('AppBundle:Content')->find($request->get('id'));
         $other_contents = $doctrine->getRepository('AppBundle:Content')->getSuggestions($content);
+        $user = $this->getUser();
+        $note_user = $doctrine->getRepository('AppBundle:Note')->findBy(array(
+            'content'   => $content,
+            'user'      => $user,
+        ));
         shuffle($other_contents);
         return $this->render('contents/content.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'oeuvre',
+            'user'       => $user,
             'content' => $content,
-            'other_contents' => $other_contents
+            'other_contents' => $other_contents,
+            'note_user'     => $note_user
         ]);
     }
 
@@ -179,5 +187,48 @@ class ContentController extends Controller
         }
         $this->addFlash("success", "Le contenu a bien été supprimé de votre liste.");
         return $this->redirectToRoute('profil');
+    }
+
+    /**
+     * @Route("/contenus/note/save", name="contenu_update_note")
+     */
+    public function saveNoteAction(Request $request)
+    {
+        $user = $this->getUser();
+        if (!$user)
+        {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else
+        {
+            $doctrine = $this->getDoctrine();
+            $content = $doctrine->getRepository('AppBundle:Content')->find($request->get("content-id"));
+            $note = $request->get("note");
+            $note_user = $doctrine->getRepository('AppBundle:Note')->findBy(array(
+                'content' => $content,
+                'user' => $user,
+            ));
+
+            if(!isset($note_user[0]))
+            {
+                $nouvelle_note = new Note();
+                $nouvelle_note->setNote($note);
+                $nouvelle_note->setUser($user);
+                $nouvelle_note->setContent($content);
+                $nouvelle_note->setStatus(1);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($nouvelle_note);
+                $em->flush();
+            }
+            else
+            {
+                $note_user[0]->setNote($note);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($note_user[0]);
+                $em->flush();
+            }
+
+            return new Response();
+        }
     }
 }

@@ -16,6 +16,12 @@
                     </div>
                 </div>
                 <div class="col-md-6 ">
+                    <div id="note-oeuvre" data-content-id="{{ content.id }}">
+                        <div id="1" {% if note_user[0] is defined and note_user[0].note >= 1 %} class="note-active {% if note_user[0].note == 1 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %} ></div>
+                        <div id="2" {% if note_user[0] is defined and note_user[0].note >= 2 %} class="note-active {% if note_user[0].note == 2 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %}></div>
+                        <div id="3" {% if note_user[0] is defined and note_user[0].note >= 3 %} class="note-active {% if note_user[0].note == 3 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %}></div>
+                        <div id="4" {% if note_user[0] is defined and note_user[0].note >= 4 %} class="note-active {% if note_user[0].note == 4 %}note-actuelle{% endif %}" {% else  %} class="note-inactive" {% endif %}></div>
+                    </div>
                     <div class="description-oeuvre">
                         <h1>{{ content.title }}</h1>
                         <a href="#"><h2>{{ content.author.name }}</h2></a>
@@ -43,3 +49,4 @@
         </div>
     </div>
 {% endblock %}
+{% block javascripts %}<script src="{{ asset('js/notes.js') }}"></script> {% endblock %}
