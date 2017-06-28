@@ -33,7 +33,7 @@
                         <h1>{{ content.title }}</h1>
                         <a href="#"><h2>{{ content.author.name }}</h2></a>
                         <div class="paragraphe-description">
-                            {{ content.description|trans|row }}
+                            {{ content.description|trans|raw }}
                         </div>
                     </div>
 
