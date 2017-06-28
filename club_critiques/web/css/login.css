@@ -22,7 +22,7 @@
     margin-bottom: 10px;
     position: relative;
 }
-.login-container input[type=text], input[type=password], input[type=email] {
+.login-container input[type=text], input[type=password], input[type=email], textarea {
     height: 44px;
     font-size: 16px;
     width: 100%;
@@ -36,7 +36,10 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-.login-container input[type=text]:hover, input[type=password]:hover {
+textarea{
+    height:150px;
+}
+.login-container input[type=text]:hover, input[type=password]:hover, textarea {
     border: 1px solid #b9b9b9;
     border-top: 1px solid #a0a0a0;
     -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
