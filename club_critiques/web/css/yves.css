@@ -40,6 +40,7 @@ h2{
     width : 100%;
     background-color: #25283C;
     z-index: 10;
+    transition: transform 500ms;
 }
 
 .main-nav{
@@ -67,6 +68,13 @@ h2{
 .menu-item span a:hover{
     color: #70BEB1;
 }
+
+nav.hide-menu{
+    /*height: 300px;*/
+    transform: translateY(-78px);
+}
+
+
 
 /****** FLOATING MENU ******/
 
@@ -104,6 +112,25 @@ h2{
 .floating-menu form .btn-default:hover{
     background-color: #70BEB1;
     border-color: #70BEB1;
+}
+
+/*@keyframes fix-top {*/
+    /*0% {*/
+        /*transform: translateY(0px);*/
+    /*}*/
+    /*100% {*/
+        /*transform: translateY(-50px);*/
+    /*}*/
+/*}*/
+
+.wrapper .float-menu{
+    transition: transform 500ms;
+}
+
+.wrapper .float-menu.fix-top{
+    /*animation: fix-top 400ms;*/
+    transform: translateY(-110px);
+    margin-top: 10px;
 }
 
 /****** FOOTER ******/

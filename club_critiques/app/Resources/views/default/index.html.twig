@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+{% block title %} Club des critiques | Accueil {% endblock %}
 {% block body %}
     <div class="wrapper container-fluid">
         {% if cms %}
@@ -94,3 +95,4 @@
         <div class="clear"></div>
     </div>
 {% endblock %}
+{% block javascripts %} <script type="text/javascript" src="{{ asset('js/index.js') }}"> </script> {% endblock %}
