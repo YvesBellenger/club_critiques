@@ -1,65 +1,95 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="floating-menu">
-        <p>Inscrivez vous</p>
-        <form role="form" action="#" method="post">
-            <input class="form-control" type="email" name="email" placeholder="Email">
-            <button type="submit" class="btn btn-default">S'inscrire</button>
-        </form>
-    </div>
-    <div class="floating-menu second">
-        {% if (next_lobby is not null and (next_lobby.date_start|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s'))) %}
-            <p>Prochain salon</p>
-            <span>{{ next_lobby.content.title }}</span>
-            <span>{{ next_lobby.content.author.name }}</span>
-            <span>{{ next_lobby.date_start|date('d/m/Y') }} - {{ next_lobby.date_start|date('H') }}h{{ next_lobby.date_start|date('i') }}</span>
-        {% else %}
-            <p>Aucun salon prévu</p>
-        {% endif %}
-    </div>
-    <div class="wrapper container">
+    <div class="wrapper container-fluid">
         {% if cms %}
-        <div class="concept">
-            <h2>{{ cms.title }}</h2>
-            <p>{{ cms.content|raw }}</p>
-        </div>
-            <div class="concept">
-                <h2>{{ cms.title }}</h2>
-                <p>{{ cms.content|raw }}</p>
-            </div>
-            <div class="concept">
-                <h2>{{ cms.title }}</h2>
-                <p>{{ cms.content|raw }}</p>
-            </div>
-            <div class="concept">
-                <h2>{{ cms.title }}</h2>
-                <p>{{ cms.content|raw }}</p>
-            </div>
-            <div class="concept">
-                <h2>{{ cms.title }}</h2>
-                <p>{{ cms.content|raw }}</p>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-1">
+                    <div class="concept">
+                        <h2>{{ cms.title }}</h2>
+                        <p>{{ cms.content|raw }}</p>
+                    </div>
+                </div>
+                <div class="float-menu col-md-3">
+                    <div class="floating-menu">
+                        <p>Inscrivez vous</p>
+                        <form role="form" action="#" method="post">
+                            <input class="form-control" type="email" name="email" placeholder="Email">
+                            <button type="submit" class="btn btn-default">S'inscrire</button>
+                        </form>
+                    </div>
+                    <div class="floating-menu second">
+                        {% if (next_lobby is not null and (next_lobby.date_start|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s'))) %}
+                            <p>Prochain salon</p>
+                            <span>{{ next_lobby.content.title }}</span>
+                            <span>{{ next_lobby.content.author.name }}</span>
+                            <span>{{ next_lobby.date_start|date('d/m/Y') }} - {{ next_lobby.date_start|date('H') }}h{{ next_lobby.date_start|date('i') }}</span>
+                        {% else %}
+                            <p>Aucun salon prévu</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         {% endif %}
-        <div class="clear"></div>
-        <div class="featured">
+        <div class="featured row">
             {% if block_home %}
-                <h2>A la une</h2>
-                <div class="content-list">
-                    {% for key,content in block_home.contents  %}
+                <div class="col-md-9 col-md-offset-1">
+                    <h2>A LA UNE</h2>
+                    <div class="content-list">
+                        {% for key,content in block_home.contents  %}
 
-                        <div class="col-md-4 featured-item">
-                            <a href="{{ path('contenu', {'id': content.id}) }}">
-                                <img src="https://unsplash.it/200/300/?random">
-                            </a>
-                            <div class="book-infos">
-                                <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
-                                <span>{{ content.author.name }}</span>
+                            <div class="col-md-4 featured-item">
+                                <a href="{{ path('contenu', {'id': content.id}) }}">
+                                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
+                                </a>
+                                <div class="book-infos">
+                                    <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
+                                    <span>{{ content.author.name }}</span>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
+
             {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-md-offset-1">
+                <h2>NOUS CONTACTER</h2>
+            </div>
+        </div>
+        <div class="contact row">
+            <div class="col-md-6 col-md-offset-3">
+                <form action="#" method="post">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Nom :</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Email :</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="email" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Sujet :</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="subject">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="name">Message :</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" rows="8" id="message"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="submit" class="btn btn-primary pull-right">Envoyer</button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="clear"></div>
     </div>
