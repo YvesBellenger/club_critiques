@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club des critiques | Salon{% endblock %}
+{% block javascripts %} <script type="text/javascript" src="{{ asset('js/salon.js') }}"> </script> {% endblock %}
+{% block body %}
+
+
+    <div class="wrapper container-fluid" id="salon">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-1">
+                <div class="concept">
+                    <h2>SALON</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-1 bloc-chat" id="block-chat">
+                <iframe id="chat"
+                        data-username="{{ user.username }}"
+                        data-lobby="lobby"
+                        name="chat"
+                        title="chat"
+                        frameborder="0"
+                        scrolling="no"
+                        marginheight="0"
+                        marginwidth="0"
+                        src="http://chat.club-critiques.dev:3000">
+                </iframe>
+            </div>
+
+            <div class="col-md-4 liste-membres">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Liste des membres dans le salon</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%  for i in 0..10 %}
+                        <tr>
+                            <th scope="row">Nom et prénom</th>
+                            <td>
+                                <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
+                                        <span>
+                                            <a href="{{ path('salon') }}">Signaler | Contacter</a>
+                                        </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
