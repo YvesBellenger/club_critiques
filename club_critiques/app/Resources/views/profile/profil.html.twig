@@ -21,9 +21,9 @@
             </div>
             <div class="col-md-5 ">
                 <div class="description-profil">
-                    <h1><span class="nom">{{ user.lastName }}</span> {{ user.firstName }}</h1>
-                    <h2>{{ 'profile.show.username'|trans }}: {{ user.username }}</h2>
-                    <a href="#"><h2>{{ 'profile.show.email'|trans }}: {{ user.email }}</h2></a>
+                    <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+                    <h2>{{ user.username }}</h2>
+                    <a href="#"><h2>{{ user.email }}</h2></a>
                     <div class="paragraphe-description">
                         {{ user.description }}
                     </div>
@@ -43,6 +43,7 @@
                         <div class="col-md-2 mini-contact">
                             <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
                             <h3>{{ contact.username }}</h3>
+                            <h4>{{ contact.firstName }} {{ contact.lastName }}</h4>
                             <a href="{{ path('user_remove', {'id': contact.id}) }}"><button>Supprimer</button></a>
                         </div>
                     {% endfor %}
