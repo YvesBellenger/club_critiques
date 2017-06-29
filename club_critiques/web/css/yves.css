@@ -13,7 +13,7 @@ body {
 }
 
 h2{
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .wrapper{
@@ -167,3 +167,37 @@ nav.hide-menu{
 .contact .form-group{
     width: 80%;
 }
+
+/****** SALONS ******/
+
+#liste-salons h2,
+#liste-salons .filters .form-group{
+    text-align: center;
+}
+
+#liste-salons .filters .form-control{
+    margin-left: 20px;
+    margin-right: 20px;
+    width : 20%;
+}
+
+#liste-salons .filters,
+#contenus .filters{
+    margin-top: 50px;
+}
+
+.table-hover>tbody>tr{
+    cursor: pointer;
+}
+
+.table-hover>tbody>tr:hover{
+    background-color: #CEE8DF;
+}
+
+/*.table{*/
+    /*border: solid 1px #25283C;*/
+/*}*/
+
+/*.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{*/
+    /*border-left: solid 1px #25283C;*/
+/*}*/
