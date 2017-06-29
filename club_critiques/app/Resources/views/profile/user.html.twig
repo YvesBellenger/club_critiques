@@ -3,20 +3,21 @@
     <script src="{{ asset('js/contenus.js') }}"></script>
 {% endblock %}
 {% block body %}
-    <div class="floating-menu floating-menu-profile">
-        <a href="#"><button>Contacter</button></a>
-        <a href="{{ path('user_add', {'id': user.id}) }}"><button>Ajouter aux contacts</button></a>
-    </div>
-
     <div class="wrapper container-fluid">
         <div class="row">
             <div class="col-md-offset-2 wrap-profil">
                 <div class="col-md-3 photo-profil">
                     <img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}">
+                    <div id="liens-profil">
+                        <a href="{{ path('user_add', {'id': user.id}) }}"><button>Ajouter aux contacts</button></a>
+                    </div>
                 </div>
+
+
                 <div class="col-md-6 ">
                     <div class="description-profil">
-                        <h1><span class="nom">{{ user.username }}{{ user.lastName }}</span> {{ user.firstName }}</h1>
+                        <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+                        <h2>{{ user.username }}</h2>
                         <div class="paragraphe-description">
                             {{ user.description }}
                         </div>
@@ -39,6 +40,7 @@
                         <div class="col-md-2 mini-contact">
                             <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
                             <h3>{{ contact.username }}</h3>
+                            <h4>{{ contact.firstName }} {{ contact.lastName }}</h4>
                         </div>
                     {% endfor %}
                 </div>
