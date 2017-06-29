@@ -53,7 +53,13 @@
                                 <th scope="row">1</th>
                                 <td>date</td>
                                 <td>numéro</td>
-                                <td>Rejoindre</td>
+                                <td>
+                                    <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
+                                        <span>
+                                            <a href="{{ path('salon') }}">Rejoindre</a>
+                                        </span>
+                                    </div>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
