@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,6 +24,15 @@ class Lobby
     private $id;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinTable(name="lobby_user",
+     *      joinColumns={@ORM\JoinColumn(name="lobby_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     * )
+     */
+    public $participants;
+
+    /**
      * @var date
      *
      * @ORM\Column(name="date_start", type="datetime")
@@ -42,6 +52,11 @@ class Lobby
      */
     public $status;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->participants = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -51,6 +66,41 @@ class Lobby
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get participants
+     *
+     * @return ArrayCollection
+     */
+    public function getParticipants()
+    {
+        return $this->participants;
+    }
+
+    /**
+     * Add participant
+     *
+     * @param \AppBundle\Entity\Content $content
+     * @return User
+     */
+    public function addParticipant(\AppBundle\Entity\Content $content)
+    {
+        if(!$this->participants->contains($content)) {
+            $this->participants[] = $content;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove participant
+     *
+     * @param \AppBundle\Entity\Content $content
+     */
+    public function removeParticipant(\AppBundle\Entity\Content $content)
+    {
+        $this->participants->removeElement($content);
     }
 
     /**
@@ -74,6 +124,8 @@ class Lobby
     {
         return $this->date_start;
     }
+
+
 
     /*** LIFE CYCLE EVENTS ***/
 
