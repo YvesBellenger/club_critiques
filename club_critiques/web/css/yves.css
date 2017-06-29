@@ -168,7 +168,7 @@ nav.hide-menu{
     width: 80%;
 }
 
-/****** SALONS ******/
+/****** LISTE SALONS ******/
 
 #liste-salons h2,
 #liste-salons .filters .form-group{
@@ -201,3 +201,17 @@ nav.hide-menu{
 /*.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{*/
     /*border-left: solid 1px #25283C;*/
 /*}*/
+
+/****** SALON ******/
+
+
+.chat{
+    height: 300px;
+    border: solid 1px #70BEB1;
+    margin-bottom: 50px;
+}
+
+.message{
+    height: 150px;
+    border: solid 1px #70BEB1;
+}
