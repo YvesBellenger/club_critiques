@@ -66,9 +66,15 @@ class LobbyController extends Controller
         $category = $categoryRepository->findOneByCode('livre');
         $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
 
-        $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->getNextLobbies();
-
-
+        $em = $this->getDoctrine()->getManager(); // ...or getEntityManager() prior to Symfony 2.1
+        $connection = $em->getConnection();
+        $statement = $connection->prepare("SELECT id FROM `lobby` WHERE date_start + INTERVAL 10 MINUTE > now()");
+        $statement->execute();
+        $results = $statement->fetchAll();
+        foreach ($results as $key => $result) {
+            $lobby_ids[] = intval($result['id']);
+        }
+        $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->findById($lobby_ids);
         return $this->render('lobby/lobby-list.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'lobby_list',
