@@ -10,15 +10,4 @@ namespace AppBundle\Repository;
  */
 class LobbyRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getNextLobbies()
-    {
-        $qb = $this->createQueryBuilder('l');
-        $qb->where('l.date_start >= :date')
-            ->andWhere('l.date_start <= :date_limit')
-            ->setParameter('date', date("Y-m-d H:i:s"))
-            ->setParameter('date_limit', date("Y-m-d H:i:s", strtotime("+10 minutes")));
-
-        return $qb->getQuery()
-            ->getResult();
-    }
 }
