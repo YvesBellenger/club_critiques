@@ -19,6 +19,9 @@ class LobbyController extends Controller
         if (!$lobby->checkParticipant($user)) {
           $this->addFlash("danger", "Vous n'êtes pas inscrit à ce salon");
           return $this->redirectToRoute('lobby_list');
+        } else if (date('Y-m-d H:i', strtotime('+10 minutes', strtotime($lobby->date_start->format('Y-m-d H:i')))) < date('Y-m-d H:i') && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("danger", "Ce salon a commencé depuis plus de 10 minutes. Vous ne pouvez plus le rejoindre.");
+            return $this->redirectToRoute('lobby_list');
         } else {
             return $this->render('lobby/lobby.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
@@ -76,6 +79,7 @@ class LobbyController extends Controller
         $statement = $connection->prepare("SELECT id FROM `lobby` WHERE date_start + INTERVAL 10 MINUTE > now()");
         $statement->execute();
         $results = $statement->fetchAll();
+        $lobby_ids = array();
         foreach ($results as $key => $result) {
             $lobby_ids[] = intval($result['id']);
         }
