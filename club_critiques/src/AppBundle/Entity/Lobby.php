@@ -55,7 +55,7 @@ class Lobby
     /**
      * @var string
      *
-     * @ORM\Column(name="history", type="text")
+     * @ORM\Column(name="history", type="text", nullable=true)
      */
     public $history;
 
@@ -68,7 +68,6 @@ class Lobby
 
     public function __construct()
     {
-        parent::__construct();
         $this->participants = new ArrayCollection();
     }
 
