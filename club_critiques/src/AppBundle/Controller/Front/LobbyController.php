@@ -75,6 +75,7 @@ class LobbyController extends Controller
             $lobby_ids[] = intval($result['id']);
         }
         $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->findById($lobby_ids);
+
         return $this->render('lobby/lobby-list.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'lobby_list',
@@ -84,6 +85,7 @@ class LobbyController extends Controller
             'selected_category_id' => 0,
             'selected_sub_category_id' => 0,
             'modeAdd' => $modeAdd,
+            'user' => $this->getUser(),
             'subcategories' => $subcategories
         ]);
     }

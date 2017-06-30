@@ -58,8 +58,10 @@
                                         <span>
                                             {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i')   %}
                                                 <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
-                                            {% elseif "now"|date('Y-m-d H:i') < lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') > lobby.date_start|date('Y-m-d H:i') %}
+                                            {% elseif "now"|date('Y-m-d H:i') < lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') > lobby.date_start|date('Y-m-d H:i') and lobby.checkParticipant(user) %}
                                                 <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
+                                            {% else %}
+                                                <span>Inscription closes</span>
                                             {% endif %}
                                         </span>
                                     </div>
