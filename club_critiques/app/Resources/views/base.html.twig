@@ -84,6 +84,22 @@
                 </div>
             </div>
         </nav>
+      {% if app.request.hasPreviousSession %}
+          {% for type, messages in app.session.flashbag.all() %}
+              {% for message in messages %}
+                  <div class="" id="flashMessages">
+                      <div class="">
+                          <div class="alert alert-{{ type }} alert-dismissible">
+                              {{ message }}
+                          </div>
+                      </div>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+          <script>
+              $('#flashMessages').delay(5000).fadeOut('slow');
+          </script>
+      {% endif %}
 
         {#{{ render(controller('AppBundle:Front/Default:menu')) }}#}
         {% block body %}{% endblock %}

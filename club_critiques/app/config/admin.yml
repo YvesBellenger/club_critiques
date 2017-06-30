@@ -9,6 +9,11 @@ sonata_admin:
                   - app.admin.author
                   - app.admin.category
                   - app.admin.content
+            salons:
+                label: Salons
+                label_catalogue: admin
+                item:
+                    - app.admin.lobby
             cms:
                 label: CMS
                 label_catalogue: admin
@@ -42,3 +47,8 @@ services:
                 arguments: [~, AppBundle\Entity\BlockContent, ~]
                 tags:
                     - { name: sonata.admin, manager_type: orm, label: Bloc contenus }
+    app.admin.lobby:
+                class: AppBundle\Admin\LobbyAdmin
+                arguments: [~, AppBundle\Entity\Lobby, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: Salons }

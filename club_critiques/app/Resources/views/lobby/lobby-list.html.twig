@@ -43,20 +43,26 @@
                         <tr>
                             <th>Titre</th>
                             <th>Dates</th>
-                            <th>Numéro de salon</th>
+                            <th>Nombre moyen de participants par salon</th>
                             <th>action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {%  for i in 0..10 %}
+                        {% for lobby in lobby_list %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>date</td>
-                                <td>numéro</td>
+                                <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.author.name }}</td>
+                                <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
+                                <td>{{ lobby.max_participants }}</td>
                                 <td>
                                     <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
                                         <span>
-                                            <a href="{{ path('salon') }}">Rejoindre</a>
+                                            {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i')   %}
+                                                <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
+                                            {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and lobby.checkParticipant(user) %}
+                                                <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
+                                            {% else %}
+                                                <span>Inscription closes</span>
+                                            {% endif %}
                                         </span>
                                     </div>
                                 </td>
