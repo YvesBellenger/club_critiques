@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Club des critiques | Salon{% endblock %}
-{% block javascripts %} <script type="text/javascript" src="{{ asset('js/salon.js') }}"> </script> {% endblock %}
+{% block javascripts %} <script type="text/javascript" src="{{ asset('js/lobby.js') }}"> </script>
+    <style>
+        #chat strong {
+            color: blue;
+        }
+    </style>
+{% endblock %}
 {% block body %}
 
 
@@ -9,24 +15,24 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <div class="concept">
-                    <h2>SALON</h2>
+                    <h2>Salon : {{ lobby.content.title }} - {{ lobby.content.author.name }}</h2>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6 col-md-offset-1 bloc-chat" id="block-chat">
-                <iframe id="chat"
-                        data-username="{{ user.username }}"
-                        data-lobby="lobby"
-                        name="chat"
-                        title="chat"
-                        frameborder="0"
-                        scrolling="no"
-                        marginheight="0"
-                        marginwidth="0"
-                        src="http://chat.club-critiques.dev:3000">
-                </iframe>
+                <section id="chat">
+
+                </section>
+
+                <form action="/" method="post" id="form-chat">
+                    <input type="hidden" name="user_id" id="user_id" value="{{ user.id }}" />
+                    <input type="hidden" name="username" id="username" value="{{ user.username }}" />
+                    <input type="hidden" name="lobby" id="lobby" value="{{ lobby.id }}" />
+                    <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
+                    <input type="submit" id="send" value="Envoyer" />
+                </form>
             </div>
 
             <div class="col-md-4 liste-membres">
@@ -38,13 +44,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {%  for i in 0..10 %}
+                    {%  for participant in lobby.participants %}
                         <tr>
-                            <th scope="row">Nom et prénom</th>
+                            <td scope="row">{{ participant.firstName|capitalize }} {{ participant.lastName|upper }} - ({% if participant.id != user.id %}{{ participant.username }}{% else %}moi{% endif %})</td>
                             <td>
                                 <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
                                         <span>
-                                            <a href="{{ path('salon') }}">Signaler | Contacter</a>
+                                            {% if participant.id != user.id %}
+                                                <a href="{{ path('salon') }}">Signaler | Contacter</a>
+                                            {% else %}
+                                                -
+                                            {% endif %}
                                         </span>
                                 </div>
                             </td>
@@ -55,5 +65,7 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
 {% endblock %}

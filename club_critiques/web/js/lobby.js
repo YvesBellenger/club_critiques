@@ -1,9 +1,10 @@
-function receiveMessage(e) {
-    socket.emit('new_user', {"username" : e.data['username'], "lobby" : e.data['lobby']});
-}
-
 var socket = io.connect('http://chat.club-critiques.dev:3000');
-window.addEventListener('message', receiveMessage);
+
+var username = $('#username').val();
+var user_id = $('#user_id').val();
+var lobby = $('#lobby').val();
+
+socket.emit('new_user', {"username" : username, "lobby" : lobby, "user_id": user_id});
 
 socket.on('new_user', function(username) {
     $('#chat').append('<p><em>' + username + ' a rejoint le salon !</em></p>');
@@ -31,8 +32,4 @@ $('#end').click(function () {
 
 function updateChat(username, message) {
     $('#chat').append('<p><strong>' + username + '</strong> ' + message + '</p>');
-}
-
-function connectToRoomOne(elt){
-    var socket = io.connect('http://chat.club-critiques.dev');
 }
