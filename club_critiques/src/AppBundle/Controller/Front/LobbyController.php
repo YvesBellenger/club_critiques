@@ -16,12 +16,17 @@ class LobbyController extends Controller
     {
         $user = $this->getUser();
         $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
-        return $this->render('lobby/lobby.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'salon',
-            'lobby' => $lobby,
-            'user' => $user
-        ]);
+        if (!$lobby->checkParticipant($user)) {
+          $this->addFlash("danger", "Vous n'êtes pas inscrit à ce salon");
+          return $this->redirectToRoute('lobby_list');
+        } else {
+            return $this->render('lobby/lobby.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'controller' => 'salon',
+                'lobby' => $lobby,
+                'user' => $user
+            ]);
+        }
     }
 
     /**
