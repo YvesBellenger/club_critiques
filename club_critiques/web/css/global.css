@@ -184,3 +184,7 @@
 .menu-item span a:hover{
     color: #70BEB1;
 }
+
+#flashMessages {
+    margin-top:78px;
+}
