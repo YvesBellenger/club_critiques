@@ -56,7 +56,11 @@
                                 <td>
                                     <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
                                         <span>
-                                            <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
+                                            {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i')   %}
+                                                <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
+                                            {% elseif "now"|date('Y-m-d H:i') < lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') > lobby.date_start|date('Y-m-d H:i') %}
+                                                <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
+                                            {% endif %}
                                         </span>
                                     </div>
                                 </td>
