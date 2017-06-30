@@ -25,6 +25,26 @@ class LobbyController extends Controller
     }
 
     /**
+     * @Route("/salon/{id}/register", name="lobby_register")
+     */
+
+    public function lobbyRegisterAction(Request $request)
+    {
+        $user = $this->getUser();
+        $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
+        if ($lobby->participants->contains($user)) {
+            $this->addFlash("warning", "Vous êtes déjà inscrit à ce salon");
+        } else {
+            $this->addFlash("success", "Vous êtes maintenant inscrit à ce salon");
+            $lobby->addParticipant($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($lobby);
+            $em->flush();
+        }
+        return $this->redirectToRoute('lobby_list');
+    }
+
+    /**
      * @Route("/salons", name="lobby_list")
      */
 
@@ -46,12 +66,15 @@ class LobbyController extends Controller
         $category = $categoryRepository->findOneByCode('livre');
         $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
 
+        $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->getNextLobbies();
+
 
         return $this->render('lobby/lobby-list.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'lobby-liste',
+            'controller' => 'lobby_list',
             'contents' => $contents,
             'categories' => $categories,
+            'lobby_list' => $lobby_list,
             'selected_category_id' => 0,
             'selected_sub_category_id' => 0,
             'modeAdd' => $modeAdd,
