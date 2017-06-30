@@ -33,6 +33,12 @@ class Lobby
     public $participants;
 
     /**
+     *
+     * @ORM\Column(name="max_participants", type="integer")
+     */
+    public $max_participants = 20;
+
+    /**
      * @var date
      *
      * @ORM\Column(name="date_start", type="datetime")
@@ -47,10 +53,18 @@ class Lobby
     public $content;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="history", type="text")
+     */
+    public $history;
+
+    /**
      *
      * @ORM\Column(name="status", type="boolean")
      */
     public $status;
+
 
     public function __construct()
     {
@@ -84,23 +98,28 @@ class Lobby
      * @param \AppBundle\Entity\Content $content
      * @return User
      */
-    public function addParticipant(\AppBundle\Entity\Content $content)
+    public function addParticipant(\AppBundle\Entity\User $user)
     {
-        if(!$this->participants->contains($content)) {
-            $this->participants[] = $content;
+        if(!$this->participants->contains($user)) {
+            $this->participants[] = $user;
         }
 
         return $this;
     }
 
+    public function checkParticipant(\AppBundle\Entity\USer $user)
+    {
+        return $this->participants->contains($user);
+    }
+
     /**
      * Remove participant
      *
-     * @param \AppBundle\Entity\Content $content
+     * @param \AppBundle\Entity\User $user
      */
-    public function removeParticipant(\AppBundle\Entity\Content $content)
+    public function removeParticipant(\AppBundle\Entity\User $user)
     {
-        $this->participants->removeElement($content);
+        $this->participants->removeElement($user);
     }
 
     /**
@@ -123,6 +142,50 @@ class Lobby
     public function getDateStart()
     {
         return $this->date_start;
+    }
+
+    /**
+     * Set max_participants
+     *
+     *
+     * @return Lobby
+     */
+    public function setMaxParticipants($max_participants)
+    {
+        $this->max_participants = $max_participants;
+        return $this;
+    }
+
+    /**
+     * Get max_participants
+     *
+     */
+
+    public function getMaxParticipant()
+    {
+        return $this->max_participants;
+    }
+
+    /**
+     * Set history
+     *
+     *
+     * @return Lobby
+     */
+    public function setHistory($history)
+    {
+        $this->history = serialize($history);
+        return $this;
+    }
+
+    /**
+     * Get history
+     *
+     */
+
+    public function getHistory()
+    {
+        return unserialize($this->history);
     }
 
 
