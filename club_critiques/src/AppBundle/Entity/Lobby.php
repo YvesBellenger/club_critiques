@@ -65,6 +65,11 @@ class Lobby
      */
     public $status;
 
+    /**
+     *
+     * @ORM\Column(name="date_end", type="datetime")
+     */
+    public $date_end;
 
     public function __construct()
     {
@@ -144,6 +149,27 @@ class Lobby
     }
 
     /**
+     * Get date_end
+     *
+     */
+
+    public function getDateEnd()
+    {
+        return $this->date_end;
+    }
+
+    /**
+     * Set date_end
+     *
+     */
+
+    public function setDateEnd($date_end)
+    {
+        $this->date_end = $date_end;
+        return $this->date_end;
+    }
+
+    /**
      * Set max_participants
      *
      *
@@ -185,6 +211,16 @@ class Lobby
     public function getHistory()
     {
         return unserialize($this->history);
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 
 
