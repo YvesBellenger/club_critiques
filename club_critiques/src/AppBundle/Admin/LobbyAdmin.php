@@ -2,6 +2,7 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Entity\Lobby;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -16,6 +17,7 @@ class LobbyAdmin extends AbstractAdmin
         $formMapper->add('content', 'entity', ['label' => 'Contenu', 'required' => true, 'class' => 'AppBundle\Entity\Content']);
         $formMapper->add('max_participants', null, ['label' => 'Nombre maximum de participants', 'required' => true]);
         $formMapper->add('date_start', null, ['label' => 'Début']);
+        $formMapper->add('date_end', null, ['label' => 'Fin']);
         $formMapper->add('status', null, ['label' => 'En ligne']);
     }
 
@@ -23,6 +25,7 @@ class LobbyAdmin extends AbstractAdmin
     {
         $datagridMapper->add('content');
         $datagridMapper->add('date_start', null, ['label' => 'Début']);
+        $datagridMapper->add('date_end', null, ['label' => 'Fin']);
         $datagridMapper->add('status');
     }
 
@@ -30,6 +33,7 @@ class LobbyAdmin extends AbstractAdmin
     {
         $list->addIdentifier('content', null, ['label' => 'Contenu'])
             ->add('date_start', null, ['label' => 'Début'])
+            ->add('date_end', null, ['label' => 'Fin'])
             ->add('max_participants', null, ['label' => 'Nombre maximum de participants', 'editable' => true])
             ->add('status', null, ['label' => 'En ligne', 'editable' => true]);
     }

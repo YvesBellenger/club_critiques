@@ -19,17 +19,17 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-6 col-md-offset-1 bloc-chat" id="block-chat">
                 <section id="chat">
 
                 </section>
-
                 <form action="/" method="post" id="form-chat">
                     <input type="hidden" name="user_id" id="user_id" value="{{ user.id }}" />
                     <input type="hidden" name="username" id="username" value="{{ user.username }}" />
                     <input type="hidden" name="lobby" id="lobby" value="{{ lobby.id }}" />
+                    <input type="hidden" name="lobby_date_start" id="lobby_date_start" value="{{ lobby.date_start|date('Y-m-d H:i') }}" />
+                    <input type="hidden" name="lobby_date_end" id="lobby_date_end" value="{{ lobby.getDateEnd|date('Y-m-d H:i') }}" />
                     <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
                     <input type="submit" id="send" value="Envoyer" />
                 </form>
