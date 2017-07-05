@@ -1,4 +1,4 @@
-var socket = io.connect('http://chat.club-critiques.dev:3000');
+var socket = io.connect('http://chat.jeremyfsmoreau.com:3000');
 
 var username = $('#username').val();
 var lastName = $('#lastName').val();
@@ -11,10 +11,10 @@ var room = $('#room').val();
 
 socket.emit('new_user', {"username" : username, "firstName": firstName, "lastName": lastName, "lobby" : lobby, "user_id": user_id, "lobby_date_start": date_start, "lobby_date_end": date_end, "room": room});
 
-socket.on('new_user_room', function(username, firstname, lastname, user_id) {
-    $('#chat').append('<p><em>' + username + ' a rejoint le salon !</em></p>');
-    $('#list-users').append('<tr id="user-"'+user_id+'>' +
-                                '<td>'+ firstname + ' ' + lastname + ' - ' + username + '</td>' +
+socket.on('new_user_room', function(data) {
+    $('#chat').append('<p><em>' + data.username + ' a rejoint le salon !</em></p>');
+    $('#list-users').append('<tr id="user-"'+data.user_id+'>' +
+                                '<td>'+ data.firstname + ' ' + data.lastname + ' - ' + data.username + '</td>' +
                                 '<td>' +
                                     '<div class="liste-salon-item">' +
                                         '<span>' +
