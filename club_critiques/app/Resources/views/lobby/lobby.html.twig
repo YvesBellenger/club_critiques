@@ -27,7 +27,10 @@
                 <form action="/" method="post" id="form-chat">
                     <input type="hidden" name="user_id" id="user_id" value="{{ user.id }}" />
                     <input type="hidden" name="username" id="username" value="{{ user.username }}" />
+                    <input type="hidden" name="firstName" id="firstName" value="{{ user.firstName }}" />
+                    <input type="hidden" name="lastName" id="lastName" value="{{ user.lastName }}" />
                     <input type="hidden" name="lobby" id="lobby" value="{{ lobby.id }}" />
+                    <input type="hidden" name="room" id="room" value="{{ user_room }}" />
                     <input type="hidden" name="lobby_date_start" id="lobby_date_start" value="{{ lobby.date_start|date('Y-m-d H:i') }}" />
                     <input type="hidden" name="lobby_date_end" id="lobby_date_end" value="{{ lobby.getDateEnd|date('Y-m-d H:i') }}" />
                     <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
@@ -43,15 +46,16 @@
                         <th>Action</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="list-users">
                     {%  for participant in lobby.participants %}
                         <tr>
                             <td scope="row">{{ participant.firstName|capitalize }} {{ participant.lastName|upper }} - ({% if participant.id != user.id %}{{ participant.username }}{% else %}moi{% endif %})</td>
                             <td>
-                                <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
+                                <div class="liste-salon-item">
                                         <span>
                                             {% if participant.id != user.id %}
-                                                <a href="{{ path('salon') }}">Signaler | Contacter</a>
+                                                <a href="{{ path('salon') }}">Signaler</a>
+                                                <a target="_blank" href="{{ path('salon') }}">Profil</a>
                                             {% else %}
                                                 -
                                             {% endif %}
