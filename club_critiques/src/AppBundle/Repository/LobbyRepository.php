@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class LobbyRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getLobbyHistory() {
+        $qb = $this->createQueryBuilder('l');
+        $qb->where('l.date_end < :date')
+            ->setParameter('date', date('Y-m-d H:i:s'));
+
+        return $qb->getQuery()
+            ->getResult();
+    }
 }
