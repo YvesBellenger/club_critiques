@@ -33,8 +33,8 @@
                 <thead>
                 <tr>
                     <th>Titre</th>
-                    <th>Dates</th>
-                    <th>Nombre moyen de participants par salon</th>
+                    <th>Date</th>
+                    {#<th>Nombre moyen de participants par salon</th>#}
                     <th>action</th>
                 </tr>
                 </thead>
@@ -43,18 +43,24 @@
                     <tr>
                         <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.author.name }}</td>
                         <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
-                        <td>{{ lobby.max_participants }}</td>
+                        {#<td>{{ lobby.max_participants }}</td>#}
                         <td>
                             <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
-                                        <span>
-                                            {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i')   %}
-                                                <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
-                                            {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and lobby.checkParticipant(user) %}
-                                                <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
-                                            {% else %}
-                                                <span>Inscription closes</span>
-                                            {% endif %}
-                                        </span>
+                                {% if controller == 'lobby_list' %}
+                                    <span>
+                                        {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i')   %}
+                                            <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
+                                        {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and lobby.checkParticipant(user) %}
+                                            <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
+                                        {% else %}
+                                            <span>Inscription closes</span>
+                                        {% endif %}
+                                    </span>
+                                {% else %}
+                                    <span>
+                                        <a href="{{ path('lobby_history', {'id': lobby.id}) }}">Voir le salon</a>
+                                    </span>
+                                {% endif %}
                             </div>
                         </td>
                     </tr>
