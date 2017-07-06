@@ -24,19 +24,10 @@ class Lobby
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinTable(name="lobby_user",
-     *      joinColumns={@ORM\JoinColumn(name="lobby_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     * )
-     */
-    public $participants;
-
-    /**
      *
-     * @ORM\Column(name="max_participants", type="integer")
+     * @ORM\Column(name="max_participations", type="integer")
      */
-    public $max_participants = 20;
+    public $max_participations = 20;
 
     /**
      * @var date
@@ -73,7 +64,6 @@ class Lobby
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
     }
 
     /**
@@ -87,43 +77,61 @@ class Lobby
     }
 
     /**
-     * Get participants
+     * Get participations
      *
      * @return ArrayCollection
      */
-    public function getParticipants()
+    public function getParticipations()
     {
-        return $this->participants;
+        return $this->participations;
     }
 
     /**
-     * Add participant
+     * Add participation
      *
      * @param \AppBundle\Entity\Content $content
      * @return User
      */
-    public function addParticipant(\AppBundle\Entity\User $user)
+    public function addParticipation(\AppBundle\Entity\Participation $participation)
     {
-        if(!$this->participants->contains($user)) {
-            $this->participants[] = $user;
+        if(!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
         }
 
-        return $this;
+        return $this;        // Répartition des participants dans les salles en fonction de leurs notes pour avoir une salle ayant des avis différents
+        $notes = $this->getDoctrine()->getRepository('AppBundle:Note')->findByUser($user_ids);
+        $repartition = array();
+        $nb_user_per_room = count($notes)/$nb_rooms;
+        for ($i = 0; $i < $nb_rooms; $i++) {
+            for ($j = 0; $j <= $nb_user_per_room; $j++) {
+                if ($j % 2 == 0) {
+                    $repartition[$i] = $notes[$j];
+                    unset($notes[$j]);
+                } else {
+                    $repartition[$i] = $notes[count($notes) - $j];
+                    unset($notes[count($notes) - $j]);
+                }
+            }
+            array_values($notes);
+        }
+
+        $user_note = $this->getDoctrine()->getRepository('AppBundle:Note')->findBy(array('content' => $lobby->content, 'user' => $user));
+        $user_room = array_search($user_note, $repartition);
     }
 
-    public function checkParticipant(\AppBundle\Entity\USer $user)
+    public function checkParticipation(\AppBundle\Entity\Participation $participation)
     {
-        return $this->participants->contains($user);
+        return $this->participations->contains($participation);
     }
 
     /**
-     * Remove participant
+     * Remove participation
      *
-     * @param \AppBundle\Entity\User $user
+     * @param \AppBundle\Entity\Participation $participation
      */
-    public function removeParticipant(\AppBundle\Entity\User $user)
+    public function removeParticipation(\AppBundle\Entity\Participation $participation)
     {
-        $this->participants->removeElement($user);
+        $this->participations->removeElement($participation);
     }
 
     /**
@@ -170,25 +178,25 @@ class Lobby
     }
 
     /**
-     * Set max_participants
+     * Set max_participations
      *
      *
      * @return Lobby
      */
-    public function setMaxParticipants($max_participants)
+    public function setMaxParticipations($max_participations)
     {
-        $this->max_participants = $max_participants;
+        $this->max_participations = $max_participations;
         return $this;
     }
 
     /**
-     * Get max_participants
+     * Get max_participations
      *
      */
 
-    public function getMaxParticipant()
+    public function getMaxParticipation()
     {
-        return $this->max_participants;
+        return $this->max_participations;
     }
 
     /**
