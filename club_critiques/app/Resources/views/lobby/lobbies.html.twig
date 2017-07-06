@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club des critiques | Liste des salons{% endblock %}
+{% block body %}
+
+    <div class="container-fluid wrapper" id="liste-salons">
+
+        <h2>SALONS</h2>
+        <div id="lobbies">
+            {{ include('lobby/lobby-list.html.twig', { 'lobby_list': lobby_list }) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('js/contenus.js') }}"></script>
+{% endblock %}

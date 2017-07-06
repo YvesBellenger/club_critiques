@@ -1,60 +1,51 @@
-{% extends 'base.html.twig' %}
+<div class="filters">
+    <div class="row">
+        <div class="form-group center">
 
-{% block title %}Club des critiques | Liste des salons{% endblock %}
-{% block body %}
-
-    <div class="container-fluid wrapper" id="liste-salons">
-
-        <h2>SALONS</h2>
-
-        <div class="filters">
-            <div class="row">
-                <div class="form-group center">
-
-                    <select id="sub-category" class="form-control inline" onchange="onChangeCategory(this);">
-                        <option value="0">Catégorie</option>
-                        {% for subcategory in subcategories %}
-                            <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>
-                        {% endfor %}
-                    </select>
+            <select id="sub-category" class="form-control inline" onchange="onChangeCategory(this);">
+                <option value="0">Catégorie</option>
+                {% for subcategory in subcategories %}
+                    <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>
+                {% endfor %}
+            </select>
 
 
-                    <select id="title" class="form-control inline" onchange="onChangeSubCategory(this);">
-                        <option value="0">Titre</option>
-                        {#{% for subcategory in subcategories %}#}
-                            {#<option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>#}
-                        {#{% endfor %}#}
-                    </select>
+            <select id="title" class="form-control inline" onchange="onChangeSubCategory(this);">
+                <option value="0">Titre</option>
+                {#{% for subcategory in subcategories %}#}
+                {#<option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>#}
+                {#{% endfor %}#}
+            </select>
 
 
-                    <select id="auteur" class="form-control inline" onchange="onChangeSubCategory(this);">
-                        <option value="0">Auteur</option>
-                        {#{% for subcategory in subcategories %}#}
-                            {#<option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>#}
-                        {#{% endfor %}#}
-                    </select>
-                </div>
-            </div>
+            <select id="auteur" class="form-control inline" onchange="onChangeSubCategory(this);">
+                <option value="0">Auteur</option>
+                {#{% for subcategory in subcategories %}#}
+                {#<option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>#}
+                {#{% endfor %}#}
+            </select>
+        </div>
+    </div>
 
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>Titre</th>
-                            <th>Dates</th>
-                            <th>Nombre moyen de participants par salon</th>
-                            <th>action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for lobby in lobby_list %}
-                            <tr>
-                                <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.author.name }}</td>
-                                <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
-                                <td>{{ lobby.max_participants }}</td>
-                                <td>
-                                    <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Dates</th>
+                    <th>Nombre moyen de participants par salon</th>
+                    <th>action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for lobby in lobby_list %}
+                    <tr>
+                        <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.author.name }}</td>
+                        <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
+                        <td>{{ lobby.max_participants }}</td>
+                        <td>
+                            <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
                                         <span>
                                             {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i')   %}
                                                 <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
@@ -64,20 +55,13 @@
                                                 <span>Inscription closes</span>
                                             {% endif %}
                                         </span>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
-{% endblock %}
-
-{% block js %}
-    <script src="{{ asset('js/contenus.js') }}"></script>
-{% endblock %}
+</div>
