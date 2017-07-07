@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Club des critiques | Historique du salon{% endblock %}
+{% block body %}
+    <div class="wrapper container-fluid" id="salon">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-1">
+                <div class="concept">
+                    <h2>Salon : {{ lobby.content.title }} - {{ lobby.content.author.name }} - {{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}/{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_end|date('i') }}</h2>
+                </div>
+            </div>
+        </div>
+        {% for room_id, room in rooms %}
+            <div class="row">
+            <div class="col-md-6 col-md-offset-1 bloc-chat" id="block-chat">
+                <section id="chat">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <h3>Salon n° {{ room_id }}</h3>
+                        {% endif %}
+                        {% for message in room.messages %}
+                            <p><strong>{{ message.username }}</strong>: {{ message.message }}</p>
+                        {% endfor %}
+                </section>
+            </div>
+
+            <div class="col-md-4 liste-membres">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Liste des participants</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="list-users">
+                    {%  for participant in room.participants %}
+                        <tr>
+                            <td scope="row">{{ participant.user.firstName|capitalize }} {{ participant.user.lastName|upper }} - ({% if participant.user.id != user.id %}{{ participant.user.username }}{% else %}moi{% endif %})</td>
+                            <td>
+                                <div class="liste-salon-item">
+                                    <span>
+                                        {% if participant.user.id != user.id %}
+                                            <a target="_blank" href="#">Profil</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

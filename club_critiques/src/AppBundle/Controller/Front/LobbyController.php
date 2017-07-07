@@ -149,15 +149,29 @@ class LobbyController extends Controller
     public function lobbyListHistoryAction(Request $request)
     {
         $user = $this->getUser();
-//        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-//            $lobby_list = $this->getDoctrine()->getRepository('AppBundle:Lobby')->getLobbyHistory();
-//        } else {
+
+        $categoryRepository = $this->getDoctrine()->getRepository('AppBundle:Category');
+
+        /** Filters **/
+        $categories = $categoryRepository->findBy(array('parentCategory' => null));
+        $subcategories = $categoryRepository->getSubCategories();
+
+        /** Contents **/
+        $category = $categoryRepository->findOneByCode('livre');
+        $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->findBy(array('status' => 1));
+
+        $lobby_list = array();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $lobby_list = $this->getDoctrine()->getRepository('AppBundle:Lobby')->getLobbyHistory();
+        } else {
             $participations = $this->getDoctrine()->getRepository('AppBundle:Participation')->findByUser($user);
-//        }
-        return $this->render('lobby/lobby-list.html.twig', [
+            foreach ($participations as $participation) {
+                $lobby_list[] = $participation->lobby;
+            }
+        }
+        return $this->render('lobby/lobbies.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'lobby_list',
-            'contents' => $contents,
+            'controller' => 'lobby_list_history',
             'categories' => $categories,
             'lobby_list' => $lobby_list,
             'selected_category_id' => 0,
@@ -165,5 +179,47 @@ class LobbyController extends Controller
             'user' => $this->getUser(),
             'subcategories' => $subcategories
         ]);
+    }
+
+    /**
+     * @Route("/salon/{id}/history", name="lobby_history")
+     */
+
+    public function lobbyHistoryAction(Request $request)
+    {
+        $user = $this->getUser();
+        $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
+
+        $participation = $this->getDoctrine()->getRepository('AppBundle:Participation')->findOneBy(array('user' => $user, 'lobby' => $lobby));
+        $participations = $this->getDoctrine()->getRepository('AppBundle:Participation')->findBy(array('lobby' => $lobby));
+        if (!$participation && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("danger", "Vous n'avez pas participé à ce salon");
+            return $this->redirectToRoute('lobby_list_history');
+        } else {
+            $rooms = array();
+            $history = $lobby->getHistory();
+            if (!empty($history)) {
+                foreach ($history as $room) {
+                    if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                        $rooms[$room['room_id']]['messages'] = $room['messages'];
+                    } else {
+                        $rooms[$participation->room]['messages'] = $room['messages'];
+                    }
+                    foreach ($participations as $_participation) {
+                        if ($_participation->room == $room['room_id']) {
+                            $rooms[$room['room_id']]['participants'][] = $_participation;
+                        }
+                    }
+                }
+            }
+            return $this->render('lobby/lobby-history.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'controller' => 'lobby_history',
+                'lobby' => $lobby,
+                'participations' => $participations,
+                'user' => $user,
+                'rooms' => $rooms
+            ]);
+        }
     }
 }

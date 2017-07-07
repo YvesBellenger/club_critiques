@@ -46,7 +46,7 @@ class Lobby
     /**
      * @var string
      *
-     * @ORM\Column(name="history", type="text", nullable=true)
+     * @ORM\Column(name="history", type="array", nullable=true)
      */
     public $history;
 
