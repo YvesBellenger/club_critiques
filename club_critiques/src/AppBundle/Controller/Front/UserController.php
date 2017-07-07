@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
@@ -108,5 +109,33 @@ class UserController extends Controller
                 'user' => $user,
             ]);
         }
+    }
+
+
+    /**
+     * @Route("/user/report", name="user_report")
+     */
+    public function reportAction (Request $request) {
+        $participant = $this->getDoctrine()->getRepository('AppBundle:User')->find($request->get('participant_id'));
+        $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('lobby_id'));
+        $user = $this->getUser();
+        $mailer = $this->container->get('mailer');
+        $message = (new \Swift_Message('[Report] Un utilisateur a été signalé'))
+            ->setFrom('noreply@club-critiques.com')
+            ->setTo('humbertsimon@gmail.com')
+            ->setBody(
+                $this->renderView(
+                // app/Resources/views/Emails/registration.html.twig
+                    'mails/report.html.twig',
+                    array('participant' => $participant,
+                          'user' => $user,
+                          'lobby' => $lobby)
+                ),
+                'text/html'
+            );
+        $mailer->send($message);
+
+        $response = array('success' => true);
+        return new JsonResponse(json_encode($response));
     }
 }
