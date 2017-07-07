@@ -34,6 +34,7 @@ class UserController extends Controller
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'user',
             'user' => $user,
+            'connected_user' => $this->getUser(),
             'form' => $form->createView()
         ]);
     }

@@ -172,6 +172,48 @@ class User extends BaseUser
         return $this->description;
     }
 
+    /**
+     * Set firstName
+     *
+     * @return User
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
 
     /**
      * Set status
