@@ -55,3 +55,20 @@ $('#end').click(function () {
 function updateChat(username, message) {
     $('#chat').append('<p><strong>' + username + '</strong>: ' + message + '</p>');
 }
+
+function reportUser(elt) {
+    if (confirm('Êtes vous sur de vouloir signaler cet utilisateur ? Tout abus pourra être sanctionné.')) {
+        $.ajax({
+            type: "POST",
+            url: 'user/report',
+            data: {'participant_id': $(elt).data('participant-id'), 'lobby_id': $(elt).data('lobby-id')},
+            async: false
+        })
+        .done(function(response){
+            alert('Votre signalement a bien été transmis à l\'administration.');
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            alert('Error : ' + errorThrown);
+        });
+    }
+}
