@@ -34,12 +34,12 @@
                     <tbody id="list-users">
                     {%  for participant in room.participants %}
                         <tr>
-                            <td scope="row">{{ participant.user.firstName|capitalize }} {{ participant.user.lastName|upper }} - ({% if participant.user.id != user.id %}{{ participant.user.username }}{% else %}moi{% endif %})</td>
+                            <td scope="row">{{ participant.user.firstName ? participant.user.firstName|capitalize : 'John' }} {{ participant.user.lastName ? participant.user.lastName|upper : 'DOE' }} - ({% if participant.user.id != user.id %}{{ participant.user.username }}{% else %}moi{% endif %})</td>
                             <td>
                                 <div class="liste-salon-item">
                                     <span>
                                         {% if participant.user.id != user.id %}
-                                            <a target="_blank" href="#">Profil</a>
+                                            <a target="_blank" href="{{ path('user', {'id': participant.user.id}) }}">Profil</a>
                                         {% else %}
                                             -
                                         {% endif %}
