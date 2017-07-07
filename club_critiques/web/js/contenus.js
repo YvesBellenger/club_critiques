@@ -42,3 +42,20 @@ function onAddContent(elt) {
             alert('Error : ' + errorThrown);
         });
 }
+
+function loadMore(elt) {
+    var offset = $(elt).data('offset');
+    $.ajax({
+        type: "POST",
+        url: 'contents/loadMore',
+        data: {'offset': offset},
+        async: false
+    })
+    .done(function(response){
+        $('#content-list').append(response);
+        $('#loadMore').data('offset', offset+8);
+    })
+    .fail(function(jqXHR, textStatus, errorThrown){
+        alert('Error : ' + errorThrown);
+    });
+}

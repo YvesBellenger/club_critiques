@@ -25,12 +25,12 @@ class ContentController extends Controller
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
         /** Filters **/
-        $categories = $categoryRepository->findBy(array('parentCategory' => null));
+        $categories = $categoryRepository->findBy(array('parentCategory' => null), array('name' => 'ASC'));
         $subcategories = $categoryRepository->getSubCategories();
 
         /** Contents **/
         $category = $categoryRepository->findOneByCode('livre');
-        $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
+        $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1), array('title' => 'ASC'), 8);
 
         return $this->render('contents/contenus.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
@@ -73,6 +73,18 @@ class ContentController extends Controller
             'categories' => $categories,
             'selected_category_id' => $category_id,
             'selected_sub_category_id' => $sub_category_id
+        ]);
+    }
+
+    /**
+     * @Route("/contenus/loadMore", name="contents_load_more")
+     */
+    public function loadMoreAction (Request $request) {
+        $limit = 8;
+        $offset = $request->get('offset');
+        $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->findBy(array('status' => 1, array('title' => 'ASC'), $limit, $offset));
+        return $this->render('contents/load-more.html.twig', [
+            'contents' => $contents ? : null,
         ]);
     }
 
