@@ -53,5 +53,5 @@ $('#end').click(function () {
 });
 
 function updateChat(username, message) {
-    $('#chat').append('<p><strong>' + username + '</strong> ' + message + '</p>');
+    $('#chat').append('<p><strong>' + username + '</strong>: ' + message + '</p>');
 }
