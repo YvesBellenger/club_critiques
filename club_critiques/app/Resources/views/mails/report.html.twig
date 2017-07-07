@@ -1,0 +1,13 @@
+<div class="mail-container">
+    <p> Bonjour, <br><br>
+        {{ user.firstName }} {{ user.lastName }} ({{ user.username }}) a récemment signalé un utilisateur : <br>
+        Nom : {{ participant.firstName }} {{ participant.lastName }} <br>
+        Date d'inscription : {{ participant.dateAdd|date('d/m/Y') }} <br>
+        Profil : <a href="{{ path('user', {'id': participant.id}) }}">Voir le profil</a> <br><br>
+
+        Salon lors du quel il a été signalé : <br>
+        Contenu : {{ lobby.content }}<br>
+        Date : Du {{ lobby.date_start|date('d/m/Y H:i') }} au {{ lobby.date_start|date('d/m/Y H:i') }} <br>
+        Historique : <a href="{{ path('lobby_history', {'id': lobby.id}) }}"></a>
+    </p>
+</div>
