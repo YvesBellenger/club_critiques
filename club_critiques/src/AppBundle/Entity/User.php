@@ -52,7 +52,7 @@ class User extends BaseUser
      *      inverseJoinColumns={@ORM\JoinColumn(name="contact_id", referencedColumnName="id")}
      * )
      */
-    private $contacts;
+    public $contacts;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Content", cascade={"persist"})

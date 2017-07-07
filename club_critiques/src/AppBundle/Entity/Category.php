@@ -22,47 +22,47 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    public $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    protected $name;
+    public $name;
 
     /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=255, unique=true)
      */
-    protected $code;
+    public $code;
 
     /**
      *
      * @ORM\ManyToOne(targetEntity="Category", cascade={"merge", "persist"})
      */
-    protected $parentCategory;
+    public $parentCategory;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
      */
-    protected $dateAdd;
+    public $dateAdd;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_update", type="datetime", nullable=true)
      */
-    protected $dateUpdate;
+    public $dateUpdate;
 
     /**
      *
      * @ORM\Column(name="status", type="boolean")
      */
-    protected $status;
+    public $status;
 
     public function __construct()
     {

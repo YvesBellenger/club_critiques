@@ -21,7 +21,7 @@ class BlockContent
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    public $id;
 
     /**
      * @var string
@@ -29,14 +29,14 @@ class BlockContent
      * @ORM\Column(name="name", type="string", length=255)
      */
 
-    protected $title;
+    public $title;
 
     /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=255, unique=true)
      */
-    protected $code;
+    public $code;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Content", cascade={"persist"})
@@ -45,27 +45,27 @@ class BlockContent
      *      inverseJoinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")}
      * )
      */
-    private $contents;
+    public $contents;
 
     /**
      *
      * @ORM\Column(name="status", type="boolean")
      */
-    protected $status;
+    public $status;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
      */
-    protected $dateAdd;
+    public $dateAdd;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_update", type="datetime", nullable=true)
      */
-    protected $dateUpdate;
+    public $dateUpdate;
 
 
     public function __construct()
