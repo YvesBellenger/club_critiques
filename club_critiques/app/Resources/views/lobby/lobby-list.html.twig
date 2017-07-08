@@ -43,7 +43,6 @@
                     <tr>
                         <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.author.name }}</td>
                         <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
-                        {#<td>{{ lobby.max_participants }}</td>#}
                         <td>
                             <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
                                 {% if controller == 'lobby_list' %}
