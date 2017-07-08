@@ -13,17 +13,23 @@ socket.emit('new_user', {"username" : username, "firstName": firstName, "lastNam
 
 socket.on('new_user_room', function(data) {
     $('#chat').append('<p><em>' + data.username + ' a rejoint le salon !</em></p>');
-    $('#list-users').append('<tr id="user-"'+data.user_id+'>' +
-                                '<td>'+ data.firstname + ' ' + data.lastname + ' - ' + data.username + '</td>' +
-                                '<td>' +
-                                    '<div class="liste-salon-item">' +
-                                        '<span>' +
-                                                '<a href="">Signaler</a>'+
-                                                '<a target="_blank" href="">Profil</a>' +
-                                        '</span>' +
-                                    '</div>' +
-                                '</td>' +
-                            '</tr>');
+    data.users.forEach(function(user) {
+        $('#list-users').append('<tr id="user-"'+user.user_id+'>' +
+            '<td>'+ user.firstname + ' ' + user.lastname + ' - ' + user.username + '</td>' +
+            '<td>' +
+            '<div class="liste-salon-item">' +
+            '<span>' +
+            '<a href="">Signaler</a>'+
+            '<a target="_blank" href="">Profil</a>' +
+            '</span>' +
+            '</div>' +
+            '</td>' +
+            '</tr>');
+    });
+});
+
+socket.on('user_disconnect', function(data) {
+    $('#user-'+data.user.user_id).remove();
 });
 
 socket.on('end_lobby', function(message) {
