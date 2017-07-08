@@ -47,23 +47,7 @@
                     </tr>
                     </thead>
                     <tbody id="list-users">
-                    {%  for participant in lobby.participants %}
-                        <tr>
-                            <td scope="row">{{ participant.firstName|capitalize }} {{ participant.lastName|upper }} - ({% if participant.id != user.id %}{{ participant.username }}{% else %}moi{% endif %})</td>
-                            <td>
-                                <div class="liste-salon-item">
-                                        <span>
-                                            {% if participant.id != user.id %}
-                                                <a data-lobby-id="{{ lobby.id }}" data-participant-id="{{ participant.id }}" onclick="reportUser(this)" href="javascript:void(0);">Signaler</a>
-                                                <a target="_blank" href="{{ path('user', {'id': participant.user.id}) }}">Profil</a>
-                                            {% else %}
-                                                -
-                                            {% endif %}
-                                        </span>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
+
                     </tbody>
                 </table>
             </div>
