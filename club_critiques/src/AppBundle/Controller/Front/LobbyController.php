@@ -49,7 +49,7 @@ class LobbyController extends Controller
             $repartition = array();
             $nb_user_per_room = count($notes)/$nb_rooms;
             for ($i = 0; $i < $nb_rooms; $i++) {
-                for ($j = 0; $j <= $nb_user_per_room; $j++) {
+                for ($j = 1; $j <= $nb_user_per_room; $j++) {
                     if ($j % 2 == 0) {
                         $repartition[$i] = $notes[$j];
                         unset($notes[$j]);
@@ -202,12 +202,19 @@ class LobbyController extends Controller
                 foreach ($history as $room) {
                     if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
                         $rooms[$room['room_id']]['messages'] = $room['messages'];
+                        foreach ($participations as $_participation) {
+                            if ($_participation->room == $room['room_id']) {
+                                $rooms[$room['room_id']]['participants'][] = $_participation;
+                            }
+                        }
                     } else {
-                        $rooms[$participation->room]['messages'] = $room['messages'];
-                    }
-                    foreach ($participations as $_participation) {
-                        if ($_participation->room == $room['room_id']) {
-                            $rooms[$room['room_id']]['participants'][] = $_participation;
+                        if ($room['room_id'] == $participation->room) {
+                            $rooms[$participation->room]['messages'] = $room['messages'];
+                            foreach ($participations as $_participation) {
+                                if ($_participation->room == $participation->room) {
+                                    $rooms[$participation->room]['participants'][] = $_participation;
+                                }
+                            }
                         }
                     }
                 }
