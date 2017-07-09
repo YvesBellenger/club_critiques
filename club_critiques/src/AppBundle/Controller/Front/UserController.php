@@ -113,7 +113,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/user/report", name="user_report")
+     * @Route("/salon/user/report", name="user_report")
      */
     public function reportAction (Request $request) {
         $participant = $this->getDoctrine()->getRepository('AppBundle:User')->find($request->get('participant_id'));
