@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Note
  *
  * @ORM\Table(name="note")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\LobbyRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\NoteRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Note
