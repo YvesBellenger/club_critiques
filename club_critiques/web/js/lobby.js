@@ -15,7 +15,7 @@ socket.on('new_user_room', function(data) {
     $('#chat').append('<p><em>' + data.username + ' a rejoint le salon !</em></p>');
     data.users.forEach(function(user) {
         $('#list-users').append('<tr id="user-"'+user.user_id+'>' +
-            '<td>'+ user.firstname + ' ' + user.lastname + ' - ' + user.username + '</td>' +
+            '<td>'+ user.user.firstName + ' ' + user.user.lastName + ' - ' + user.user.username + '</td>' +
             '<td>' +
             '<div class="liste-salon-item">' +
             '<span>' +
@@ -29,7 +29,9 @@ socket.on('new_user_room', function(data) {
 });
 
 socket.on('user_disconnect', function(data) {
-    $('#user-'+data.user.user_id).remove();
+    $('#user-'+data.user.user.user_id).remove();
+    $('#chat').append('<p><em>' + data.user.user.username + ' a quitté le salon !</em></p>');
+
 });
 
 socket.on('end_lobby', function(message) {
