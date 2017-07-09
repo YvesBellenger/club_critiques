@@ -20,8 +20,8 @@ socket.on('new_user_room', function(data) {
             '<td>' +
             '<div class="liste-salon-item">' +
             '<span>' +
-            '<a href="">Signaler</a>'+
-            '<a target="_blank" href="">Profil</a>' +
+            '<a onclick="reportUser(this)" href="javascript:void(0)">Signaler</a>'+
+            '<a target="_blank" href="http://jeremyfsmoreau.com/app_dev.php/user/'+user.user.user_id+'">Profil</a>' +
             '</span>' +
             '</div>' +
             '</td>' +
