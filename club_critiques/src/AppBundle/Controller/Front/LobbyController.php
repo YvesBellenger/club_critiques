@@ -48,7 +48,7 @@ class LobbyController extends Controller
             foreach ($participations as $_participation) {
                 $user_ids[] = $_participation->user->id;
             }
-            $notes = $this->getDoctrine()->getRepository('AppBundle:Note')->findByUser($user_ids);
+            $notes = $this->getDoctrine()->getRepository('AppBundle:Note')->getNotesForLobby($lobby, $user_ids);
             $repartition = array();
             $nb_user_per_room = count($notes)/$nb_rooms;
             for ($i = 0; $i < $nb_rooms; $i++) {

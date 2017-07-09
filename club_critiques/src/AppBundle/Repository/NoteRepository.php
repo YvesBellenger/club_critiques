@@ -10,4 +10,24 @@ namespace AppBundle\Repository;
  */
 class NoteRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getNotesForLobby($lobby, $user_ids)
+    {
+        $in = '(';
+        foreach ($user_ids as $k => $user_id) {
+            if ($k > 0) {
+                $in .= ',';
+            }
+            $in .= $user_id;
+        }
+        $in .= ')';
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+        $sql = 'SELECT * FROM `note`
+                WHERE content_id = :id
+                AND user_id IN'.$in;
+        $statement = $connection->prepare($sql);
+        $statement->bindValue('id', $lobby->content->id);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }
