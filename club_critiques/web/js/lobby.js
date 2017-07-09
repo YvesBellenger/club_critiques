@@ -14,7 +14,7 @@ socket.emit('new_user', {"username" : username, "firstName": firstName, "lastNam
 socket.on('new_user_room', function(data) {
     $('#chat').append('<p><em>' + data.username + ' a rejoint le salon !</em></p>');
     data.users.forEach(function(user) {
-        $('#list-users').append('<tr id="user-"'+user.user.user_id+'>' +
+        $('#list-users').append('<tr id="user-'+user.user.user_id+'">' +
             '<td>'+ user.user.firstName + ' ' + user.user.lastName + ' - ' + user.user.username + '</td>' +
             '<td>' +
             '<div class="liste-salon-item">' +
