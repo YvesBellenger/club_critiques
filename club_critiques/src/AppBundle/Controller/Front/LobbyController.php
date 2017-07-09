@@ -34,11 +34,14 @@ class LobbyController extends Controller
         $participation = $this->getDoctrine()->getRepository('AppBundle:Participation')->findOneBy(array('user' => $user, 'lobby' => $lobby));
 
         if (!$participation) {
-          $this->addFlash("danger", "Vous n'êtes pas inscrit à ce salon");
-          return $this->redirectToRoute('lobby_list');
+            $this->addFlash("danger", "Vous n'êtes pas inscrit à ce salon");
+            return $this->redirectToRoute('lobby_list');
         } else if (date('Y-m-d H:i', strtotime('+10 minutes', strtotime($lobby->date_start->format('Y-m-d H:i')))) < date('Y-m-d H:i') && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $this->addFlash("danger", "Ce salon a commencé depuis plus de 10 minutes. Vous ne pouvez plus le rejoindre.");
             return $this->redirectToRoute('lobby_list');
+        } else if (date('Y-m-d H:i') > $lobby->date_end->format('Y-m-d H:i')) {
+            $this->addFlash("danger", "Ce salon est terminé. Si vous y avez participé, vous pouvez consulter l'historique.");
+            return $this->redirectToRoute('lobby_list_history');
         } else {
             // Répartition des participants dans les salles en fonction de leurs notes pour avoir une salle ayant des avis différents
             $user_ids = array();
