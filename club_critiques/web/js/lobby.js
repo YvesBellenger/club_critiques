@@ -29,8 +29,8 @@ socket.on('new_user_room', function(data) {
 });
 
 socket.on('user_disconnect', function(data) {
-    $('#user-'+data.user.user.user_id).remove();
-    $('#chat').append('<p><em>' + data.user.user.username + ' a quitté le salon !</em></p>');
+    $('#user-'+data.user.user_id).remove();
+    $('#chat').append('<p><em>' + data.user.username + ' a quitté le salon !</em></p>');
 
 });
 
