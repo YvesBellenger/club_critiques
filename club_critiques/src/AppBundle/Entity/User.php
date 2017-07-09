@@ -44,6 +44,13 @@ class User extends BaseUser
      */
     public $description;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nb_reports", type="integer", nullable=true)
+     */
+    public $nbReports;
+
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
@@ -170,6 +177,36 @@ class User extends BaseUser
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set nbReports
+     *
+     * @return User
+     */
+    public function setNbReports($nbReports)
+    {
+        $this->nbReports = $nbReports;
+
+        return $this;
+    }
+
+    /**
+     * Get nbReports
+     *
+     */
+    public function getNbReports()
+    {
+        return $this->nbReports;
+    }
+
+    public static function IncreaseReportNumber($user) {
+        if ($user->nbReports == null) {
+            $user->nbReports = 1;
+        } else {
+            $user->nbReports = $user->nbReports + 1;
+        }
+        return $user;
     }
 
     /**
