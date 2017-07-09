@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -119,6 +120,10 @@ class UserController extends Controller
         $participant = $this->getDoctrine()->getRepository('AppBundle:User')->find($request->get('participant_id'));
         $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('lobby_id'));
         $user = $this->getUser();
+        User::IncreaseReportNumber($user);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
         $mailer = $this->container->get('mailer');
         $message = (new \Swift_Message('[Report] Un utilisateur a été signalé'))
             ->setFrom('noreply@club-critiques.com')
