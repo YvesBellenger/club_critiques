@@ -120,9 +120,9 @@ class UserController extends Controller
         $participant = $this->getDoctrine()->getRepository('AppBundle:User')->find($request->get('participant_id'));
         $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('lobby_id'));
         $user = $this->getUser();
-        User::IncreaseReportNumber($user);
+        User::IncreaseReportNumber($participant);
         $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
+        $em->persist($participant);
         $em->flush();
         $mailer = $this->container->get('mailer');
         $message = (new \Swift_Message('[Report] Un utilisateur a été signalé'))
