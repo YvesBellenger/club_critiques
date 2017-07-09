@@ -12,11 +12,19 @@ class NoteRepository extends \Doctrine\ORM\EntityRepository
 {
     public function getNotesForLobby($lobby, $user_ids)
     {
+
+        $in = '(';
+        foreach ($user_ids as $k => $user_id) {
+            if ($k > 0) {
+                $in .= ',';
+            }
+            $in .= $user_id;
+        }
+        $in .= ')';
         $qb = $this->createQueryBuilder('n');
         $qb->where('n.content != :content')
-            ->andWhere('n.user IN :user_ids')
-            ->setParameter('content', $lobby->content)
-            ->setParameter('user_ids', $user_ids);
+            ->andWhere('n.user IN '.$in)
+            ->setParameter('content', $lobby->content);
 
         return $qb->getQuery()
             ->getResult();
