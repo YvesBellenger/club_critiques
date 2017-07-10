@@ -81,3 +81,33 @@ function reportUser(elt) {
         });
     }
 }
+
+function onFilterChange(elt) {
+    var timer;
+    if ($(elt).attr('id') == 'title') {
+        if (timer) {
+            clearTimeout(timer);
+            timer = setTimeout( sendFiltersRequest, 1000 );
+        } else {
+            timer = setTimeout( sendFiltersRequest, 1000 );
+        }
+    } else {
+        sendFiltersRequest();
+    }
+}
+
+function sendFiltersRequest()
+{
+    $.ajax({
+        type: "POST",
+        url: 'salons/filters',
+        data: {'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val()},
+        async: true
+    })
+    .done(function(response){
+        $('#lobbies').html( response );
+    })
+    .fail(function(jqXHR, textStatus, errorThrown){
+        alert('Error : ' + errorThrown);
+    });
+}

@@ -14,6 +14,7 @@ class CategoryRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('sc');
         $qb->where('sc.parentCategory != :category')
+            ->orderBy('sc.name')
             ->setParameter('category', 0);
 
         return $qb->getQuery()

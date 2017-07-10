@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Content;
 
 /**
  * LobbyRepository
@@ -15,6 +16,27 @@ class LobbyRepository extends \Doctrine\ORM\EntityRepository
         $qb->where('l.date_end < :date')
             ->setParameter('date', date('Y-m-d H:i:s'));
 
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    public function getLobbiesByFilters($category, $author, $title) {
+        $qb = $this->createQueryBuilder('l');
+        $qb->leftJoin(Content::class, 'c', 'WITH', 'c = l.content')
+            ->where('l.date_start > :date');
+        if ($category) {
+            $qb->andWhere('c.category = :category');
+            $qb->setParameter('category', $category);
+
+        }
+        if ($author) {
+            $qb->andWhere('c.author = :author')
+                ->setParameter('author', $author);
+        }
+        $qb->andWhere('c.title LIKE :title')
+            ->andWhere('l.status = 1')
+            ->setParameter('date', date('Y-m-d H:i:s'))
+            ->setParameter('title', '%'.$title.'%');
         return $qb->getQuery()
             ->getResult();
     }

@@ -108,13 +108,14 @@ class LobbyController extends Controller
      * @Route("/salons", name="lobby_list")
      */
 
-    public function lobbyListeAction(Request $request)
+    public function lobbyListAction(Request $request)
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
         /** Filters **/
         $subcategories = $categoryRepository->getSubCategories();
+        $authors = $doctrine->getRepository('AppBundle:Author')->findBy(array('status' => 1), array('name' => 'ASC'));
 
         /** Contents **/
         $category = $categoryRepository->findOneByCode('livre');
@@ -136,10 +137,11 @@ class LobbyController extends Controller
             'controller' => 'lobby_list',
             'contents' => $contents,
             'lobby_list' => $lobby_list,
-            'selected_category_id' => 0,
+            'selected_author_id' => 0,
             'selected_sub_category_id' => 0,
             'user' => $this->getUser(),
-            'subcategories' => $subcategories
+            'subcategories' => $subcategories,
+            'authors' => $authors
         ]);
     }
 
@@ -230,4 +232,38 @@ class LobbyController extends Controller
             ]);
         }
     }
+
+    /**
+     * @Route("/salons/filters", name="lobbies_on_filter_change")
+     */
+    public function ajaxOnFilterChange (Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+        $category = $author = null;
+        $title = $request->get('title');
+
+        /*** Filters ***/
+        $subcategories =  $doctrine->getRepository('AppBundle:Category')->getSubCategories();
+        $authors = $doctrine->getRepository('AppBundle:Author')->findBy(array('status' => 1), array('name' => 'ASC'));
+
+        if ($request->get('category_id') > 0) {
+            $category =  $doctrine->getRepository('AppBundle:Category')->find($request->get('category_id'));
+        }
+        if ($request->get('author_id') > 0) {
+            $author = $doctrine->getRepository('AppBundle:Author')->find($request->get('author_id'));
+        }
+
+        $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->getLobbiesByFilters($category, $author, $title);
+
+        return $this->render('lobby/lobby-list.html.twig', [
+            'lobby_list' => $lobby_list ? : null,
+            'subcategories' => $subcategories,
+            'authors' => $authors,
+            'selected_sub_category_id' => $category ? $category->id : 0,
+            'selected_author_id' => $author ? $author->id : 0,
+            'title' => $title,
+            'controller' => 'lobby_list'
+        ]);
+    }
+
 }
