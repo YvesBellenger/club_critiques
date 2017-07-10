@@ -3,11 +3,11 @@
         {{ user.firstName }} {{ user.lastName }} ({{ user.username }}) a récemment signalé un utilisateur : <br>
         Nom : {{ participant.firstName }} {{ participant.lastName }} <br>
         Date d'inscription : {{ participant.dateAdd|date('d/m/Y') }} <br>
-        Profil : <a href="http://www.jeremyfsmoreau.com/{{ path('user', {'id': participant.id}) }}">Voir le profil</a> <br><br>
+        Profil : <a href="{{ base_url }}{{ path('user', {'id': participant.id}) }}">Voir le profil</a> <br><br>
 
         Salon lors du quel il a été signalé : <br>
         Contenu : {{ lobby.content }}<br>
         Date : Du {{ lobby.date_start|date('d/m/Y H:i') }} au {{ lobby.date_end|date('d/m/Y H:i') }} <br>
-        Historique : <a href="http://www.jeremyfsmoreau.com/{{ path('lobby_history', {'id': lobby.id}) }}">Voir l'historique</a>
+        Historique : <a href="{{ base_url }}{{ path('lobby_history', {'id': lobby.id}) }}">Voir l'historique</a>
     </p>
 </div>
