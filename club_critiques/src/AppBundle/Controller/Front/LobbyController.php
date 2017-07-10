@@ -114,7 +114,6 @@ class LobbyController extends Controller
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
         /** Filters **/
-        $categories = $categoryRepository->findBy(array('parentCategory' => null));
         $subcategories = $categoryRepository->getSubCategories();
 
         /** Contents **/
@@ -130,13 +129,12 @@ class LobbyController extends Controller
         foreach ($results as $key => $result) {
             $lobby_ids[] = intval($result['id']);
         }
-        $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->findById($lobby_ids);
+        $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->findById($lobby_ids, array('date_start' => 'ASC'));
 
         return $this->render('lobby/lobbies.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'lobby_list',
             'contents' => $contents,
-            'categories' => $categories,
             'lobby_list' => $lobby_list,
             'selected_category_id' => 0,
             'selected_sub_category_id' => 0,

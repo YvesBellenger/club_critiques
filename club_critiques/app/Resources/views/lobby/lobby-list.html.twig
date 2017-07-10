@@ -5,7 +5,7 @@
             <select id="sub-category" class="form-control inline" onchange="onChangeCategory(this);">
                 <option value="0">Catégorie</option>
                 {% for subcategory in subcategories %}
-                    <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>
+                    <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory }}</option>
                 {% endfor %}
             </select>
 
