@@ -117,6 +117,9 @@ class LobbyController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($participation);
                 $em->flush();
+                if ($request->query->has('from_invite')) {
+                    $this->redirectToRoute('lobby', array('id' => $lobby->id, 'from_invite' => 1));
+                }
             } else {
                 $this->redirectToRoute('contenu', array('id' => $lobby->content->id, 'frmlby' => 1, 'lby' => $lobby->id));
             }
