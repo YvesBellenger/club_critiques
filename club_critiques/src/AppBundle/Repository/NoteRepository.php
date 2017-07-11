@@ -22,7 +22,7 @@ class NoteRepository extends \Doctrine\ORM\EntityRepository
         }
         $in .= ')';
         $qb = $this->createQueryBuilder('n');
-        $qb->where('n.content != :content')
+        $qb->where('n.content = :content')
             ->andWhere('n.user IN '.$in)
             ->setParameter('content', $lobby->content);
 
