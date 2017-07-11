@@ -196,7 +196,9 @@ class LobbyController extends Controller
         } else {
             $participations = $this->getDoctrine()->getRepository('AppBundle:Participation')->findByUser($user);
             foreach ($participations as $participation) {
-                $lobby_list[] = $participation->lobby;
+                if ($participation->lobby->date_end->format('Y-m-d H:i') < date('Y-m-d H:i')) {
+                    $lobby_list[] = $participation->lobby;
+                }
             }
         }
         return $this->render('lobby/lobbies.html.twig', [
