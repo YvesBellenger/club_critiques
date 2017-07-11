@@ -69,7 +69,7 @@ function reportUser(elt) {
     if (confirm('Êtes vous sur de vouloir signaler cet utilisateur ? Tout abus pourra être sanctionné.')) {
         $.ajax({
             type: "POST",
-            url: '/app_dev.php/user/report',
+            url: '/app_dev.php/salon/user/report',
             data: {'participant_id': $(elt).data('participant-id'), 'lobby_id': $(elt).data('lobby-id')},
             async: false
         })
