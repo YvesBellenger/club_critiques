@@ -51,7 +51,7 @@ $(document).ready(function(){
                 $("#"+selectedNote).addClass("note-actuelle");
                 var params = '';
                 if ($('#lobby_id').val() > 0) {
-                    if ($('#from_invite') == true) {
+                    if ($('#from_invite') > 0) {
                         params = '?from_invite=true';
                     }
                     window.location = "/app_dev.php/salon/" + $('#lobby_id').val() + "/register"+params
