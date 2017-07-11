@@ -158,11 +158,13 @@ class LobbyController extends Controller
             $content_list[] = $lobby->content;
         }
         $user_notes = $doctrine->getRepository('AppBundle:Note')->findByContent($content_list);
+        $user_participations = $doctrine->getRepository('AppBundle:Participation')->findByLobby($lobby_list);
 
         return $this->render('lobby/lobbies.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'controller' => 'lobby_list',
             'lobby_list' => $lobby_list,
+            'user_participations' => $user_participations,
             'selected_author_id' => 0,
             'selected_sub_category_id' => 0,
             'user' => $this->getUser(),

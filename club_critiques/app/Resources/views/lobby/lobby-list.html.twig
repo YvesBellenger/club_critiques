@@ -36,9 +36,15 @@
                 {% if lobby_list|length > 0 %}
                     {% for lobby in lobby_list %}
                         {% set note = 'false' %}
+                        {% set participation = 'false' %}
                         {% for user_note in user_notes %}
                             {% if user_note.content == lobby.content %}
                                 {% set note = 'true' %}
+                            {% endif %}
+                        {% endfor %}
+                        {% for user_participation in user_participations %}
+                            {% if user_participation.lobby.id == lobby.id %}
+                                {% set participation = 'true' %}
                             {% endif %}
                         {% endfor %}
                         <tr>
@@ -52,7 +58,7 @@
                                                 <a href="{{ path('contenu', {'id': lobby.content.id, 'frmlby': 1, 'lby': lobby.id}) }}">Noter l'oeuvre</a>
                                             {% elseif lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i') and note == 'true' %}
                                                 <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
-                                            {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and lobby.checkParticipant(user) %}
+                                            {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and participation == 'true' %}
                                                 <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
                                             {% else %}
                                                 <span>Inscription closes</span>
