@@ -130,7 +130,6 @@ class UserController extends Controller
             ->setTo('humbertsimon@gmail.com')
             ->setBody(
                 $this->renderView(
-                // app/Resources/views/Emails/registration.html.twig
                     'mails/report.html.twig',
                     array('participant' => $participant,
                           'user' => $user,
