@@ -116,7 +116,7 @@ function inviteUser(elt) {
     if (confirm('Un email sera envoyé à cet utilisateur afin qu\'il puisse rejoindre vote salon. Voulez vous continuer ?')) {
         $.ajax({
             type: "POST",
-            url: '/app_dev.php/salon/invitation',
+            url: '/app_dev.php/salon/user/invitation',
             data: {'contact_id': $(elt).data('contact-id'), 'lobby_id': $(elt).data('lobby-id'), 'room_id': $(elt).data('room-id')},
             async: true
         })

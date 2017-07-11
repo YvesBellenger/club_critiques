@@ -143,4 +143,34 @@ class UserController extends Controller
         $response = array('success' => true);
         return new JsonResponse(json_encode($response));
     }
+
+    /**
+     * @Route("/salon/user/invitation", name="lobby_invite")
+     */
+
+    public
+    function lobbyInviteAction(Request $request)
+    {
+        $user = $this->getUser();
+        $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('lobby_id'));
+        $contact = $this->getDoctrine()->getRepository('AppBundle:User')->find($request->get('contact_id'));
+
+        $mailer = $this->container->get('mailer');
+        $message = (new \Swift_Message('[Invitation] Un utilisateur vous a invité à un salon'))
+            ->setFrom('noreply@club-critiques.com')
+            ->setTo($contact->email)
+            ->setBody(
+                $this->renderView(
+                    'mails/invite.html.twig',
+                    array('lobby' => $lobby,
+                        'user' => $user,
+                        'contact' => $contact)
+                ),
+                'text/html'
+            );
+        $mailer->send($message);
+
+        $response = array('success' => true);
+        return new JsonResponse(json_encode($response));
+    }
 }
