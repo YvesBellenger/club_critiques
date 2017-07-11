@@ -128,8 +128,7 @@ class LobbyController extends Controller
      * @Route("/salons", name="lobby_list")
      */
 
-    public
-    function lobbyListAction(Request $request)
+    public function lobbyListAction(Request $request)
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
@@ -293,6 +292,23 @@ class LobbyController extends Controller
             'title' => $title,
             'controller' => $history ? 'lobby_list_history' : 'lobby_list'
         ]);
+    }
+
+    /**
+     * @Route("/salon/invite/callback", name="invite_callback")
+     */
+
+    public function inviteCallbackAction(Request $request)
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash("warning", "Veuillez vous connecter puis réessayer.");
+            return $this->redirectToRoute('fos_user_security_login');
+        } else if ($request->query->has('id') && $request->query->has('from_lobby')) {
+            $this->redirectToRoute('lobby', array('id'=> $request->get('id'), 'from_lobby' => $request->get('id')));
+        } else {
+            $this->redirectToRoute('lobby_list');
+        }
     }
 
 }
