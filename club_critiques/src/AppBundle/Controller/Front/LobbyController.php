@@ -64,7 +64,7 @@ class LobbyController extends Controller
                         $repartition[$i][] = $notes[$j];
                         unset($notes[$j]);
                     } else {
-                        $repartition[$i][] = $notes[count($notes) - $j];
+                        $repartition[$i][] = $notes[count($notes) - 1];
                         unset($notes[count($notes) - $j]);
                     }
                     $notes = array_values($notes);
