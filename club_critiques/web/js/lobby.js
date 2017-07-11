@@ -1,4 +1,4 @@
-var socket = io.connect('http://chat.jeremyfsmoreau.com:3000');
+var socket = io.connect('http://chat.club-critiques.dev:3000');
 
 var username = $('#username').val();
 var lastName = $('#lastName').val();
@@ -110,4 +110,21 @@ function sendFiltersRequest()
     .fail(function(jqXHR, textStatus, errorThrown){
         alert('Error : ' + errorThrown);
     });
+}
+
+function inviteUser(elt) {
+    if (confirm('Un email sera envoyé à cet utilisateur afin qu\'il puisse rejoindre vote salon. Voulez vous continuer ?')) {
+        $.ajax({
+            type: "POST",
+            url: '/app_dev.php/user/invite',
+            data: {'contact_id': $(elt).data('contact-id'), 'lobby_id': $(elt).data('lobby-id'), 'room_id': $(elt).data('room-id')},
+            async: true
+        })
+        .done(function(response){
+            alert('Un email a bien été envoyé.');
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            alert('Erreur lors de l\'envoi du message');
+        });
+    }
 }

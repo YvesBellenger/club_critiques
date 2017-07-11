@@ -15,7 +15,7 @@
         <div id="contact-list">
             <ul>
                 {% for contact in user.contacts %}
-                    <li>{{ contact.firstName }} {{ contact.lastName|first|upper }}. <a href="">Inviter</a></li>
+                    <li>{{ contact.firstName }} {{ contact.lastName|first|upper }}. <a href="javascript:void(0)" data-lobby-id="{{ lobby.id }}" data-contact-id="{{ contact.id }}" data-room-id="{{ user_room }}" onclick="inviteUser(this)">Inviter</a></li>
                 {% endfor %}
             </ul>
 

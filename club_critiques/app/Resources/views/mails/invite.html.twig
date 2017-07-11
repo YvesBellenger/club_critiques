@@ -1,0 +1,10 @@
+<div class="mail-container">
+    <p> Bonjour {{ contact.firstName|capitalize }} {{ user.lastName|upper }}, <br><br>
+        {{ user.firstName }} {{ user.lastName }} ({{ user.username }}) vous a invité à rejoindre un salon : <br> <br>
+
+        Informations du salon : <br>
+        Contenu : {{ lobby.content }}<br>
+        Date : Du {{ lobby.date_start|date('d/m/Y H:i') }} au {{ lobby.date_end|date('d/m/Y H:i') }} <br>
+        Si vous voulez y participer, il vous suffit de cliquer sur ce <a href="{{ base_url }}{{ path('lobby', {'id': lobby.id, 'from_invite': 'true'}) }}">lien</a>. Si vous n'avez pas encore noté l'ouvre, vous serez redirigé vers la page de l'oeuvre.
+    </p>
+</div>

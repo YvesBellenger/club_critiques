@@ -33,16 +33,22 @@ class LobbyController extends Controller
 
         $participation = $this->getDoctrine()->getRepository('AppBundle:Participation')->findOneBy(array('user' => $user, 'lobby' => $lobby));
 
-        if (!$participation) {
+        if (!$participation && !$request->query->has('from_invite')) {
             $this->addFlash("danger", "Vous n'êtes pas inscrit à ce salon");
             return $this->redirectToRoute('lobby_list');
-        } else if (date('Y-m-d H:i', strtotime('+10 minutes', strtotime($lobby->date_start->format('Y-m-d H:i')))) < date('Y-m-d H:i') && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->addFlash("danger", "Ce salon a commencé depuis plus de 10 minutes. Vous ne pouvez plus le rejoindre.");
-            return $this->redirectToRoute('lobby_list');
-        } else if (date('Y-m-d H:i') > $lobby->date_end->format('Y-m-d H:i')) {
-            $this->addFlash("danger", "Ce salon est terminé. Si vous y avez participé, vous pouvez consulter l'historique.");
-            return $this->redirectToRoute('lobby_list_history');
-        } else {
+        } else if (!$participation && $request->query->has('from_invite')) {
+            return $this->redirectToRoute('lobby_register', array('id' => $lobby, 'from_invite' => true));
+        } else if ($participation) {
+            if (date('Y-m-d H:i') > $lobby->date_end->format('Y-m-d H:i')) {
+                $this->addFlash("danger", "Ce salon est terminé. Si vous y avez participé, vous pouvez consulter l'historique.");
+                return $this->redirectToRoute('lobby_list_history');
+            }
+            if (!$request->query->has('from_invite')) {
+                if (date('Y-m-d H:i', strtotime('+10 minutes', strtotime($lobby->date_start->format('Y-m-d H:i')))) < date('Y-m-d H:i') && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                    $this->addFlash("danger", "Ce salon a commencé depuis plus de 10 minutes. Vous ne pouvez plus le rejoindre.");
+                    return $this->redirectToRoute('lobby_list');
+                }
+            }
             // Répartition des participants dans les salles en fonction de leurs notes pour avoir une salle ayant des avis différents
             $user_ids = array();
             foreach ($participations as $_participation) {
@@ -50,7 +56,7 @@ class LobbyController extends Controller
             }
             $notes = $this->getDoctrine()->getRepository('AppBundle:Note')->getNotesForLobby($lobby, $user_ids);
             $repartition = array();
-            $nb_user_per_room = count($notes)/$nb_rooms;
+            $nb_user_per_room = count($notes) / $nb_rooms;
             for ($i = 0; $i < $nb_rooms; $i++) {
                 for ($j = 1; $j <= $nb_user_per_room; $j++) {
                     if ($j % 2 == 0) {
@@ -71,7 +77,7 @@ class LobbyController extends Controller
             $em->persist($participation);
             $em->flush();
             return $this->render('lobby/lobby.html.twig', [
-                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
                 'controller' => 'salon',
                 'user_room' => $user_room,
                 'lobby' => $lobby,
@@ -84,7 +90,8 @@ class LobbyController extends Controller
      * @Route("/salon/{id}/register", name="lobby_register")
      */
 
-    public function lobbyRegisterAction(Request $request)
+    public
+    function lobbyRegisterAction(Request $request)
     {
         $user = $this->getUser();
         $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
@@ -92,23 +99,60 @@ class LobbyController extends Controller
         if ($participation) {
             $this->addFlash("warning", "Vous êtes déjà inscrit à ce salon");
         } else {
-            $this->addFlash("success", "Vous êtes maintenant inscrit à ce salon");
-            $participation = new Participation();
-            $participation->setUser($user);
-            $participation->setLobby($lobby);
-            $participation->setStatus(1);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($participation);
-            $em->flush();
+            $note = $this->getDoctrine()->getRepository('AppBundle:Note')->findOneBy(array('content' => $lobby->content, 'user' => $this->getUser()));
+            if ($note) {
+                $this->addFlash("success", "Vous êtes maintenant inscrit à ce salon");
+                $participation = new Participation();
+                $participation->setUser($user);
+                $participation->setLobby($lobby);
+                $participation->setStatus(1);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($participation);
+                $em->flush();
+            } else {
+                $this->redirectToRoute('contenu', array('id' => $lobby->content->id, 'frmlby' => 1, 'lby' => $lobby->id));
+            }
+
         }
         return $this->redirectToRoute('lobby_list');
+    }
+
+    /**
+     * @Route("/salon/invitation", name="lobby_invite")
+     */
+
+    public
+    function lobbyInviteAction(Request $request)
+    {
+        $user = $this->getUser();
+        $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('lobby_id'));
+        $contact = $this->getDoctrine()->getRepository('AppBundle:User')->find($request->get('contact_id'));
+
+        $mailer = $this->container->get('mailer');
+        $message = (new \Swift_Message('[Invitation] Un utilisateur vous a invité à un salon'))
+            ->setFrom('noreply@club-critiques.com')
+            ->setTo($contact->email)
+            ->setBody(
+                $this->renderView(
+                    'mails/invite.html.twig',
+                    array('lobby' => $lobby,
+                        'user' => $user,
+                        'contact' => $contact)
+                ),
+                'text/html'
+            );
+        $mailer->send($message);
+
+        $response = array('success' => true);
+        return new JsonResponse(json_encode($response));
     }
 
     /**
      * @Route("/salons", name="lobby_list")
      */
 
-    public function lobbyListAction(Request $request)
+    public
+    function lobbyListAction(Request $request)
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
@@ -136,7 +180,7 @@ class LobbyController extends Controller
         $user_notes = $doctrine->getRepository('AppBundle:Note')->findByContent($content_list);
 
         return $this->render('lobby/lobbies.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'controller' => 'lobby_list',
             'lobby_list' => $lobby_list,
             'selected_author_id' => 0,
@@ -152,7 +196,8 @@ class LobbyController extends Controller
      * @Route("/salons/history", name="lobby_list_history")
      */
 
-    public function lobbyListHistoryAction(Request $request)
+    public
+    function lobbyListHistoryAction(Request $request)
     {
         $user = $this->getUser();
 
@@ -173,7 +218,7 @@ class LobbyController extends Controller
             }
         }
         return $this->render('lobby/lobbies.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'controller' => 'lobby_list_history',
             'categories' => $categories,
             'lobby_list' => $lobby_list,
@@ -189,7 +234,8 @@ class LobbyController extends Controller
      * @Route("/salon/{id}/history", name="lobby_history")
      */
 
-    public function lobbyHistoryAction(Request $request)
+    public
+    function lobbyHistoryAction(Request $request)
     {
         $user = $this->getUser();
         $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
@@ -224,7 +270,7 @@ class LobbyController extends Controller
                 }
             }
             return $this->render('lobby/lobby-history.html.twig', [
-                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
                 'controller' => 'lobby_history',
                 'lobby' => $lobby,
                 'participations' => $participations,
@@ -237,18 +283,19 @@ class LobbyController extends Controller
     /**
      * @Route("/salons/filters", name="lobbies_on_filter_change")
      */
-    public function ajaxOnFilterChange (Request $request)
+    public
+    function ajaxOnFilterChange(Request $request)
     {
         $doctrine = $this->getDoctrine();
         $category = $author = null;
         $title = $request->get('title');
         $history = false;
         /*** Filters ***/
-        $subcategories =  $doctrine->getRepository('AppBundle:Category')->getSubCategories();
+        $subcategories = $doctrine->getRepository('AppBundle:Category')->getSubCategories();
         $authors = $doctrine->getRepository('AppBundle:Author')->findBy(array('status' => 1), array('name' => 'ASC'));
 
         if ($request->get('category_id') > 0) {
-            $category =  $doctrine->getRepository('AppBundle:Category')->find($request->get('category_id'));
+            $category = $doctrine->getRepository('AppBundle:Category')->find($request->get('category_id'));
         }
         if ($request->get('history') == 1) {
             $history = true;
@@ -261,7 +308,7 @@ class LobbyController extends Controller
         dump($lobby_list);
 
         return $this->render('lobby/lobby-list.html.twig', [
-            'lobby_list' => $lobby_list ? : null,
+            'lobby_list' => $lobby_list ?: null,
             'subcategories' => $subcategories,
             'authors' => $authors,
             'selected_sub_category_id' => $category ? $category->id : 0,
