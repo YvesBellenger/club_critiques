@@ -71,11 +71,12 @@ class LobbyController extends Controller
             }
 
             $user_note = $this->getDoctrine()->getRepository('AppBundle:Note')->findBy(array('content' => $lobby->content, 'user' => $user));
-            foreach ($repartition as $room) {
-                if (array_search($user_note, $room)) {
-                    $user_room = array_search($user_note, $room);
-                } else {
-                    $user_room = 0;
+            $user_room = 0;
+            foreach ($repartition as $k => $room) {
+                foreach ($room as $participant) {
+                    if ($participant->id == $user_note->user->id) {
+                        $user_room = $k;
+                    }
                 }
             }
             $participation->setRoom($user_room);
