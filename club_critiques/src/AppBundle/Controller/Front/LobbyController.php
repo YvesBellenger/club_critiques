@@ -5,12 +5,13 @@ namespace AppBundle\Controller\Front;
 use AppBundle\Entity\Participation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class LobbyController extends Controller
 {
     /**
-     * @Route("/salon/{id}", name="lobby")
+     * @Route("/salon/{id}/chat", name="lobby")
      */
 
     public function lobbyAction(Request $request)
@@ -37,7 +38,7 @@ class LobbyController extends Controller
             $this->addFlash("danger", "Vous n'êtes pas inscrit à ce salon");
             return $this->redirectToRoute('lobby_list');
         } else if (!$participation && $request->query->has('from_invite')) {
-            return $this->redirectToRoute('lobby_register', array('id' => $lobby, 'from_invite' => true));
+            return $this->redirectToRoute('lobby_register', array('id' => $lobby->id, 'from_invite' => true));
         } else if ($participation) {
             if (date('Y-m-d H:i') > $lobby->date_end->format('Y-m-d H:i')) {
                 $this->addFlash("danger", "Ce salon est terminé. Si vous y avez participé, vous pouvez consulter l'historique.");
@@ -305,10 +306,11 @@ class LobbyController extends Controller
             $this->addFlash("warning", "Veuillez vous connecter puis réessayer.");
             return $this->redirectToRoute('fos_user_security_login');
         } else if ($request->query->has('id') && $request->query->has('from_lobby')) {
-            $this->redirectToRoute('lobby', array('id'=> $request->get('id'), 'from_lobby' => $request->get('id')));
+            return $this->redirectToRoute('lobby', array('id'=> $request->get('id'), 'from_lobby' => $request->get('id')));
         } else {
-            $this->redirectToRoute('lobby_list');
+            return $this->redirectToRoute('lobby_list');
         }
+        return new JsonResponse();
     }
 
 }
