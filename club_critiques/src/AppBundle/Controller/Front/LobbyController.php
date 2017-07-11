@@ -58,7 +58,7 @@ class LobbyController extends Controller
             $repartition = array();
             $nb_user_per_room = count($notes) / $nb_rooms;
             for ($i = 0; $i < $nb_rooms; $i++) {
-                for ($j = 1; $j <= $nb_user_per_room; $j++) {
+                for ($j = 0; $j < $nb_user_per_room; $j++) {
                     if ($j % 2 == 0) {
                         $repartition[$i] = $notes[$j];
                         unset($notes[$j]);
@@ -66,8 +66,8 @@ class LobbyController extends Controller
                         $repartition[$i] = $notes[count($notes) - $j];
                         unset($notes[count($notes) - $j]);
                     }
+                    $notes = array_values($notes);
                 }
-                array_values($notes);
             }
 
             $user_note = $this->getDoctrine()->getRepository('AppBundle:Note')->findBy(array('content' => $lobby->content, 'user' => $user));
