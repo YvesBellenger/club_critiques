@@ -12,6 +12,14 @@
 
 
     <div class="wrapper container-fluid" id="salon">
+        <div id="contact-list">
+            <ul>
+                {% for contact in user.contacts %}
+                    <li>{{ contact.firstName }} {{ contact.lastName|first|upper }}<a></a></li>
+                {% endfor %}
+            </ul>
+
+        </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <div class="concept">
