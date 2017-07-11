@@ -76,7 +76,7 @@ class LobbyController extends Controller
             foreach ($repartition as $k => $room) {
                 foreach ($room as $participant) {
                     if ($participant->id == $user_note[0]->user->id) {
-                        $user_room = $k+1;
+                        $user_room = $k + 1;
                     }
                 }
             }
@@ -309,7 +309,7 @@ class LobbyController extends Controller
             $this->addFlash("warning", "Veuillez vous connecter puis réessayer.");
             return $this->redirectToRoute('fos_user_security_login');
         } else if ($request->query->has('id') && $request->query->has('from_invite')) {
-            return $this->redirectToRoute('lobby', array('id'=> $request->get('id'), 'from_invite' => $request->get('id')));
+            return $this->redirectToRoute('lobby', array('id' => $request->get('id'), 'from_invite' => $request->get('id')));
         } else {
             return $this->redirectToRoute('lobby_list');
         }

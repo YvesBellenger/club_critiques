@@ -49,8 +49,12 @@ $(document).ready(function(){
                     $("#"+i).addClass("note-active");
                 }
                 $("#"+selectedNote).addClass("note-actuelle");
+                var params = '';
                 if ($('#lobby_id').val() > 0) {
-                    window.location = "/app_dev.php/salon/" + $('#lobby_id').val() + "/register";
+                    if ($('#from_invite') == true) {
+                        params = '?from_invite=true';
+                    }
+                    window.location = "/app_dev.php/salon/" + $('#lobby_id').val() + "/register"+params
                 }
             })
             .fail(function(jqXHR, textStatus, errorThrown){
