@@ -61,8 +61,8 @@ class LobbyController extends Controller
             for ($i = 0; $i < $nb_rooms; $i++) {
                 for ($j = 0; $j < $nb_user_per_room; $j++) {
                     if ($j % 2 == 0) {
-                        $repartition[$i][] = $notes[$j];
-                        unset($notes[$j]);
+                        $repartition[$i][] = $notes[0];
+                        unset($notes[0]);
                     } else {
                         $repartition[$i][] = $notes[count($notes) - 1];
                         unset($notes[count($notes) - 1]);
