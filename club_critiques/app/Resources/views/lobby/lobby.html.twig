@@ -15,7 +15,7 @@
         <div id="contact-list">
             <ul>
                 {% for contact in user.contacts %}
-                    <li>{{ contact.firstName }} {{ contact.lastName|first|upper }}<a></a></li>
+                    <li>{{ contact.firstName }} {{ contact.lastName|first|upper }}. <a href="">Inviter</a></li>
                 {% endfor %}
             </ul>
 
