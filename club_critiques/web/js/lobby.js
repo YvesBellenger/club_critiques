@@ -100,8 +100,8 @@ function sendFiltersRequest()
 {
     $.ajax({
         type: "POST",
-        url: 'salons/filters',
-        data: {'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val()},
+        url: '/app_dev.php/salons/filters',
+        data: {'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'history': $('#history').val()},
         async: true
     })
     .done(function(response){

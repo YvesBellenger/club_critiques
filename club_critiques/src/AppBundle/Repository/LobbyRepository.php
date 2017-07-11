@@ -14,16 +14,21 @@ class LobbyRepository extends \Doctrine\ORM\EntityRepository
     public function getLobbyHistory() {
         $qb = $this->createQueryBuilder('l');
         $qb->where('l.date_end < :date')
+            ->andWhere('l.status = 0')
             ->setParameter('date', date('Y-m-d H:i:s'));
 
         return $qb->getQuery()
             ->getResult();
     }
 
-    public function getLobbiesByFilters($category, $author, $title) {
+    public function getLobbiesByFilters($category, $author, $title, $history = false) {
         $qb = $this->createQueryBuilder('l');
-        $qb->leftJoin(Content::class, 'c', 'WITH', 'c = l.content')
-            ->where('l.date_start > :date');
+        $qb->leftJoin(Content::class, 'c', 'WITH', 'c = l.content');
+        if ($history == false) {
+            $qb->where('l.date_start > :date');
+        } else {
+            $qb->where('l.date_end < :date');
+        }
         if ($category) {
             $qb->andWhere('c.category = :category');
             $qb->setParameter('category', $category);
@@ -33,10 +38,21 @@ class LobbyRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('c.author = :author')
                 ->setParameter('author', $author);
         }
-        $qb->andWhere('c.title LIKE :title')
-            ->andWhere('l.status = 1')
-            ->setParameter('date', date('Y-m-d H:i:s'))
-            ->setParameter('title', '%'.$title.'%');
+        if ($history == false) {
+            $qb->orderBy('l.date_start', 'ASC');
+        } else {
+            $qb->orderBy('l.date_end', 'ASC');
+        }
+        $qb->andWhere('c.title LIKE :title');
+
+        if ($history == false) {
+            $qb->andWhere('l.status = 1');
+        } else {
+            $qb->andWhere('l.status = 0');
+        }
+        $qb->setParameter('date', date('Y-m-d H:i:s'))
+        ->setParameter('title', '%'.$title.'%');
+
         return $qb->getQuery()
             ->getResult();
     }

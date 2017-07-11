@@ -17,6 +17,7 @@
             </select>
             <label for="title">Titre</label>
             <input type="text" name="title" id="title" value="{% if title is defined %}{{ title }}{% endif %}" onkeyup="onFilterChange(this)">
+            <input type="hidden" name="history" id="history" value="{% if controller == 'lobby_list_history' %}1{% else %}0{% endif %}" />
         </div>
     </div>
 
