@@ -308,12 +308,11 @@ class LobbyController extends Controller
         if (!$user) {
             $this->addFlash("warning", "Veuillez vous connecter puis réessayer.");
             return $this->redirectToRoute('fos_user_security_login');
-        } else if ($request->query->has('id') && $request->query->has('from_lobby')) {
-            return $this->redirectToRoute('lobby', array('id'=> $request->get('id'), 'from_lobby' => $request->get('id')));
+        } else if ($request->query->has('id') && $request->query->has('from_invite')) {
+            return $this->redirectToRoute('lobby', array('id'=> $request->get('id'), 'from_invite' => $request->get('id')));
         } else {
             return $this->redirectToRoute('lobby_list');
         }
-        return new JsonResponse();
     }
 
 }
