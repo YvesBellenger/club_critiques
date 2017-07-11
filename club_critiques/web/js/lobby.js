@@ -1,4 +1,4 @@
-var socket = io.connect('http://chat.club-critiques.dev:3000');
+var socket = io.connect('http://chat.jeremyfsmoreau.com:3000');
 
 var username = $('#username').val();
 var lastName = $('#lastName').val();
@@ -69,7 +69,7 @@ function reportUser(elt) {
     if (confirm('Êtes vous sur de vouloir signaler cet utilisateur ? Tout abus pourra être sanctionné.')) {
         $.ajax({
             type: "POST",
-            url: 'user/report',
+            url: '/user/report',
             data: {'participant_id': $(elt).data('participant-id'), 'lobby_id': $(elt).data('lobby-id')},
             async: false
         })
