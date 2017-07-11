@@ -158,7 +158,7 @@ class UserController extends Controller
         $mailer = $this->container->get('mailer');
         $message = (new \Swift_Message('[Invitation] Un utilisateur vous a invité à un salon'))
             ->setFrom('noreply@club-critiques.com')
-            ->setTo($contact->email)
+            ->setTo($contact->getEmail())
             ->setBody(
                 $this->renderView(
                     'mails/invite.html.twig',
