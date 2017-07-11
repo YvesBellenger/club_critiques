@@ -16,19 +16,22 @@
                     </div>
                 </div>
                 <div class="col-md-6 ">
-                    <div id="note-oeuvre" data-content-id="{{ content.id }}">
-                        {% if note_user[0] is defined %}
-                            <div id="1" class="{% if note_user[0].note >= 1 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 1 %}note-actuelle{% endif %}"></div>
-                            <div id="2" class="{% if note_user[0].note >= 2 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 2 %}note-actuelle{% endif %}"></div>
-                            <div id="3" class="{% if note_user[0].note >= 3 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 3 %}note-actuelle{% endif %}"></div>
-                            <div id="4" class="{% if note_user[0].note >= 4 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 4 %}note-actuelle{% endif %}"></div>
-                        {% else %}
-                            <div id="1" class="note-inactive"></div>
-                            <div id="2" class="note-inactive"></div>
-                            <div id="3" class="note-inactive"></div>
-                            <div id="4" class="note-inactive"></div>
-                        {% endif %}
-                    </div>
+                    {% if app.user %}
+                        <div id="note-oeuvre" data-content-id="{{ content.id }}">
+                            <input type="hidden" name="lobby_id" id="lobby_id" value="{{ lobby_id }}" />
+                            {% if note_user[0] is defined %}
+                                <div id="1" class="{% if note_user[0].note >= 1 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 1 %}note-actuelle{% endif %}"></div>
+                                <div id="2" class="{% if note_user[0].note >= 2 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 2 %}note-actuelle{% endif %}"></div>
+                                <div id="3" class="{% if note_user[0].note >= 3 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 3 %}note-actuelle{% endif %}"></div>
+                                <div id="4" class="{% if note_user[0].note >= 4 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 4 %}note-actuelle{% endif %}"></div>
+                            {% else %}
+                                <div id="1" class="note-inactive"></div>
+                                <div id="2" class="note-inactive"></div>
+                                <div id="3" class="note-inactive"></div>
+                                <div id="4" class="note-inactive"></div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                     <div class="description-oeuvre">
                         <h1>{{ content.title }}</h1>
                         <a href="#"><h2>{{ content.author.name }}</h2></a>

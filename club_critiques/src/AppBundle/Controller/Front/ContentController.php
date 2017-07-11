@@ -15,7 +15,7 @@ class ContentController extends Controller
     /**
      * @Route("/contenus", name="contenus")
      */
-    public function contenusActions (Request $request)
+    public function contenusActions(Request $request)
     {
         $modeAdd = false;
         if ($request->query->has('modeAdd')) {
@@ -33,7 +33,7 @@ class ContentController extends Controller
         $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1), array('title' => 'ASC'), 8);
 
         return $this->render('contents/contenus.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'controller' => 'contenus',
             'contents' => $contents,
             'categories' => $categories,
@@ -47,7 +47,7 @@ class ContentController extends Controller
     /**
      * @Route("/contenus/filters", name="contents_on_filter_change")
      */
-    public function ajaxOnFilterChange (Request $request)
+    public function ajaxOnFilterChange(Request $request)
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
@@ -68,7 +68,7 @@ class ContentController extends Controller
             $sub_categories = $categoryRepository->getSubCategories();
         }
         return $this->render('contents/content-list.html.twig', [
-            'contents' => $contents ? : null,
+            'contents' => $contents ?: null,
             'subcategories' => $sub_categories,
             'categories' => $categories,
             'selected_category_id' => $category_id,
@@ -79,19 +79,20 @@ class ContentController extends Controller
     /**
      * @Route("/contenus/loadMore", name="contents_load_more")
      */
-    public function loadMoreAction (Request $request) {
+    public function loadMoreAction(Request $request)
+    {
         $limit = 8;
         $offset = $request->get('offset');
         $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->findBy(array('status' => 1, array('title' => 'ASC'), $limit, $offset));
         return $this->render('contents/load-more.html.twig', [
-            'contents' => $contents ? : null,
+            'contents' => $contents ?: null,
         ]);
     }
 
     /**
      * @Route("/contenu/{id}", name="contenu")
      */
-    public function contenuActions (Request $request)
+    public function contenuActions(Request $request)
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
@@ -99,24 +100,31 @@ class ContentController extends Controller
         $other_contents = $doctrine->getRepository('AppBundle:Content')->getSuggestions($content);
         $user = $this->getUser();
         $note_user = $doctrine->getRepository('AppBundle:Note')->findBy(array(
-            'content'   => $content,
-            'user'      => $user,
+            'content' => $content,
+            'user' => $user,
         ));
         shuffle($other_contents);
+        $from_lobby = false;
+        if ($request->query->has('frmlby') && $request->query->has('lby')) {
+            $from_lobby = true;
+        }
         return $this->render('contents/content.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+            'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'controller' => 'oeuvre',
-            'user'       => $user,
+            'user' => $user,
             'content' => $content,
+            'from_lobby' => $from_lobby,
+            'lobby_id' => $request->query->has('lby') ? $request->get('lby') : 0,
             'other_contents' => $other_contents,
-            'note_user'     => $note_user
+            'note_user' => $note_user
         ]);
     }
 
     /**
      * @Route("/content/add", name="user_add_content")
      */
-    public function userAddContentAction (Request $request) {
+    public function userAddContentAction(Request $request)
+    {
         $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('fos_user_security_login');
@@ -138,7 +146,8 @@ class ContentController extends Controller
     /**
      * @Route("/content/remove", name="user_remove_content")
      */
-    public function userRemoveContentAction (Request $request) {
+    public function userRemoveContentAction(Request $request)
+    {
         $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('fos_user_security_login');
@@ -160,7 +169,8 @@ class ContentController extends Controller
     /**
      * @Route("/contenu/{id}/add", name="contenu_add_content")
      */
-    public function contenuAddContentAction (Request $request) {
+    public function contenuAddContentAction(Request $request)
+    {
         $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('fos_user_security_login');
@@ -182,7 +192,8 @@ class ContentController extends Controller
     /**
      * @Route("/contenu/{id}/remove", name="contenu_remove_content")
      */
-    public function contenuRemoveContentAction (Request $request) {
+    public function contenuRemoveContentAction(Request $request)
+    {
         $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('fos_user_security_login');
@@ -207,40 +218,29 @@ class ContentController extends Controller
     public function saveNoteAction(Request $request)
     {
         $user = $this->getUser();
-        if (!$user)
-        {
-            return $this->redirectToRoute('fos_user_security_login');
-        }
-        else
-        {
-            $doctrine = $this->getDoctrine();
-            $content = $doctrine->getRepository('AppBundle:Content')->find($request->get("content-id"));
-            $note = $request->get("note");
-            $note_user = $doctrine->getRepository('AppBundle:Note')->findBy(array(
-                'content' => $content,
-                'user' => $user,
-            ));
+        $doctrine = $this->getDoctrine();
+        $content = $doctrine->getRepository('AppBundle:Content')->find($request->get("content-id"));
+        $note = $request->get("note");
+        $note_user = $doctrine->getRepository('AppBundle:Note')->findBy(array(
+            'content' => $content,
+            'user' => $user,
+        ));
 
-            if(!isset($note_user[0]))
-            {
-                $nouvelle_note = new Note();
-                $nouvelle_note->setNote($note);
-                $nouvelle_note->setUser($user);
-                $nouvelle_note->setContent($content);
-                $nouvelle_note->setStatus(1);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($nouvelle_note);
-                $em->flush();
-            }
-            else
-            {
-                $note_user[0]->setNote($note);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($note_user[0]);
-                $em->flush();
-            }
-
-            return new Response();
+        if (!isset($note_user[0])) {
+            $nouvelle_note = new Note();
+            $nouvelle_note->setNote($note);
+            $nouvelle_note->setUser($user);
+            $nouvelle_note->setContent($content);
+            $nouvelle_note->setStatus(1);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($nouvelle_note);
+            $em->flush();
+        } else {
+            $note_user[0]->setNote($note);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($note_user[0]);
+            $em->flush();
         }
+        return new Response();
     }
 }

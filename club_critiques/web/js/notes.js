@@ -33,10 +33,9 @@ $(document).ready(function(){
         function(){
             var selectedNote=$(this).attr('id');
             noteActuelle=selectedNote;
-
             $.ajax({
                 type: "POST",
-                url: "/club_critiques/club_critiques/web/app_dev.php/contenus/note/save",
+                url: "/app_dev.php/contenus/note/save",
                 data: {"note": noteActuelle, "content-id": contentID},
             })
             .done(function(data){
@@ -50,7 +49,9 @@ $(document).ready(function(){
                     $("#"+i).addClass("note-active");
                 }
                 $("#"+selectedNote).addClass("note-actuelle");
-
+                if ($('#lobby_id').val() > 0) {
+                    window.location = "/app_dev.php/salon/" + $('#lobby_id').val() + "/register";
+                }
             })
             .fail(function(jqXHR, textStatus, errorThrown){
                 alert('Error : ' + errorThrown);

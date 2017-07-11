@@ -117,29 +117,32 @@ class LobbyController extends Controller
         $subcategories = $categoryRepository->getSubCategories();
         $authors = $doctrine->getRepository('AppBundle:Author')->findBy(array('status' => 1), array('name' => 'ASC'));
 
-        /** Contents **/
-        $category = $categoryRepository->findOneByCode('livre');
-        $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
-
-        $em = $this->getDoctrine()->getManager();
+        $em = $doctrine->getManager();
         $connection = $em->getConnection();
         $statement = $connection->prepare("SELECT id FROM `lobby` WHERE date_start + INTERVAL 10 MINUTE > now()");
         $statement->execute();
         $results = $statement->fetchAll();
+
         $lobby_ids = array();
         foreach ($results as $key => $result) {
             $lobby_ids[] = intval($result['id']);
         }
         $lobby_list = $doctrine->getRepository('AppBundle:Lobby')->findById($lobby_ids, array('date_start' => 'ASC'));
 
+        $content_list = array();
+        foreach ($lobby_list as $lobby) {
+            $content_list[] = $lobby->content;
+        }
+        $user_notes = $doctrine->getRepository('AppBundle:Note')->findByContent($content_list);
+
         return $this->render('lobby/lobbies.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'controller' => 'lobby_list',
-            'contents' => $contents,
             'lobby_list' => $lobby_list,
             'selected_author_id' => 0,
             'selected_sub_category_id' => 0,
             'user' => $this->getUser(),
+            'user_notes' => $user_notes,
             'subcategories' => $subcategories,
             'authors' => $authors
         ]);

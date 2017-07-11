@@ -33,31 +33,43 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for lobby in lobby_list %}
-                    <tr>
-                        <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.author.name }}</td>
-                        <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
-                        <td>
-                            <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
-                                {% if controller == 'lobby_list' %}
-                                    <span>
-                                        {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i')   %}
-                                            <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
-                                        {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and lobby.checkParticipant(user) %}
-                                            <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
-                                        {% else %}
-                                            <span>Inscription closes</span>
-                                        {% endif %}
-                                    </span>
-                                {% else %}
-                                    <span>
-                                        <a href="{{ path('lobby_history', {'id': lobby.id}) }}">Voir le salon</a>
-                                    </span>
-                                {% endif %}
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
+                {% if lobby_list|length > 0 %}
+                    {% for lobby in lobby_list %}
+                        {% set note = 'false' %}
+                        {% for user_note in user_notes %}
+                            {% if user_note.content == lobby.content %}
+                                {% set note = 'true' %}
+                            {% endif %}
+                        {% endfor %}
+                        <tr>
+                            <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.author.name }}</td>
+                            <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
+                            <td>
+                                <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
+                                    {% if controller == 'lobby_list' %}
+                                        <span>
+                                            {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i') and note == 'false' %}
+                                                <a href="{{ path('contenu', {'id': lobby.content.id, 'frmlby': 1, 'lby': lobby.id}) }}">Noter l'oeuvre</a>
+                                            {% elseif lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i') and note == 'true' %}
+                                                <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
+                                            {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and lobby.checkParticipant(user) %}
+                                                <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
+                                            {% else %}
+                                                <span>Inscription closes</span>
+                                            {% endif %}
+                                        </span>
+                                    {% else %}
+                                        <span>
+                                            <a href="{{ path('lobby_history', {'id': lobby.id}) }}">Voir le salon</a>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td colspan="3" style="text-align:center;"><span>Aucun salon à afficher</span></td>
+                {% endif %}
                 </tbody>
             </table>
         </div>
