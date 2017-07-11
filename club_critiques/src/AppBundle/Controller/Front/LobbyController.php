@@ -74,7 +74,7 @@ class LobbyController extends Controller
             $user_room = 0;
             foreach ($repartition as $k => $room) {
                 foreach ($room as $participant) {
-                    if ($participant->id == $user_note->user->id) {
+                    if ($participant->id == $user_note[0]->user->id) {
                         $user_room = $k;
                     }
                 }
