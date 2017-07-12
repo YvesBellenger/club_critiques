@@ -61,12 +61,11 @@
             </div>
             <div class="row">
                 {% if user.getContentsWanted().count > 0 %}
-
                         {% for content in user.getContentsWanted() %}
                             <div class="col-md-2 mini-content echange">
-                                <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                                <a href="#"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                                 <h3>{{ content.title }}</h3>
-                                <a href="#"><h4>{{ content.author.name }}</h4></a>
+                                <a href="#"><h4>{% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h4></a>
                                 <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Supprimer</button></a>
                             </div>
                         {% endfor %}
@@ -92,9 +91,9 @@
             {% if user.getContentsToShare().count > 0 %}
                 {% for content in user.getContentsToShare() %}
                     <div class="col-md-2 mini-content echange">
-                        <a href="#"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                        <a href="#"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                         <h3>{{ content.title }}</h3>
-                        <a href="#"><h4>{{ content.author.name }}</h4></a>
+                        <a href="#"><h4>{% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h4></a>
                         <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button>Supprimer</button></a>
                     </div>
                 {% endfor %}

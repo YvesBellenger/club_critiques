@@ -61,7 +61,7 @@
                 <div class="row">
                 {% for content in user.getContentsWanted() %}
                     <div class="col-md-2 mini-content echange">
-                        <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je possède : {{ content.title }} - {{ content.author.name }}. %0D Pouvez vous me recontacter afin que l'on puisse organiser un échange ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                        <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je possède : {{ content.title }} - {{ content.author.name }}. %0D Pouvez vous me recontacter afin que l'on puisse organiser un échange ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                         <h3>{{ content.title }}</h3>
                         <a href="#"><h4>{{ content.author.name }}</h4></a>
                     </div>
@@ -79,7 +79,7 @@
                 <div class="row">
                     {% for content in user.getContentsToShare() %}
                         <div class="col-md-2 mini-content echange">
-                            <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je souhaite vous emprunter : {{ content.title }} - {{ content.author.name }}. %0D Pouvez vous me recontacter afin que l'on puisse s'organiser ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                            <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je souhaite vous emprunter : {{ content.title }} - {{ content.author.name }}. %0D Pouvez vous me recontacter afin que l'on puisse s'organiser ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                             <a href="{{ path('contenu', {'id': content.id}) }}"><h3>{{ content.title }}</h3></a>
                             <a href="#"><h4>{{ content.author.name }}</h4></a>
                         </div>
