@@ -309,7 +309,7 @@ class Content
     }
 
     public function __toString() {
-        return '' . $this->title . ' - ' . $this->author;
+        return '' . $this->title . ' - ' . $this->authors->first();
     }
 
 
