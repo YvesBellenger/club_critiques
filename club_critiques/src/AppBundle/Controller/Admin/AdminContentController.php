@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Admin;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Content;
 use Proxies\__CG__\AppBundle\Entity\Author;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -27,6 +28,8 @@ class AdminContentController extends Controller
         } else {
             $api_manager = $this->container->get('app.util.api_manager');
             $contents = $api_manager->findBooks('harry');
+//            dump($contents);
+//            die();
             return $this->render('admin/index.html.twig', [
                 'contents' => $contents
             ]);
@@ -47,6 +50,8 @@ class AdminContentController extends Controller
             $keywords = $request->get('keywords');
             $api_manager = $this->container->get('app.util.api_manager');
             $contents = $api_manager->findBooks($keywords);
+            dump($contents);
+            die();
             return $this->render('admin/content-list.html.twig', [
                 'contents' => $contents
             ]);
@@ -66,8 +71,8 @@ class AdminContentController extends Controller
         } else {
             try {
                 $em = $this->getDoctrine()->getManager();
-                $content = new Content();
 
+                $content = new Content();
                 if ($request->get('authors')) {
                     $authors = explode(',', $request->get('authors'));
                     foreach ($authors as $_author) {
@@ -82,9 +87,26 @@ class AdminContentController extends Controller
                         $content->addAuthor($author);
                     }
                 }
+                if ($request->get('category')) {
+                    $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findOneByName(trim($request->get('category')));
+                    if (!$category) {
+                        $category = new Category();
+                        $category->setStatus(1);
+                        $category->setParentCategory($this->getDoctrine()->getRepository('AppBundle:Category')->find(1));
+                        $category->setCode($request->get('category'));
+                        $category->setName($request->get('category'));
+                        $em->persist($category);
+                        $em->flush();
+                    }
+                    $content->setCategory($category);
+                }
                 if ($request->get('title')) {
                     $title = trim($request->get('title'));
                     $content->setTitle($title);
+                }
+                if ($request->get('description')) {
+                    $description = trim($request->get('description'));
+                    $content->setDescription($description);
                 }
                 if ($request->get('image')) {
                     $image = trim($request->get('image'));

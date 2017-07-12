@@ -10,7 +10,9 @@
                 <div class="book-infos" id="book-{{ key }}">
                     <h3>Titre : <span id="title-{{ key }}">{{ content.volumeInfo.title }}</span></h3>
                     <p>Auteur(s): <span id="authors-{{ key }}">{% for key,author in content.volumeInfo.authors %} {{ author }}{% if (key+1) != content.volumeInfo.authors|length %},{% endif %}{% endfor %}</span></p>
+                    <p>Categorie: <span id="category-{{ key }}">{{ content.volumeInfo.categories|first }}</span></p>
                     <p>Année de parution: <span  id="publishedDate-{{ key }}">{% if content.volumeInfo.publishedDate is defined %}{{ content.volumeInfo.publishedDate|date('Y') }}{% endif %}</span></p>
+                    <p class="hidden" id="description-{{ key }}">{% if content.volumeInfo.description is defined %}{{ content.volumeInfo.description }}{% endif %}</p>
                 </div>
                 <button data-index="{{ key }}" onclick="addContent(this)">Ajouter</button>
             </div>

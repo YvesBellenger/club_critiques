@@ -23,7 +23,12 @@ function addContent(elt) {
         $.ajax({
             type: "POST",
             url: '/app_dev.php/admin/api/content/add',
-            data: {'title': $("#title-"+index).text(), 'authors': $("#authors-"+index).text(), 'publishedDate': $("#publishedDate-"+index).text(), 'image': $("#image-"+index).attr('href')},
+            data: {'title': $("#title-"+index).text(),
+                    'authors': $("#authors-"+index).text(),
+                    'publishedDate': $("#publishedDate-"+index).text(),
+                    'image': $("#image-"+index).attr('href'),
+                    'description': $("#description-"+index).text(),
+                    'category': $("#category-"+index).text()},
             async: false
         })
             .done(function (response) {
