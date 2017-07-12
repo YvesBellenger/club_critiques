@@ -12,3 +12,6 @@ services:
       class: AppBundle\Form\ProfileFormType
       tags:
         - { name: form.type, alias: app_user_profile_edit }
+    app.util.api_manager:
+      class: AppBundle\Services\ApiManager
+      arguments: ['%api_key%', '%api_host%', '%oauth_client%', '%oauth_secret%']

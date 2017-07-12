@@ -16,6 +16,10 @@ parameters:
     mailer_host: smtp.gmail.com
     mailer_user: club.critiques.esgi@gmail.com
     mailer_password: esgi12345
+    api_key: ~
+    api_host: https://www.googleapis.com/books/v1/volumes
+    oauth_client: ~
+    oauth_secret: ~
 
     base_url: ~
 

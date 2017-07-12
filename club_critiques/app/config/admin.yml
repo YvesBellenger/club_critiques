@@ -9,6 +9,8 @@ sonata_admin:
                   - app.admin.author
                   - app.admin.category
                   - app.admin.content
+                  - route:     sonata_admin_api
+                    label:     API Google
             salons:
                 label: Salons
                 label_catalogue: admin
