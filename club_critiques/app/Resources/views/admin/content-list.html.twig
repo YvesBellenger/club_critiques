@@ -1,0 +1,19 @@
+<div class="row">
+    <div id="content-list" class="wrap-mini-contents content-list">
+        {% for key,content in contents.items %}
+            <div class="col-md-4  mini-content">
+                {% if content.volumeInfo.imageLinks is defined and content.volumeInfo.imageLinks.thumbnail is defined %}
+                    <img class="img-responsive" id="image-{{ key }}" src="{{ content.volumeInfo.imageLinks.thumbnail }}">
+                {% else %}
+                    <img class="img-responsive" id="image-{{ key }}" src="{{ asset('img/cover_placeholder.jpg') }}">
+                {% endif %}
+                <div class="book-infos" id="book-{{ key }}">
+                    <h3>Titre : <span id="title-{{ key }}">{{ content.volumeInfo.title }}</span></h3>
+                    <p>Auteur(s): <span id="authors-{{ key }}">{% for key,author in content.volumeInfo.authors %} {{ author }}{% if (key+1) != content.volumeInfo.authors|length %},{% endif %}{% endfor %}</span></p>
+                    <p>Année de parution: <span  id="publishedDate-{{ key }}">{% if content.volumeInfo.publishedDate is defined %}{{ content.volumeInfo.publishedDate|date('Y') }}{% endif %}</span></p>
+                </div>
+                <button data-index="{{ key }}" onclick="addContent(this)">Ajouter</button>
+            </div>
+        {% endfor %}
+    </div>
+</div>
