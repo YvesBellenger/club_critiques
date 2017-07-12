@@ -52,7 +52,7 @@
                             {% endfor %}
                         {% endif %}
                         <tr>
-                            <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {{ lobby.content.authors.first.name }}</td>
+                            <td scope="row"><a href="{{ path('contenu', {'id': lobby.content.id}) }}">{{ lobby.content.title }}</a> - {% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</td>
                             <td>{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}</td>
                             <td>
                                 <div class="liste-salon-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
