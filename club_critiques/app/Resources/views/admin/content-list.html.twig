@@ -1,6 +1,6 @@
 <div class="row">
     <div id="content-list" class="wrap-mini-contents content-list">
-        {% if content.items is defined %}
+        {% if contents.items is defined %}
             {% for key,content in contents.items %}
                 <div class="col-md-4  mini-content">
                     {% if content.volumeInfo.imageLinks is defined and content.volumeInfo.imageLinks.thumbnail is defined %}

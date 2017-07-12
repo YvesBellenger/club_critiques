@@ -8,7 +8,7 @@
             <div class="col-md-offset-3 wrap-oeuvre">
                 <div class="">
                     <div class="col-md-3 cover-oeuvre">
-                        <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
+                        <img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
                         <div id="liens-profil">
                             <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a>
                             <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)"><button>Ajouter à ma liste d'échange</button></a>
@@ -50,7 +50,7 @@
                 {% for i in 0..2 %}
                     {% if other_contents[i] is defined %}
                         <div class="col-md-2 suggestion mini-content">
-                            <a href="{{ path('contenu', {'id': other_contents[i].id}) }}"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
+                            <a href="{{ path('contenu', {'id': other_contents[i].id}) }}"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                             <h3><a href="{{ path('contenu', {'id': other_contents[i].id}) }}">{{ other_contents[i].title }}</a></h3>
                             <a href="#"><h4>{% for key,author in other_contents[i].authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                         </div>
