@@ -26,7 +26,7 @@ function addContent(elt) {
             data: {'title': $("#title-"+index).text(),
                     'authors': $("#authors-"+index).text(),
                     'publishedDate': $("#publishedDate-"+index).text(),
-                    'image': $("#image-"+index).attr('href'),
+                    'image': $("#image-"+index).attr('src'),
                     'description': $("#description-"+index).text(),
                     'category': $("#category-"+index).text()},
             async: false

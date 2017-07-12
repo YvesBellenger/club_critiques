@@ -27,7 +27,7 @@
         {% for content in contents  %}
             <div class="col-md-3  mini-content">
                 <a href="{{ path('contenu',{'id': content.id}) }}">
-                    <img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}">
+                    <img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
                 </a>
                 <div class="book-infos">
                     <h3>{{ content.title }}</h3>

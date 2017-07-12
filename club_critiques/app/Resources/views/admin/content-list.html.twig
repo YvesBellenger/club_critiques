@@ -5,7 +5,7 @@
                 {% if content.volumeInfo.imageLinks is defined and content.volumeInfo.imageLinks.thumbnail is defined %}
                     <img class="img-responsive" id="image-{{ key }}" src="{{ content.volumeInfo.imageLinks.thumbnail }}">
                 {% else %}
-                    <img class="img-responsive" id="image-{{ key }}" src="{{ asset('img/cover_placeholder.jpg') }}">
+                    <img class="img-responsive" id="image-{{ key }}" src="{{ asset('img/image_missing.jpeg') }}">
                 {% endif %}
                 <div class="book-infos" id="book-{{ key }}">
                     <h3>Titre : <span id="title-{{ key }}">{{ content.volumeInfo.title }}</span></h3>
