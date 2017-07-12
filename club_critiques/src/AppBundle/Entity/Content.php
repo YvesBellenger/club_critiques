@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,7 +33,7 @@ class Content
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     public $description;
 
@@ -43,10 +44,27 @@ class Content
     public $category;
 
     /**
-     *
-     * @ORM\ManyToOne(targetEntity="Author", cascade={"merge", "persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Author", cascade={"persist"})
+     * @ORM\JoinTable(name="content_author",
+     *      joinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="author_id", referencedColumnName="id")}
+     * )
      */
-    public $author;
+    public $authors;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    public $image;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="published_date", type="string", length=255, nullable=true)
+     */
+    public $publishedDate;
 
     /**
      * @var \DateTime
@@ -69,6 +87,9 @@ class Content
     public $status;
 
 
+    public function __construct() {
+        $this->authors = new ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -101,6 +122,54 @@ class Content
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set publishedDate
+     *
+     * @param string $publishedDate
+     *
+     * @return Content
+     */
+    public function setPublishedDate($publishedDate)
+    {
+        $this->publishedDate = $publishedDate;
+
+        return $this;
+    }
+
+    /**
+     * Get publishedDate
+     *
+     * @return string
+     */
+    public function getPublishedDate()
+    {
+        return $this->publishedDate;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Content
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
@@ -146,6 +215,41 @@ class Content
     public function getDateAdd()
     {
         return $this->dateAdd;
+    }
+
+    /**
+     * Get authors
+     *
+     * @return ArrayCollection
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * Add authors
+     *
+     * @param \AppBundle\Entity\Author $author
+     * @return Content
+     */
+    public function addAuthor(\AppBundle\Entity\Author $author)
+    {
+        if(!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove author
+     *
+     * @param \AppBundle\Entity\Author $author
+     */
+    public function removeAuthor(\AppBundle\Entity\Author $author)
+    {
+        $this->authors->removeElement($author);
     }
 
     /**
@@ -201,15 +305,6 @@ class Content
 
     public function setCategory($category) {
         $this->category = $category;
-        return $this;
-    }
-
-    public function getAuthor() {
-        return $this->author;
-    }
-
-    public function setAuthor($author) {
-        $this->author = $author;
         return $this;
     }
 

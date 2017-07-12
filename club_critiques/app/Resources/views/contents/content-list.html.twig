@@ -23,7 +23,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="wrap-mini-contents content-list">
+    <div id="content-list" class="wrap-mini-contents content-list">
         {% for content in contents  %}
             <div class="col-md-3  mini-content">
                 <a href="{{ path('contenu',{'id': content.id}) }}">
@@ -31,7 +31,7 @@
                 </a>
                 <div class="book-infos">
                     <h3>{{ content.title }}</h3>
-                    <a href="#"><h4>{{ content.author.name }}</h4></a>
+                    <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                     {% if modeAdd is defined and modeAdd %}
                         <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a>
                         <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)"><button>Ajouter à ma liste d'échange</button></a>
@@ -39,13 +39,14 @@
                 </div>
             </div>
         {% endfor %}
-        <div class="col-md-2 mini-content">
-            <a href="#">
-                <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
-            </a>
-            <div class="book-infos">
-                <h3>Ajouter un livre</h3>
-            </div>
+        <button data-offset="0" onclick="loadMore(this)">Voir plus</button>
+    </div>
+    <div class="col-md-2 mini-content">
+        <a href="#">
+            <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
+        </a>
+        <div class="book-infos">
+            <h3>Ajouter un livre</h3>
         </div>
     </div>
 </div>

@@ -130,7 +130,6 @@ class ContentController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         } else {
             $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
-            dump($content);
             if ($request->get('type') == User::CONTENT_TO_SHARE) {
                 $user->addContentToShare($content);
             } else {
@@ -176,7 +175,6 @@ class ContentController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         } else {
             $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
-            dump($content);
             if ($request->get('type') == User::CONTENT_TO_SHARE) {
                 $user->addContentToShare($content);
             } else {

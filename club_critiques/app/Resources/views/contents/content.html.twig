@@ -35,7 +35,7 @@
                     {% endif %}
                     <div class="description-oeuvre">
                         <h1>{{ content.title }}</h1>
-                        <a href="#"><h2>{{ content.author.name }}</h2></a>
+                        <a href="#"><h2>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h2></a>
                         <div class="paragraphe-description">
                             {{ content.description|trans|raw }}
                         </div>
@@ -52,7 +52,7 @@
                         <div class="col-md-2 suggestion mini-content">
                             <a href="{{ path('contenu', {'id': other_contents[i].id}) }}"><img class="img-responsive" src="{{ asset('img/cover_placeholder.jpg') }}"></a>
                             <h3><a href="{{ path('contenu', {'id': other_contents[i].id}) }}">{{ other_contents[i].title }}</a></h3>
-                            <a href="#"><h4>{{ other_contents[i].author.name }}</h4></a>
+                            <a href="#"><h4>{% for key,author in other_contents[i].authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                         </div>
                     {% endif %}
                 {% endfor %}

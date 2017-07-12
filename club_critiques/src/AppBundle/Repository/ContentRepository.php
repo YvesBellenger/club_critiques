@@ -28,11 +28,9 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
     {
         $qb = $this->createQueryBuilder('c');
         $qb->where('c.category = :category')
-            ->orWhere('c.author = :author')
             ->andWhere('c.status = :status')
             ->andWhere('c.id != :content_id')
             ->setParameter('category', $content->category)
-            ->setParameter('author', $content->author)
             ->setParameter('content_id', $content->id)
             ->setParameter('status', 1);
 

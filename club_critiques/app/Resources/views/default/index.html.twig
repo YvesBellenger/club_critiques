@@ -23,7 +23,7 @@
                         {% if (next_lobby is not null and (next_lobby.date_start|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s'))) %}
                             <p>Prochain salon</p>
                             <span>{{ next_lobby.content.title }}</span>
-                            <span>{{ next_lobby.content.author.name }}</span>
+                            <span>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</span>
                             <span>{{ next_lobby.date_start|date('d/m/Y') }} - {{ next_lobby.date_start|date('H') }}h{{ next_lobby.date_start|date('i') }}</span>
                         {% else %}
                             <p>Aucun salon prévu</p>
@@ -45,7 +45,7 @@
                                 </a>
                                 <div class="book-infos">
                                     <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
-                                    <span>{{ content.author.name }}</span>
+                                    <span>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</span>
                                 </div>
                             </div>
                         {% endfor %}

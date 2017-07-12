@@ -1,23 +1,23 @@
-{% extends 'base.html.twig' %}
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
 
-{% block stylesheets %}
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+ {% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/content-admin.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 {% endblock %}
-{% block body %}
-    <div id="wrapper">
-        <div class="wrapper-item">
-            <span>Page d'accueil</span>
-        </div>
-        <div class="wrapper-item">
-            <span>Contenus</span>
-        </div>
-        <div class="wrapper-item">
-            <span>CMS</span>
-        </div>
-        <div class="wrapper-item">
-            <span>Salons</span>
-        </div>
-        <div class="wrapper-item">
-            <span>Membres</span>
+{% block sonata_admin_content %}
+
+    <div class="" id="list-content">
+
+        <h2>Recherchez sur l'API Google :</h2>
+        <input type="text" name="keywords" onkeyup="search(this)" id="keywords" />
+
+        <div id="contents">
+            {{ include('admin/content-list.html.twig', { 'contents': contents }) }}
         </div>
     </div>
+
 {% endblock %}

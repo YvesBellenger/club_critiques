@@ -5,7 +5,7 @@
         </a>
         <div class="book-infos">
             <h3>{{ content.title }}</h3>
-            <a href="#"><h4>{{ content.author.name }}</h4></a>
+            <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
             {% if modeAdd is defined and modeAdd %}
                 <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a>
                 <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)"><button>Ajouter à ma liste d'échange</button></a>
