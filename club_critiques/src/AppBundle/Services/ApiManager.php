@@ -23,7 +23,8 @@ class ApiManager {
     public function findBooks($keywords) {
         $opt = ['base_uri' => 'www.googleapis.com'];
         $client = new Client($opt);
-        $response = $client->request('GET', 'https://www.googleapis.com/books/v1/volumes?q='.$keywords);
+        $request_url = 'https://www.googleapis.com/books/v1/volumes?q='.$keywords.'&maxResults=40';
+        $response = $client->request('GET', $request_url);
 
         return json_decode($response->getBody()->getContents());
     }

@@ -13,7 +13,10 @@
     <div class="" id="list-content">
 
         <h2>Recherchez sur l'API Google :</h2>
-        <input type="text" name="keywords" onkeyup="search(this)" id="keywords" />
+        <div class="input-group">
+            <label>Mots clés :</label>
+            <input type="text" name="keywords" onkeyup="search(this)" id="keywords" />
+        </div>
 
         <div id="contents">
             {{ include('admin/content-list.html.twig', { 'contents': contents }) }}

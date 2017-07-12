@@ -28,8 +28,6 @@ class AdminContentController extends Controller
         } else {
             $api_manager = $this->container->get('app.util.api_manager');
             $contents = $api_manager->findBooks('harry');
-//            dump($contents);
-//            die();
             return $this->render('admin/index.html.twig', [
                 'contents' => $contents
             ]);
@@ -50,8 +48,6 @@ class AdminContentController extends Controller
             $keywords = $request->get('keywords');
             $api_manager = $this->container->get('app.util.api_manager');
             $contents = $api_manager->findBooks($keywords);
-            dump($contents);
-            die();
             return $this->render('admin/content-list.html.twig', [
                 'contents' => $contents
             ]);
