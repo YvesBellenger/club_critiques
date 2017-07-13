@@ -41,8 +41,8 @@ function loadMore(elt) {
     var offset = $(elt).data('offset');
     $.ajax({
         type: "POST",
-        url: 'contents/loadMore',
-        data: {'offset': offset},
+        url: 'contenus/loadMore',
+        data: {'offset': offset, 'filters':  {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'publishedDate': $('#publishedDate').val()}},
         async: false
     })
     .done(function(response){

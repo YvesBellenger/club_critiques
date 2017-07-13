@@ -55,7 +55,9 @@
                 </div>
             </div>
         {% endfor %}
-        <button data-offset="0" onclick="loadMore(this)">Voir plus</button>
+    </div>
+    <div>
+        <button id="loadMore" data-offset="{{ offset }}" onclick="loadMore(this)">Voir plus</button>
     </div>
     <div class="col-md-2 mini-content">
         <a href="#">

@@ -43,6 +43,7 @@ class ContentController extends Controller
             'selected_sub_category_id' => 0,
             'selected_author_id' => 0,
             'modeAdd' => $modeAdd,
+            'offset' => 8,
             'subcategories' => $subcategories
         ]);
     }
@@ -88,6 +89,7 @@ class ContentController extends Controller
             'categories' => $categories,
             'selected_category_id' => $category_id,
             'title' => $title,
+            'offset' => 8,
             'selected_author_id' => $author_id,
             'selected_sub_category_id' => $sub_category_id
         ]);
@@ -100,7 +102,27 @@ class ContentController extends Controller
     {
         $limit = 8;
         $offset = $request->get('offset');
-        $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->findBy(array('status' => 1, array('title' => 'ASC'), $limit, $offset));
+
+        $filters = $request->get('filters');
+        $category_id = $filters['category_id'];
+        $sub_category_id = $filters['sub_category_id'];
+        $author_id = $filters['author_id'];
+        $title = $filters['title'];
+        $publishedDate = $filters['publishedDate'];
+
+        $author = $category = $sub_category = null;
+        if ($author_id > 0) {
+            $author = $this->getDoctrine()->getRepository('AppBundle:Author')->find($author_id);
+        }
+        if ($sub_category_id > 0) {
+            $sub_category = $this->getDoctrine()->getRepository('AppBundle:Category')->find($sub_category_id);
+            $category_id = $sub_category->getParentCategory()->getId();
+        }
+        if ($category_id > 0) {
+            $category = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
+        }
+        $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $publishedDate, $limit, $offset);
+
         return $this->render('contents/load-more.html.twig', [
             'contents' => $contents ?: null,
         ]);

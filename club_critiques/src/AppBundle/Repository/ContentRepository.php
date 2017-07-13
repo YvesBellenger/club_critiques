@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class ContentRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getByFilters($category, $sub_category, $author, $title, $publishedDate) {
+    public function getByFilters($category, $sub_category, $author, $title, $publishedDate, $limit = 8, $offset = 0) {
         $qb = $this->createQueryBuilder('c');
         $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat');
         $qb->where('1 = 1');
@@ -35,6 +35,8 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
             $qb->setParameter('publishedDate', '%'.$publishedDate.'%');
         }
        $qb->andWhere('c.status = :status')
+        ->setMaxResults($limit)
+        ->setFirstResult($offset)
         ->orderBy('c.title')
         ->setParameter('status', 1);
 
