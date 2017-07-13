@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class ContentRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getByFilters($category, $sub_category, $author, $title) {
+    public function getByFilters($category, $sub_category, $author, $title, $publishedDate) {
         $qb = $this->createQueryBuilder('c');
         $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat');
         $qb->where('1 = 1');
@@ -29,6 +29,10 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
         if ($title) {
             $qb->andWhere('c.title LIKE :title');
             $qb->setParameter('title', '%'.$title.'%');
+        }
+        if ($publishedDate) {
+            $qb->andWhere('c.publishedDate LIKE :publishedDate');
+            $qb->setParameter('publishedDate', '%'.$publishedDate.'%');
         }
        $qb->andWhere('c.status = :status')
         ->orderBy('c.title')

@@ -29,7 +29,11 @@
         </div>
         <div class="form-group col-md-2">
             <span class="col-md-offset-3">Titre : </span>
-            <input id="title" name="title" type="text" class="form-control inline" value="{% if title is defined %}{{ title }}{% endif %}" onkeyup="timeOutTitle(this);" />
+            <input id="title" name="title" type="text" class="form-control inline" value="{% if title is defined %}{{ title }}{% endif %}" onkeyup="timeOutInput(this);" />
+        </div>
+        <div class="form-group col-md-2">
+            <span class="col-md-offset-3">Année de parution : </span>
+            <input id="publishedDate" name="publishedDate" type="text" class="form-control inline" value="{% if publishedDate is defined %}{{ publishedDate }}{% endif %}" onkeyup="timeOutInput(this);" />
         </div>
     </div>
 </div>
@@ -43,6 +47,7 @@
                 <div class="book-infos">
                     <h3>{{ content.title }}</h3>
                     <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
+                    <a href="#"><p>{{ content.publishedDate }}</p></a>
                     {% if modeAdd is defined and modeAdd %}
                         <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a>
                         <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)"><button>Ajouter à ma liste d'échange</button></a>
