@@ -22,6 +22,11 @@ sonata_admin:
                 item:
                     - app.admin.cms
                     - app.admin.block
+            users:
+                label: Utilisateurs
+                on_top: true
+                items:
+                    - app.admin.user
 
 services:
     app.admin.category:
@@ -54,3 +59,8 @@ services:
                 arguments: [~, AppBundle\Entity\Lobby, ~]
                 tags:
                     - { name: sonata.admin, manager_type: orm, label: Salons }
+    app.admin.user:
+                class: AppBundle\Admin\UserAdmin
+                arguments: [~, AppBundle\Entity\User, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: Utilisateurs }
