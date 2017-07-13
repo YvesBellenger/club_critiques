@@ -1,8 +1,17 @@
+var timer;
+function timeOutTitle(elt) {
+    if (timer) {
+        clearTimeout(timer);
+        timer = setTimeout( onFiltersChange, 1000 );
+    } else {
+        timer = setTimeout( onFiltersChange, 1000 );
+    }
+}
 function onFiltersChange(elt) {
     $.ajax({
         type: "POST",
         url: 'contenus/filters',
-        data: {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val()},
+        data: {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val()},
         async: false
     })
         .done(function(response){

@@ -63,6 +63,7 @@ class ContentController extends Controller
         $category_id = $request->get('category_id');
         $sub_category_id = $request->get('sub_category_id');
         $author_id = $request->get('author_id');
+        $title = $request->get('title');
 
         $author = $category = $sub_category = null;
         if ($author_id > 0) {
@@ -77,7 +78,7 @@ class ContentController extends Controller
             $category = $categoryRepository->find($category_id);
             $sub_categories = $categoryRepository->findBy(array('parentCategory' => $category));
         }
-        $contents = $doctrine->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author);
+        $contents = $doctrine->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title);
 
         return $this->render('contents/content-list.html.twig', [
             'contents' => $contents ?: null,
@@ -85,6 +86,7 @@ class ContentController extends Controller
             'authors' => $authors,
             'categories' => $categories,
             'selected_category_id' => $category_id,
+            'title' => $title,
             'selected_author_id' => $author_id,
             'selected_sub_category_id' => $sub_category_id
         ]);

@@ -10,21 +10,7 @@ namespace AppBundle\Repository;
  */
 class ContentRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getByCategory($category)
-    {
-        $qb = $this->createQueryBuilder('c');
-        $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat')
-            ->where('cat = :category')
-            ->orWhere('cat.parentCategory = :category')
-            ->andWhere('c.status = :status')
-            ->setParameter('category', $category)
-            ->setParameter('status', 1);
-
-        return $qb->getQuery()
-            ->getResult();
-    }
-
-    public function getByFilters($category, $sub_category, $author) {
+    public function getByFilters($category, $sub_category, $author, $title) {
         $qb = $this->createQueryBuilder('c');
         $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat');
         $qb->where('1 = 1');
@@ -40,7 +26,12 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere(':author MEMBER OF c.authors');
             $qb->setParameter('author', $author);
         }
+        if ($title) {
+            $qb->andWhere('c.title LIKE :title');
+            $qb->setParameter('title', '%'.$title.'%');
+        }
        $qb->andWhere('c.status = :status')
+        ->orderBy('c.title')
         ->setParameter('status', 1);
 
         return $qb->getQuery()
