@@ -1,22 +1,29 @@
 <div class="filters">
     <div class="row">
-        <div class="form-group">
+        <div class="form-group col-md-2">
             <span class="col-md-2 col-md-offset-3"> Catégorie : </span>
-            <select id="category" class="form-control inline" onchange="onChangeCategory(this);">
+            <select id="category" class="form-control inline" onchange="onFiltersChange(this);">
                 <option value="0">------</option>
                 {% for category in categories %}
                     <option value="{{ category.id }}" {% if selected_category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
                 {% endfor %}
             </select>
         </div>
-    </div>
-    <div class="row">
-        <div class="form-group">
+        <div class="form-group col-md-2">
             <span class="col-md-2 col-md-offset-3">Sous catégorie : </span>
-            <select id="sub-category" class="form-control inline" onchange="onChangeSubCategory(this);">
+            <select id="sub-category" class="form-control inline" onchange="onFiltersChange(this);">
                 <option value="0">------</option>
                 {% for subcategory in subcategories %}
                     <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <span class="col-md-offset-3">Auteur : </span>
+            <select id="author" class="form-control inline" onchange="onFiltersChange(this);">
+                <option value="0">------</option>
+                {% for author in authors %}
+                    <option value="{{ author.id }}" {% if selected_author_id == author.id %}selected{% endif %}>{{ author.name }}</option>
                 {% endfor %}
             </select>
         </div>

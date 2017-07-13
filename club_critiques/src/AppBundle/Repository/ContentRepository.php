@@ -24,6 +24,29 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
+    public function getByFilters($category, $sub_category, $author) {
+        $qb = $this->createQueryBuilder('c');
+        $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat');
+        $qb->where('1 = 1');
+        if ($sub_category) {
+            $qb->andWhere('c.category = :sub_category');
+            $qb->setParameter('sub_category', $sub_category);
+        }
+        if ($category) {
+            $qb->andWhere('cat.parentCategory = :category');
+            $qb->setParameter('category', $category);
+        }
+        if ($author) {
+            $qb->andWhere(':author MEMBER OF c.authors');
+            $qb->setParameter('author', $author);
+        }
+       $qb->andWhere('c.status = :status')
+        ->setParameter('status', 1);
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
     public function getSuggestions($content)
     {
         $qb = $this->createQueryBuilder('c');

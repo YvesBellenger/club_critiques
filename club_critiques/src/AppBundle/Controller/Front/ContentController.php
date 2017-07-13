@@ -25,8 +25,9 @@ class ContentController extends Controller
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
         /** Filters **/
-        $categories = $categoryRepository->findBy(array('parentCategory' => null), array('name' => 'ASC'));
+        $categories = $categoryRepository->findBy(array('parentCategory' => null, 'status' => 1), array('name' => 'ASC'));
         $subcategories = $categoryRepository->getSubCategories();
+        $authors = $doctrine->getRepository('AppBundle:Author')->findByStatus(1);
 
         /** Contents **/
         $category = $categoryRepository->findOneByCode('livre');
@@ -37,8 +38,10 @@ class ContentController extends Controller
             'controller' => 'contenus',
             'contents' => $contents,
             'categories' => $categories,
+            'authors' => $authors,
             'selected_category_id' => 0,
             'selected_sub_category_id' => 0,
+            'selected_author_id' => 0,
             'modeAdd' => $modeAdd,
             'subcategories' => $subcategories
         ]);
@@ -51,27 +54,38 @@ class ContentController extends Controller
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
+
         $categories = $categoryRepository->findBy(array('status' => 1, 'parentCategory' => null));
+        $sub_categories = $categoryRepository->getSubCategories();
+
+        $authors = $doctrine->getRepository('AppBundle:Author')->findByStatus(1);
+
         $category_id = $request->get('category_id');
         $sub_category_id = $request->get('sub_category_id');
+        $author_id = $request->get('author_id');
+
+        $author = $category = $sub_category = null;
+        if ($author_id > 0) {
+            $author = $doctrine->getRepository('AppBundle:Author')->find($author_id);
+        }
         if ($sub_category_id > 0) {
             $sub_category = $categoryRepository->find($sub_category_id);
-            $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('category' => $sub_category));
             $sub_categories = $categoryRepository->findBy(array('parentCategory' => $sub_category->getParentCategory()));
             $category_id = $sub_category->getParentCategory()->getId();
-        } else if ($category_id > 0) {
-            $category = $categoryRepository->find($category_id);
-            $contents = $doctrine->getRepository('AppBundle:Content')->getByCategory($category);
-            $sub_categories = $categoryRepository->findBy(array('parentCategory' => $category));
-        } else {
-            $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1));
-            $sub_categories = $categoryRepository->getSubCategories();
         }
+        if ($category_id > 0) {
+            $category = $categoryRepository->find($category_id);
+            $sub_categories = $categoryRepository->findBy(array('parentCategory' => $category));
+        }
+        $contents = $doctrine->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author);
+
         return $this->render('contents/content-list.html.twig', [
             'contents' => $contents ?: null,
             'subcategories' => $sub_categories,
+            'authors' => $authors,
             'categories' => $categories,
             'selected_category_id' => $category_id,
+            'selected_author_id' => $author_id,
             'selected_sub_category_id' => $sub_category_id
         ]);
     }
