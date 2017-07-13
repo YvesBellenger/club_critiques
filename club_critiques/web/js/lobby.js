@@ -42,7 +42,7 @@ socket.on('end_lobby', function(message) {
 });
 
 socket.on('redirect', function() {
-   document.location('/');
+   window.location = "/app_dev.php";
 });
 
 socket.on('message', function(data) {
