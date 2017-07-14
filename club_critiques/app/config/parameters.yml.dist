@@ -20,8 +20,8 @@ parameters:
     api_host: https://www.googleapis.com/books/v1/volumes
     oauth_client: ~
     oauth_secret: ~
-
     base_url: ~
+
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
