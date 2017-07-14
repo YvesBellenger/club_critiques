@@ -22,9 +22,12 @@ class KernelListener
 
         if ($this->container->get('security.token_storage')->getToken()) {
             $user = $this->container->get('security.token_storage')->getToken()->getUser();
-            $user->setLastIp($event->getRequest()->getClientIp());
-            $this->em->persist($user);
-            $this->em->flush();
+            if ($user != 'anon.') {
+                $user->setLastIp($event->getRequest()->getClientIp());
+                $this->em->persist($user);
+                $this->em->flush();
+            }
+
         }
         $sql = "SELECT ip FROM `black_list`";
 
