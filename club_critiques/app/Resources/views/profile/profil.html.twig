@@ -65,7 +65,7 @@
                             <div class="col-md-2 mini-content echange">
                                 <a href="#"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                                 <h3>{{ content.title }}</h3>
-                                <a href="#"><h4>{% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h4></a>
+                                <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                                 <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Supprimer</button></a>
                             </div>
                         {% endfor %}
@@ -93,7 +93,7 @@
                     <div class="col-md-2 mini-content echange">
                         <a href="#"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                         <h3>{{ content.title }}</h3>
-                        <a href="#"><h4>{% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h4></a>
+                        <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                         <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button>Supprimer</button></a>
                     </div>
                 {% endfor %}
