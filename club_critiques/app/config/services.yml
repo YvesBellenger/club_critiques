@@ -15,3 +15,8 @@ services:
     app.util.api_manager:
       class: AppBundle\Services\ApiManager
       arguments: ['%api_key%', '%api_host%', '%oauth_client%', '%oauth_secret%']
+    app.kernel_listener:
+        class: AppBundle\EventListener\KernelListener
+        arguments: ["@service_container", "@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

@@ -51,6 +51,13 @@ class User extends BaseUser
      */
     public $nbReports;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_ip", type="string", nullable=true)
+     */
+    public $lastIp;
+
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", cascade={"persist"})
@@ -154,6 +161,28 @@ class User extends BaseUser
     public function getDateUpdate()
     {
         return $this->dateUpdate;
+    }
+
+    /**
+     * Set lastIp
+     *
+     *
+     * @return User
+     */
+    public function setLastIp($lastIp)
+    {
+        $this->lastIp = $lastIp;
+        return $this;
+    }
+
+    /**
+     * Get lastIp
+     *
+     */
+
+    public function getLastIp()
+    {
+        return $this->lastIp;
     }
 
     /**

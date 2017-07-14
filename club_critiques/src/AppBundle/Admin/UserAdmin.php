@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class UserAdmin extends AbstractAdmin
 {
@@ -46,6 +47,19 @@ class UserAdmin extends AbstractAdmin
         $list->addIdentifier('username', null, ['label' => 'Surnom'])
             ->add('firstName', null, ['label' => 'Prénom'])
             ->add('lastName', null, ['label' => 'Nom'])
-            ->add('status', null, ['label' => 'Activé', 'editable' => true]);
+            ->add('status', null, ['label' => 'Activé', 'editable' => true])
+            ->add('_action', null, array(
+                'actions' => array(
+                    'edit' => array(),
+                    'delete' => array(),
+                    'banIp' => array(
+                        'template' => 'list_action_ban.html.twig'
+                    )
+                )));
+    }
+
+
+    protected function configureRoutes(RouteCollection $collection) {
+        $collection->add('banIp', $this->getRouterIdParameter().'/banIp');
     }
 }

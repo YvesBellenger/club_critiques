@@ -61,6 +61,6 @@ services:
                     - { name: sonata.admin, manager_type: orm, label: Salons }
     app.admin.user:
                 class: AppBundle\Admin\UserAdmin
-                arguments: [~, AppBundle\Entity\User, ~]
+                arguments: [~, AppBundle\Entity\User, AppBundle:CRUD, ~]
                 tags:
                     - { name: sonata.admin, manager_type: orm, label: Utilisateurs }
