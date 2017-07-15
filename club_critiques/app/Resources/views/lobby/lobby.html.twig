@@ -1,13 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Club des critiques | Salon{% endblock %}
-{% block javascripts %} <script type="text/javascript" src="{{ asset('js/lobby.js') }}"> </script>
-    <style>
-        #chat strong {
-            color: blue;
-        }
-    </style>
-{% endblock %}
+{% block javascripts %} <script type="text/javascript" src="{{ asset('js/lobby.js') }}"> </script>{% endblock %}
 {% block body %}
 
 
@@ -23,7 +17,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <div class="concept">
-                    <h2>Salon : {{ lobby.content.title }} - {% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h2>
+                    <h2>Salon : {{ lobby.content.title }} - {% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h2>
                 </div>
             </div>
         </div>
@@ -32,17 +26,18 @@
                 <section id="chat">
 
                 </section>
-                <form action="/" method="post" id="form-chat">
+                <form action="/" method="post" id="form-chat" >
                     <input type="hidden" name="user_id" id="user_id" value="{{ user.id }}" />
                     <input type="hidden" name="username" id="username" value="{{ user.username }}" />
                     <input type="hidden" name="firstName" id="firstName" value="{{ user.firstName }}" />
                     <input type="hidden" name="lastName" id="lastName" value="{{ user.lastName }}" />
                     <input type="hidden" name="lobby" id="lobby" value="{{ lobby.id }}" />
                     <input type="hidden" name="room" id="room" value="{{ user_room }}" />
+                    <input type="hidden" name="user_note" id="user_note" value="{{ user_note }}" />
                     <input type="hidden" name="lobby_date_start" id="lobby_date_start" value="{{ lobby.date_start|date('Y-m-d H:i') }}" />
                     <input type="hidden" name="lobby_date_end" id="lobby_date_end" value="{{ lobby.getDateEnd|date('Y-m-d H:i') }}" />
-                    <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
-                    <input type="submit" id="send" value="Envoyer" />
+                    <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus autocomplete="off"  />
+                    <button class="material-icon-submit" type="submit"><i class="material-icons">&#xE163;</i></button>
                 </form>
             </div>
 
@@ -51,6 +46,7 @@
                     <thead>
                     <tr>
                         <th>Liste des membres dans le salon</th>
+                        <th>Note</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -63,5 +59,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script>
 
+    </script>
 {% endblock %}

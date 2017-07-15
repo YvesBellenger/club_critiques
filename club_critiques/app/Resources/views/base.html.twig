@@ -4,6 +4,9 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Club des critiques{% endblock %}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('css/global.css') }}">
         <link rel="stylesheet" href="{{ asset('css/jeremy.css') }}">
         <link rel="stylesheet" href="{{ asset('css/yves.css') }}">
@@ -33,11 +36,19 @@
                                 <a href="{{ path('contenus') }}">Contenus</a>
                             </span>
                         </div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <div class="menu-item {% if controller is defined and controller == 'users' %}active{% endif %}">
+                            <span>
+                                <a class="" href="{{ path('users') }}">Utilisateurs</a>
+                            </span>
+                        </div>
+                        {% endif %}
                         <div class="menu-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
                             <span>
                                 <a class="" href="{{ path('lobby_list') }}">Salons</a>
                             </span>
                         </div>
+                        {{ render(controller('AppBundle:Front/Default:menu')) }}
                     </div>
 
                     <div class="user-actions col-md-4">

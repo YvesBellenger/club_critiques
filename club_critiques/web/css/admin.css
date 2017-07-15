@@ -1,6 +1,48 @@
 .mini-content {
     height: 400px;
+    text-align: center;
 }
 .hidden {
     opacity: 0;
 }
+
+#keywords{
+    width:400px;
+}
+
+#contents{
+    margin-top: 20px;
+}
+
+.form-group.row button.btn-primary{
+    border-color: #25283C !important;
+}
+
+.form-group.row button.btn-primary:hover{
+    border-color: #70BEB1 !important;
+}
+
+.mini-content img{
+    max-height: 180px;
+}
+
+button{
+    border: 0px;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 0 1px rgba(0,0,0,0.1);
+    background-color: rgba(110, 190, 177,0.7);
+    font-family: roboto;
+    font-size: 14px;
+    padding: 5px 5px 0px 5px;
+    position: absolute;
+    bottom: 216px;
+    right: 186px;
+}
+
+button:hover {
+    /*border: 0px;*/
+    text-shadow: 0 1px rgba(0,0,0,0.3);
+    background-color: rgba(67, 148, 134,1)
+}
+

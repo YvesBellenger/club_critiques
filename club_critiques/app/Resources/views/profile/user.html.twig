@@ -19,16 +19,14 @@
                         <h1>{{ user.firstName }} {{ user.lastName }}</h1>
                         <h2>{{ user.username }}</h2>
                         <div class="paragraphe-description">
-                            {{ user.description }}
+                            {{ user.description|nl2br }}
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
-
-
-        <div class="wrap-mini-contacts">
+        {#<div class="wrap-mini-contacts">
             <div class="row">
                 <div class="col-md-12">
                     <h2>Contacts de {{ user.username }}</h2>
@@ -49,7 +47,7 @@
                     <p>Aucun contacts</p>
                 </div>
             {% endif %}
-        </div>
+        </div>#}
 
         {% if user.getContentsWanted().count > 0 %}
             <div class="wrap-mini-contents">
@@ -60,10 +58,10 @@
                 </div>
                 <div class="row">
                 {% for content in user.getContentsWanted() %}
-                    <div class="col-md-2 mini-content echange">
-                        <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je possède : {{ content.title }} - {% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse organiser un échange ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
+                    <div class="col-md-2 col-lg-2 mini-content-profil echange">
+                        <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je possède : {{ content.title }} - {% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse organiser un échange ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                         <h3>{{ content.title }}</h3>
-                        <a href="#"><h4>{% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h4></a>
+                        <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                     </div>
                 {% endfor %}
                 </div>
@@ -78,10 +76,10 @@
                 </div>
                 <div class="row">
                     {% for content in user.getContentsToShare() %}
-                        <div class="col-md-2 mini-content echange">
-                            <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je souhaite vous emprunter : {{ content.title }} - {% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse s'organiser ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
+                        <div class="col-md-2 col-lg-2 mini-content-profil echange">
+                            <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je souhaite vous emprunter : {{ content.title }} - {% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse s'organiser ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                             <a href="{{ path('contenu', {'id': content.id}) }}"><h3>{{ content.title }}</h3></a>
-                            <a href="#"><h4>{% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h4></a>
+                            <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                         </div>
                     {% endfor %}
                 </div>
@@ -96,12 +94,12 @@
 
             <div class="row">
                 <label class="col-md-offset-4 col-md-1">Nom : </label>
-                {{ form_widget(form.name) }}
+                {{ form_widget(form.name, {value: app.user.username}) }}
                 {{ form_errors(form.name) }}
             </div>
             <div class="row">
                 <label class="col-md-offset-4 col-md-1">Email : </label>
-                {{ form_widget(form.email) }}
+                {{ form_widget(form.email, {value: app.user.email}) }}
                 {{ form_errors(form.email) }}
             </div>
             <div class="row">
@@ -118,7 +116,7 @@
                 {{ form_rest(form) }}
             </div>
             <div class="row">
-                <input type="submit" value="Envoyer" class="col-md-offset-5">
+                <button type="submit" class="col-md-offset-5">Envoyer</button>
             </div>
 
 

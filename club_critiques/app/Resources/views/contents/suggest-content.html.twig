@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block js %}
+    <script src="{{ asset('js/contenus.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="wrapper container-fluid">
+        <h2 class="text-center">Suggérer un contenu</h2>
+        <div class="wrap-form">
+            {{ form_start(form) }}
+
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Type : </label>
+                {{ form_widget(form.type) }}
+                {{ form_errors(form.type) }}
+            </div>
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Email : </label>
+                {{ form_widget(form.titre) }}
+                {{ form_errors(form.titre) }}
+            </div>
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Sujet : </label>
+                {{ form_widget(form.auteur) }}
+                {{ form_errors(form.auteur) }}
+            </div>
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Genre :</label>
+                {{ form_widget(form.genre) }}
+                {{ form_errors(form.genre) }}
+            </div>
+            <div class="row">
+                <label class="col-md-offset-4 col-md-1">Année : </label>
+                {{ form_widget(form.publication) }}
+                {{ form_errors(form.publication) }}
+            </div>
+            <div style="display:none">
+                {{ form_rest(form) }}
+            </div>
+            <div class="row">
+                <button type="submit" class="col-md-offset-5">Envoyer</button>
+            </div>
+
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

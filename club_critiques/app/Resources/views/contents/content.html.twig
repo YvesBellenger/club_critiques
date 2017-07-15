@@ -45,19 +45,74 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-offset-3 wrap-mini-contents">
+            <div class="col-md-offset-2 wrap-mini-contents">
                 <h2>Autres suggestions</h2>
                 {% for i in 0..2 %}
                     {% if other_contents[i] is defined %}
-                        <div class="col-md-2 suggestion mini-content">
-                            <a href="{{ path('contenu', {'id': other_contents[i].id}) }}"><img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
+                        <div class="col-md-2 suggestion mini-content-profil">
+                            <a href="{{ path('contenu', {'id': other_contents[i].id}) }}"><img class="img-thumbnail" src="{% if other_contents[i].image %}{{ other_contents[i].image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                             <h3><a href="{{ path('contenu', {'id': other_contents[i].id}) }}">{{ other_contents[i].title }}</a></h3>
-                            <a href="#"><h4>{% for key,author in other_contents[i].authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
+                            <a href="#"><h4>{% for key,author in other_contents[i].authors %}{{ author.name }}{% if (key+1) != other_contents[i].authors|length %},{% endif %}{% endfor %}</h4></a>
                         </div>
                     {% endif %}
                 {% endfor %}
             </div>
         </div>
+
+        {% if to_share_contents is not empty %}
+        <div class="wrap-mini-contacts">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Utilisateurs proposant le livre</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for user in to_share_contents %}
+                    {% if app.user.id == user.id %}
+                        <div class="col-md-2 mini-contact">
+                            <a href="{{ path('profil')}}"><img class="img-thumbnail" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                            <h3>{{ user.username }} (Moi)</h3>
+                            <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+                        </div>
+                    {% else %}
+                        <div class="col-md-2 mini-contact">
+                            <a href="{{ path('user', {'id': user.id}) }}"><img class="img-thumbnail" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                            <h3>{{ user.username }}</h3>
+                            <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if wanted_contents is not empty %}
+        <div class="wrap-mini-contacts">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Utilisateurs cherchant le livre</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for user in wanted_contents %}
+                    {% if app.user.id == user.id %}
+                        <div class="col-md-2 mini-contact">
+                            <a href="{{ path('profil')}}"><img class="img-thumbnail" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                            <h3>{{ user.username }} (Moi)</h3>
+                            <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+                        </div>
+                    {% else %}
+                        <div class="col-md-2 mini-contact">
+                            <a href="{{ path('user', {'id': user.id}) }}"><img class="img-thumbnail" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                            <h3>{{ user.username }}</h3>
+                            <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block javascripts %}<script src="{{ asset('js/notes.js') }}"></script> {% endblock %}

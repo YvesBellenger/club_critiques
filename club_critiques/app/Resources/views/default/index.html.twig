@@ -23,7 +23,7 @@
                         {% if (next_lobby is not null and (next_lobby.date_start|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s'))) %}
                             <p>Prochain salon</p>
                             <span>{{ next_lobby.content.title }}</span>
-                            <span>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</span>
+                            <span>{% for key,author in next_lobby.content.authors %}{{ author.name }}{% if (key+1) != next_lobby.content.authors|length %},{% endif %}{% endfor %}</span>
                             <span>{{ next_lobby.date_start|date('d/m/Y') }} - {{ next_lobby.date_start|date('H') }}h{{ next_lobby.date_start|date('i') }}</span>
                         {% else %}
                             <p>Aucun salon prévu</p>

@@ -18,6 +18,7 @@ class LobbyController extends Controller
     {
         $user = $this->getUser();
         $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
+        $user_note = $this->getDoctrine()->getRepository('AppBundle:Note')->findBy(array('content' => $lobby->content, 'user' => $user));
 
         // Définition du nbr de salles
         $participations = $this->getDoctrine()->getRepository('AppBundle:Participation')->findBy(array('lobby' => $lobby));
@@ -76,6 +77,7 @@ class LobbyController extends Controller
             foreach ($repartition as $k => $room) {
                 foreach ($room as $participant) {
                     if ($participant->id == $user_note[0]->user->id) {
+
                         $user_room = $k + 1;
                     }
                 }
@@ -89,7 +91,8 @@ class LobbyController extends Controller
                 'controller' => 'salon',
                 'user_room' => $user_room,
                 'lobby' => $lobby,
-                'user' => $user
+                'user' => $user,
+                'user_note' => 3
             ]);
         }
     }

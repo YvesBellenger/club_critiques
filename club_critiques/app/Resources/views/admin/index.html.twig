@@ -7,19 +7,26 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/content-admin.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 {% endblock %}
 {% block sonata_admin_content %}
-
-    <div class="" id="list-content">
-
-        <h2>Recherchez sur l'API Google :</h2>
-        <div class="input-group">
-            <label>Mots clés :</label>
-            <input type="text" name="keywords" onkeyup="search(this)" id="keywords" />
-        </div>
-
-        <div id="contents">
-            {{ include('admin/content-list.html.twig', { 'contents': contents }) }}
+    <div class="container-fluid">
+        <div class="" id="list-content">
+            <div class="row">
+                <h1 class="text-center">Rechercher sur l'API Google</h1>
+            </div>
+                <div class="row">
+                    <div class="col-md-12 text-center input-group">
+                        <input id="keywords" classtype="text" name="keywords" onkeyup="search(this)" id="keywords" placeholder="Entrez votre recherche..."/>
+                    </div>
+                </div>
+            <div class="row">
+                <div id="contents">
+                    {{ include('admin/content-list.html.twig', { 'contents': contents }) }}
+                </div>
+            </div>
         </div>
     </div>
 

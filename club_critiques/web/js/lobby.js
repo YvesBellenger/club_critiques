@@ -1,4 +1,4 @@
-var socket = io.connect('http://chat.jeremyfsmoreau.com:3000');
+var socket = io.connect('http://chat.club-critiques.dev:3000');
 
 var username = $('#username').val();
 var lastName = $('#lastName').val();
@@ -8,8 +8,9 @@ var lobby = $('#lobby').val();
 var date_start = $('#lobby_date_start').val();
 var date_end = $('#lobby_date_end').val();
 var room = $('#room').val();
+var user_note = $('#user_note').val();
 
-socket.emit('new_user', {"username" : username, "firstName": firstName, "lastName": lastName, "lobby" : lobby, "user_id": user_id, "lobby_date_start": date_start, "lobby_date_end": date_end, "room": room});
+socket.emit('new_user', {"username" : username, "firstName": encode_utf8(firstName), "lastName": encode_utf8(lastName), "lobby" : lobby, "user_id": user_id, "lobby_date_start": date_start, "lobby_date_end": date_end, "room": room});
 
 socket.on('new_user_room', function(data) {
     $('#chat').append('<p><em>' + data.username + ' a rejoint le salon !</em></p>');
@@ -17,11 +18,12 @@ socket.on('new_user_room', function(data) {
     data.users.forEach(function(user) {
         $('#list-users').append('<tr id="user-'+user.user.user_id+'">' +
             '<td>'+ user.user.firstName + ' ' + user.user.lastName + ' - ' + user.user.username + '</td>' +
+            '<td>' + user_note + '/4 </td>' +
             '<td>' +
             '<div class="liste-salon-item">' +
             '<span>' +
-            '<a data-participant-id="' + user.user.user_id + '" data-lobby-id="' + user.user.lobby + '" onclick="reportUser(this)" href="javascript:void(0)">Signaler</a>'+
-            '<a target="_blank" href="http://jeremyfsmoreau.com/app_dev.php/user/'+user.user.user_id+'">Profil</a>' +
+            '<a data-participant-id="' + user.user.user_id + '" data-lobby-id="' + user.user.lobby + '" onclick="reportUser(this)" href="javascript:void(0)">Signaler</a> | '+
+            '<a target="_blank" href="http://club-critiques.dev/app_dev.php/user/'+user.user.user_id+'">Profil</a>' +
             '</span>' +
             '</div>' +
             '</td>' +
@@ -51,9 +53,10 @@ socket.on('message', function(data) {
 
 $('#form-chat').submit(function () {
     var message = $('#message').val();
-    updateChat('Moi', message);
+    updateChatUser(message);
     socket.emit('message', message);
     $('#message').val('').focus();
+    scroll_chat();
     return false;
 });
 
@@ -63,6 +66,11 @@ $('#end').click(function () {
 
 function updateChat(username, message) {
     $('#chat').append('<p><strong>' + username + '</strong>: ' + message + '</p>');
+    scroll_chat();
+}
+
+function updateChatUser(message) {
+    $('#chat').append('<p class="user-sending"><strong> Moi </strong>: ' + message + '</p>');
 }
 
 function reportUser(elt) {
@@ -127,4 +135,17 @@ function inviteUser(elt) {
             alert('Erreur lors de l\'envoi du message');
         });
     }
+}
+
+function encode_utf8(s) {
+    return unescape(encodeURIComponent(s));
+}
+
+function decode_utf8(s) {
+    return decodeURIComponent(escape(s));
+}
+
+function scroll_chat(){
+    var objDiv = document.getElementById("chat");
+    objDiv.scrollTop = objDiv.scrollHeight;
 }

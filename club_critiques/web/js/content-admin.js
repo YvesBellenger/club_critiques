@@ -1,20 +1,25 @@
 var timer;
 function search(elt) {
     clearTimeout(timer);
-    timer = setTimeout(function request() {
-        $.ajax({
-            type: "POST",
-            url: '/app_dev.php/admin/api/content/search',
-            data: {'keywords': $("#keywords").val()},
-            async: false
-        })
-            .done(function (response) {
-                $('#contents').html(response);
+    if ($("#keywords").val()){
+        timer = setTimeout(function request() {
+            $.ajax({
+                type: "POST",
+                url: '/app_dev.php/admin/api/content/search',
+                data: {'keywords': $("#keywords").val()},
+                async: false
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                alert('Error : ' + errorThrown);
-            });
-    }, 1000);
+                .done(function (response) {
+                    $('#contents').html(response);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    //alert('Error : ' + errorThrown);
+                    $('#contents').html(' ');
+                });
+        }, 1000);
+    }
+    else
+        $('#contents').html(' ');
 }
 
 function addContent(elt) {
