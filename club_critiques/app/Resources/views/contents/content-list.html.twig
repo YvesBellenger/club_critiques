@@ -1,7 +1,7 @@
 <div class="filters">
     <div class="row">
         <div class="form-group col-md-2">
-            <span class="col-md-2 col-md-offset-3"> Catégorie : </span>
+            <span class="col-md-2 col-md-offset-5"> Catégorie : </span>
             <select id="category" class="form-control inline" onchange="onFiltersChange(this);">
                 <option value="0">------</option>
                 {% for category in categories %}
@@ -10,7 +10,7 @@
             </select>
         </div>
         <div class="form-group col-md-2">
-            <span class="col-md-2 col-md-offset-3">Sous catégorie : </span>
+            <span class="col-md-2 col-md-offset-5">Sous catégorie : </span>
             <select id="sub-category" class="form-control inline" onchange="onFiltersChange(this);">
                 <option value="0">------</option>
                 {% for subcategory in subcategories %}
@@ -19,7 +19,7 @@
             </select>
         </div>
         <div class="form-group col-md-2">
-            <span class="col-md-offset-3">Auteur : </span>
+            <span class="col-md-offset-5 col-md-2">Auteur : </span>
             <select id="author" class="form-control inline" onchange="onFiltersChange(this);">
                 <option value="0">------</option>
                 {% for author in authors %}
@@ -28,43 +28,50 @@
             </select>
         </div>
         <div class="form-group col-md-2">
-            <span class="col-md-offset-3">Titre : </span>
+            <span class="col-md-offset-5 col-md-2">Titre : </span>
             <input id="title" name="title" type="text" class="form-control inline" value="{% if title is defined %}{{ title }}{% endif %}" onkeyup="timeOutInput(this);" />
         </div>
         <div class="form-group col-md-2">
-            <span class="col-md-offset-3">Année de parution : </span>
+            <span class="col-md-offset-5 col-md-2">Année de parution : </span>
             <input id="publishedDate" name="publishedDate" type="text" class="form-control inline" value="{% if publishedDate is defined %}{{ publishedDate }}{% endif %}" onkeyup="timeOutInput(this);" />
         </div>
     </div>
 </div>
 <div class="row">
+    <div class="text-center">
+        <a href="{{ path('contenus_suggest') }}"><button>Suggérer un contenu</button></a>
+    </div>
     <div id="content-list" class="wrap-mini-contents content-list">
         {% for content in contents  %}
             <div class="col-md-3  mini-content">
                 <a href="{{ path('contenu',{'id': content.id}) }}">
-                    <img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
+                    <img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
                 </a>
                 <div class="book-infos">
                     <h3>{{ content.title }}</h3>
                     <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                     <a href="#"><p>{{ content.publishedDate }}</p></a>
                     {% if modeAdd is defined and modeAdd %}
-                        <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a>
+                        <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a><br>
                         <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)"><button>Ajouter à ma liste d'échange</button></a>
                     {% endif %}
                 </div>
             </div>
         {% endfor %}
     </div>
-    <div>
+</div>
+<div class="row">
+    <div class="text-center">
         <button id="loadMore" data-offset="{{ offset }}" onclick="loadMore(this)">Voir plus</button>
     </div>
-    <div class="col-md-2 mini-content">
-        <a href="#">
-            <img class="img-responsive add-content" src="{{ asset('img/add_content.png') }}">
-        </a>
-        <div class="book-infos">
-            <h3>Ajouter un livre</h3>
-        </div>
-    </div>
+
 </div>
+{#{% if newcontents is defined %}
+<div class="navigation text-center">
+    {{ knp_pagination_render(newcontents) }}
+</div>
+{% else %}
+    <div class="navigation text-center">
+        {{ knp_pagination_render(contents,{'e.name': 'Name', 'e.description': 'Description'}) }}
+    </div>
+{% endif %}#}

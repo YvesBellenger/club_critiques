@@ -57,4 +57,16 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()
             ->getResult();
     }
+
+    /*public function getUsersContentWanted($content,$user)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->join('AppBundle:User', 'usr', 'WITH', 'c.usr = usr');
+        $qb->where('c.content = :content')
+            ->andWhere('c.status = :status')
+            ->andWhere('c.id != :content_id')
+
+        return $qb->getQuery()
+            ->getResult();
+    }*/
 }

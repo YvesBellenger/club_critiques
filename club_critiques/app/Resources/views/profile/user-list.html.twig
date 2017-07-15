@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block js %}
+    <script src="{{ asset('js/users.js') }}"></script>
+{% endblock %}
+{% block body %}
+    <div class="container-fluid wrapper" id="users">
+        <h1 class="text-center">Utilisateurs</h1>
+        <div id="users">
+            <div class="filters">
+                <div class="row">
+                    {#<div class="form-group col-md-2">
+                        <span class="col-md-offset-5 col-md-2">Titre : </span>
+                        <input id="title" name="title" type="text" class="form-control inline" value="{% if title is defined %}{{ title }}{% endif %}" onkeyup="timeOutInput(this);" />
+                    </div>#}
+                </div>
+            </div>
+            <div class="row">
+                <div id="user-list" class="wrap-mini-users user-list">
+                    {% for user in users  %}
+                        {% if app.user.id == user.id %}
+                            <div class="col-md-2 mini-contact">
+                                <a href="{{ path('profil')}}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                                <h3>{{ user.username }} (Moi)</h3>
+                                <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+                            </div>
+                        {% else %}
+                            <div class="col-md-2 mini-contact">
+                                <a href="{{ path('user', {'id': user.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
+                                <h3>{{ user.username }}</h3>
+                                <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{#
+    <div class="navigation">
+        {{ knp_pagination_render(users) }}
+    </div>#}
+
+
+
+{% endblock %}

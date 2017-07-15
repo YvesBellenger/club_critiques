@@ -24,6 +24,7 @@ class ContentController extends Controller
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
+
         /** Filters **/
         $categories = $categoryRepository->findBy(array('parentCategory' => null, 'status' => 1), array('name' => 'ASC'));
         $subcategories = $categoryRepository->getSubCategories();
@@ -32,6 +33,13 @@ class ContentController extends Controller
         /** Contents **/
         $category = $categoryRepository->findOneByCode('livre');
         $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1), array('title' => 'ASC'), 8);
+
+        /*$paginator = $this->get('knp_paginator');
+        $contents = $paginator->paginate(
+            $contents,
+            $request->query->getInt('page',1),
+            $request->query->getInt('limit',12)
+        );*/
 
         return $this->render('contents/contenus.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
@@ -55,18 +63,14 @@ class ContentController extends Controller
     {
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
-
         $categories = $categoryRepository->findBy(array('status' => 1, 'parentCategory' => null));
         $sub_categories = $categoryRepository->getSubCategories();
-
         $authors = $doctrine->getRepository('AppBundle:Author')->findByStatus(1);
-
         $category_id = $request->get('category_id');
         $sub_category_id = $request->get('sub_category_id');
         $author_id = $request->get('author_id');
         $title = $request->get('title');
         $publishedDate = $request->get('publishedDate');
-
         $author = $category = $sub_category = null;
         if ($author_id > 0) {
             $author = $doctrine->getRepository('AppBundle:Author')->find($author_id);
@@ -81,7 +85,6 @@ class ContentController extends Controller
             $sub_categories = $categoryRepository->findBy(array('parentCategory' => $category));
         }
         $contents = $doctrine->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $publishedDate);
-
         return $this->render('contents/content-list.html.twig', [
             'contents' => $contents ?: null,
             'subcategories' => $sub_categories,
@@ -100,16 +103,19 @@ class ContentController extends Controller
      */
     public function loadMoreAction(Request $request)
     {
+        $modeAdd = false;
+        if ($request->query->has('modeAdd')) {
+            $modeAdd = true;
+        }
+
         $limit = 8;
         $offset = $request->get('offset');
-
         $filters = $request->get('filters');
         $category_id = $filters['category_id'];
         $sub_category_id = $filters['sub_category_id'];
         $author_id = $filters['author_id'];
         $title = $filters['title'];
         $publishedDate = $filters['publishedDate'];
-
         $author = $category = $sub_category = null;
         if ($author_id > 0) {
             $author = $this->getDoctrine()->getRepository('AppBundle:Author')->find($author_id);
@@ -122,9 +128,9 @@ class ContentController extends Controller
             $category = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
         }
         $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $publishedDate, $limit, $offset);
-
         return $this->render('contents/load-more.html.twig', [
             'contents' => $contents ?: null,
+            'modeAdd' => $modeAdd,
         ]);
     }
 
@@ -142,6 +148,11 @@ class ContentController extends Controller
             'content' => $content,
             'user' => $user,
         ));
+
+
+        $wanted_contents = $doctrine->getRepository('AppBundle:User')->getUsersContentWanted($content);
+        $to_share_contents = $doctrine->getRepository('AppBundle:User')->getUsersContentToShare($content);
+
         shuffle($other_contents);
         $from_lobby = false;
         if ($request->query->has('frmlby') && $request->query->has('lby')) {
@@ -155,7 +166,9 @@ class ContentController extends Controller
             'from_lobby' => $from_lobby,
             'lobby_id' => $request->query->has('lby') ? $request->get('lby') : 0,
             'other_contents' => $other_contents,
-            'note_user' => $note_user
+            'note_user' => $note_user,
+            'wanted_contents' => $wanted_contents,
+            'to_share_contents' => $to_share_contents
         ]);
     }
 
@@ -262,22 +275,51 @@ class ContentController extends Controller
             'content' => $content,
             'user' => $user,
         ));
-
-        if (!isset($note_user[0])) {
-            $nouvelle_note = new Note();
-            $nouvelle_note->setNote($note);
-            $nouvelle_note->setUser($user);
-            $nouvelle_note->setContent($content);
-            $nouvelle_note->setStatus(1);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($nouvelle_note);
-            $em->flush();
-        } else {
-            $note_user[0]->setNote($note);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($note_user[0]);
-            $em->flush();
+        if(isset($content) && $note >= 0 && $note <=4) {
+            if (!isset($note_user[0])) {
+                $nouvelle_note = new Note();
+                $nouvelle_note->setNote($note);
+                $nouvelle_note->setUser($user);
+                $nouvelle_note->setContent($content);
+                $nouvelle_note->setStatus(1);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($nouvelle_note);
+                $em->flush();
+            } else {
+                $note_user[0]->setNote($note);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($note_user[0]);
+                $em->flush();
+            }
+            return new Response();
         }
-        return new Response();
+        else
+        {
+            return new Response();
+        }
+
+    }
+
+    /**
+     * @Route("/contenus/suggestion", name="contenus_suggest")
+     */
+    public function suggestContentAction(Request $request)
+    {
+        $doctrine = $this->getDoctrine();
+        $user = $this->getUser();
+        $form = $this->createForm('AppBundle\Form\SuggestionType',null,array(
+            'method' => 'POST'
+        ));
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            return $this->render('contents/suggest-content.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
+                'controller' => 'content',
+                'user' => $user,
+                'form' => $form->createView()
+            ]);
+        }
+        return $this->redirectToRoute('profil');
     }
 }

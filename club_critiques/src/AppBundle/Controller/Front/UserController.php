@@ -10,6 +10,52 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends Controller
 {
+
+    /**
+     * @Route("/users", name="users")
+     */
+    public function usersActions(Request $request)
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("danger", "Vous n'avez pas l'autorisation d'accéder à cette page.");
+            return $this->redirectToRoute('homepage');
+        } else {
+            $doctrine = $this->getDoctrine();
+
+            /** Users **/
+            $users = $doctrine->getRepository('AppBundle:User')->findBy(array('status' => 1), array('username' => 'ASC'));
+
+            /*$paginator = $this->get('knp_paginator');
+            $users = $paginator->paginate(
+                $users,
+                $request->query->getInt('page',1),
+                $request->query->getInt('limit',12)
+            );*/
+
+            return $this->render('profile/user-list.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
+                'controller' => 'users',
+                'users' => $users
+            ]);
+        }
+    }
+
+    /**
+     * @Route("/users/loadMore", name="users_load_more")
+     */
+    public function loadMoreAction(Request $request)
+    {
+        $limit = 8;
+        $offset = $request->get('offset');
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->getByFilters($limit, $offset);
+
+        return $this->render('profile/load-more.html.twig', [
+            'users' => $users ?: null,
+        ]);
+    }
+
     /**
      * @Route("/user/{id}", name="user")
      */
