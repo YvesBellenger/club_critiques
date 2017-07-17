@@ -17,10 +17,6 @@ class ContentController extends Controller
      */
     public function contenusActions(Request $request)
     {
-        $modeAdd = false;
-        if ($request->query->has('modeAdd')) {
-            $modeAdd = true;
-        }
         $doctrine = $this->getDoctrine();
         $categoryRepository = $doctrine->getRepository('AppBundle:Category');
 
@@ -51,7 +47,6 @@ class ContentController extends Controller
             'selected_sub_category_id' => 0,
             'selected_author_id' => 0,
             'selected_orderBy' => 0,
-            'modeAdd' => $modeAdd,
             'offset' => 8,
             'subcategories' => $subcategories
         ]);
@@ -105,10 +100,6 @@ class ContentController extends Controller
      */
     public function loadMoreAction(Request $request)
     {
-        $modeAdd = false;
-        if ($request->query->has('modeAdd')) {
-            $modeAdd = true;
-        }
 
         $limit = 8;
         $offset = $request->get('offset');
@@ -132,7 +123,6 @@ class ContentController extends Controller
         $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $orderBy, $limit, $offset);
         return $this->render('contents/load-more.html.twig', [
             'contents' => $contents ?: null,
-            'modeAdd' => $modeAdd,
         ]);
     }
 

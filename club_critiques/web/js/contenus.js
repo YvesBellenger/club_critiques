@@ -11,7 +11,7 @@ function onFiltersChange(elt) {
     $.ajax({
         type: "POST",
         url: 'contenus/filters',
-        data: {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'publishedDate': $('#orderBy').val()},
+        data: {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'orderBy': $('#orderBy').val()},
         async: false
     })
         .done(function(response){
@@ -58,7 +58,7 @@ function loadMore(elt) {
     $.ajax({
         type: "POST",
         url: 'contenus/loadMore',
-        data: {'offset': offset, 'filters':  {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'publishedDate': $('#publishedDate').val()}},
+        data: {'offset': offset, 'filters':  {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'orderBy': $('#orderBy').val()}},
         async: false
     })
     .done(function(response){
