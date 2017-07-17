@@ -10,6 +10,7 @@ $(function() {
         var scrollTop = $window.scrollTop();
         navbar.toggleClass('hide-menu', scrollTop > prev);
         $('.float-menu').toggleClass('fix-top', scrollTop > prev);
+        // $('.header').toggleClass('fix-top', scrollTop > prev);
         //
         // $('.fix-top').animate({
         //     top: "0"

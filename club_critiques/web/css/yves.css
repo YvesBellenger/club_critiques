@@ -12,9 +12,10 @@ body {
     margin-bottom: 60px;
 }
 
-h2{
+h2, h1{
     margin-bottom: 30px;
 }
+
 
 .wrapper{
     /*min-height: 100vh;*/
@@ -129,7 +130,7 @@ nav.hide-menu{
 
 .wrapper .float-menu.fix-top{
     /*animation: fix-top 400ms;*/
-    transform: translateY(-110px);
+    transform: translateY(-67px);
     margin-top: 10px;
 }
 

@@ -2,36 +2,45 @@
 
 {% block title %} Club des critiques | Accueil {% endblock %}
 {% block body %}
-    <div class="wrapper container-fluid">
+
+    <div class="wrapper container-fluid" id="home-page">
         {% if cms %}
-            <div class="row">
-                <div class="col-md-8 col-md-offset-1">
-                    <div class="concept">
-                        <h2>{{ cms.title }}</h2>
-                        <p>{{ cms.content|purify }}</p>
+            <header class="header">
+                <div class="row banner">
+                    <img src="{{ asset('img/banner.jpg') }}" />
+                </div>
+
+                <div class="row header-wrapper">
+                    <div class="col-md-8 col-md-offset-1">
+                        <div class="concept">
+                            <h1>{{ cms.title }}</h1>
+                            <p>{{ cms.content|raw }}</p>
+                        </div>
+                    </div>
+                    <div class="float-menu col-md-3">
+                        <div class="floating-menu">
+                            <p>Inscrivez vous</p>
+                            <form role="form" action="#" method="post">
+                                <input class="form-control" type="email" name="email" placeholder="Email">
+                                <button type="submit" class="btn btn-default">S'inscrire</button>
+                            </form>
+                        </div>
+                        <div class="floating-menu second">
+                            {% if (next_lobby is not null and (next_lobby.date_start|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s'))) %}
+                                <p>Prochain salon</p>
+                                <span>{{ next_lobby.content.title }}</span>
+                                <span>{% for key,author in next_lobby.content.authors %}{{ author.name }}{% if (key+1) != next_lobby.content.authors|length %},{% endif %}{% endfor %}</span>
+                                <span>{{ next_lobby.date_start|date('d/m/Y') }} - {{ next_lobby.date_start|date('H') }}h{{ next_lobby.date_start|date('i') }}</span>
+                            {% else %}
+                                <p>Aucun salon prévu</p>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-                <div class="float-menu col-md-3">
-                    <div class="floating-menu">
-                        <p>Inscrivez vous</p>
-                        <form role="form" action="#" method="post">
-                            <input class="form-control" type="email" name="email" placeholder="Email">
-                            <button type="submit" class="btn btn-default">S'inscrire</button>
-                        </form>
-                    </div>
-                    <div class="floating-menu second">
-                        {% if (next_lobby is not null and (next_lobby.date_start|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s'))) %}
-                            <p>Prochain salon</p>
-                            <span>{{ next_lobby.content.title }}</span>
-                            <span>{% for key,author in next_lobby.content.authors %}{{ author.name }}{% if (key+1) != next_lobby.content.authors|length %},{% endif %}{% endfor %}</span>
-                            <span>{{ next_lobby.date_start|date('d/m/Y') }} - {{ next_lobby.date_start|date('H') }}h{{ next_lobby.date_start|date('i') }}</span>
-                        {% else %}
-                            <p>Aucun salon prévu</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+            </header>
+            <hr>
         {% endif %}
+
         <div class="featured row">
             {% if block_home %}
                 <div class="col-md-9 col-md-offset-1">
@@ -39,9 +48,9 @@
                     <div class="content-list">
                         {% for key,content in block_home.contents  %}
 
-                            <div class="col-md-4 featured-item">
+                            <div class="col-md-2 featured-item">
                                 <a href="{{ path('contenu', {'id': content.id}) }}">
-                                    <img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
+                                    <img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
                                 </a>
                                 <div class="book-infos">
                                     <span><a href="{{ path('contenu', {'id': content.id}) }}">{{ content.title }}</a></span>
@@ -51,9 +60,9 @@
                         {% endfor %}
                     </div>
                 </div>
-
             {% endif %}
         </div>
+        <hr>
         <div class="row">
             <div class="col-md-9 col-md-offset-1">
                 <h2>NOUS CONTACTER</h2>
