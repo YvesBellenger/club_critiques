@@ -61,53 +61,59 @@ class UserController extends Controller
      */
     public function userActions (Request $request)
     {
-        $doctrine = $this->getDoctrine();
-        $user = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
-        $form = $this->createForm('AppBundle\Form\ContactType',null,array(
-            'method' => 'POST'
-        ));
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        else
+        {
+            $doctrine = $this->getDoctrine();
+            $user = $doctrine->getRepository('AppBundle:User')->find($request->get('id'));
+            $form = $this->createForm('AppBundle\Form\ContactType', null, array(
+                'method' => 'POST'
+            ));
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            if($form->isValid()){
-                if($this->sendEmail($form->getData())){
-                    return $this->redirectToRoute('redirect_to_somewhere_now');
-                }else{
-                    var_dump("Errooooor :(");
+            if ($request->isMethod('POST')) {
+                $form->handleRequest($request);
+                if ($form->isValid()) {
+                    if ($this->sendEmailContact($form->getData(),$this->getUser(),$user->getEmail())) {
+                        $this->addFlash("success", "L'email a correctement été envoyé.");
+                        return $this->redirectToRoute('user',array('id' => $request->get('id')));
+                    } else {
+                        $this->addFlash("success", "Une erreur est survenue.");
+                        return $this->redirectToRoute('user',array('id' => $request->get('id')));
+                    }
                 }
             }
-        }
 
-        return $this->render('profile/user.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-            'controller' => 'user',
-            'user' => $user,
-            'connected_user' => $this->getUser(),
-            'form' => $form->createView()
-        ]);
+            return $this->render('profile/user.html.twig', [
+                'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
+                'controller' => 'user',
+                'user' => $user,
+                'connected_user' => $this->getUser(),
+                'form' => $form->createView()
+            ]);
+        }
     }
 
-    private function sendEmail($data){
-        $myappContactMail = 'mycontactmail@mymail.com';
-        $myappContactPassword = 'yourmailpassword';
-
-        // In this case we'll use the ZOHO mail services.
-        // If your service is another, then read the following article to know which smpt code to use and which port
-        // http://ourcodeworld.com/articles/read/14/swiftmailer-send-mails-from-php-easily-and-effortlessly
-        $transport = \Swift_SmtpTransport::newInstance('smtp.zoho.com', 465,'ssl')
-            ->setUsername($myappContactMail)
-            ->setPassword($myappContactPassword);
-
-        $mailer = \Swift_Mailer::newInstance($transport);
-
-        $message = \Swift_Message::newInstance("Our Code World Contact Form ". $data["subject"])
-            ->setFrom(array($myappContactMail => "Message by ".$data["name"]))
-            ->setTo(array(
-                $myappContactMail => $myappContactMail
-            ))
-            ->setBody($data["message"]."<br>ContactMail :".$data["email"]);
-
+    private function sendEmailContact($data, $sender, $receiver){
+        $mailer = $this->container->get('mailer');
+        $message = (new \Swift_Message('[Report] Un utilisateur a été signalé'))
+            ->setFrom($data['email'])
+            ->setTo($receiver)
+            ->setSubject('[Club des critiques] '.$data['subject'])
+            ->setBody(
+                $this->renderView
+                (
+                    'mails/contact.html.twig',
+                    array
+                    (
+                            'data' => $data,
+                            'sender' => $sender
+                    )
+                ),'text/html'
+            );
         return $mailer->send($message);
+
     }
 
     /**
@@ -139,7 +145,14 @@ class UserController extends Controller
         $em->persist($user);
         $em->flush();
         $this->addFlash("success", "L'utilisateur a bien été supprimé de vos contacts.");
-        return $this->redirectToRoute('profil');
+        $referer = $request->headers->get('referer');
+        if(isset($referer)) {
+            return $this->redirect($referer);
+        }
+        else{
+            return $this->redirectToRoute('user',array('id' => $request->get('id')));
+        }
+
     }
 
     /**
@@ -218,4 +231,61 @@ class UserController extends Controller
         $response = array('success' => true);
         return new JsonResponse(json_encode($response));
     }
+
+    /**
+     * @Route("/profil/shared/add", name="profil_add_shared_content")
+     */
+    public function userAddSharedContentAction(Request $request)
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            if(isset($content)) {
+                if ($user->contentsToShare->contains($content)) {
+                    $user->removeContentToShare($content);
+                    $user->addContentShared($content);
+                } else {
+                    var_dump($content);
+                    die();
+                    $user->addContentWanted($content);
+                }
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+        $this->addFlash("success", "Le contenu est désormais considéré comme prêté.");
+        return $this->redirectToRoute('profil');
+    }
+
+    /**
+     * @Route("/profil/shared/remove", name="profil_remove_shared_content")
+     */
+    public function userRemoveSharedContentAction(Request $request)
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('fos_user_security_login');
+        } else {
+            $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
+            if(isset($content)) {
+                if ($user->contentsShared->contains($content)) {
+                    $user->removeContentShared($content);
+                    $user->addContentToShare($content);
+                } else {
+                    var_dump($content);
+                    die();
+                    $user->addContentWanted($content);
+                }
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+        $this->addFlash("success", "Le contenu est désormais considéré comme rendu.");
+        return $this->redirectToRoute('profil');
+    }
+
 }

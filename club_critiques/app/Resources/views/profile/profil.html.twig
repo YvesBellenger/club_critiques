@@ -70,12 +70,6 @@
                             </div>
                         {% endfor %}
                 {% endif %}
-                <div class="col-md-2 col-lg-2 mini-content-profil echange">
-                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
-                        <img class="img-thumbnail" src="{{ asset('img/add_content.png') }}">
-                    </a>
-                    <h3>Ajouter un livre</h3>
-                </div>
             </div>
 
         </div>
@@ -95,17 +89,11 @@
                         <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                         <div class="buttons-share">
                             <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button class="material-icon-delete" title="Supprimer"><i class="material-icons">&#xE872;</i></button></a>
-                            <a href="#"><button class="material-icon-share"><i class="material-icons">&#xE86C;</i></button></a>
+                            <a href="{{ path('profil_add_shared_content', {'content_id': content.id}) }}"><button class="material-icon-share"><i class="material-icons">&#xE86C;</i></button></a>
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
-                <div class="col-md-2 col-lg-2 mini-content-profil echange">
-                    <a href="{{ path("contenus", {'modeAdd': 1}) }}">
-                        <img class="img-thumbnail" src="{{ asset('img/add_content.png') }}">
-                    </a>
-                    <h3>Ajouter un livre</h3>
-                </div>
             </div>
         </div>
 
@@ -116,6 +104,19 @@
                 </div>
             </div>
             <div class="row">
+                {% if user.getContentsShared().count > 0 %}
+                    {% for content in user.getContentsShared() %}
+                        <div class="col-md-2 col-lg-2 mini-content-profil echange">
+                            <a href="#"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
+                            <h3>{{ content.title }}</h3>
+                            <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
+                            <div class="buttons-share">
+                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button class="material-icon-delete" title="Supprimer"><i class="material-icons">&#xE872;</i></button></a>
+                                <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 3}) }}"><button class="material-icon-share"><i class="material-icons">&#xE86C;</i></button></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

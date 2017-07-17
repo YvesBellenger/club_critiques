@@ -18,6 +18,7 @@
         "doctrine/orm": "^2.5",
         "egeloen/ckeditor-bundle": "^4.0",
         "eightpoints/guzzle-bundle": "^4.5",
+        "exercise/htmlpurifier-bundle": "^0.2.4",
         "friendsofsymfony/rest-bundle": "^2.1",
         "friendsofsymfony/user-bundle": "~2.0",
         "google/apiclient": "^2.2",

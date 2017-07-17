@@ -14,3 +14,4 @@ function loadMore(elt) {
             alert('Error : ' + errorThrown);
         });
 }
+

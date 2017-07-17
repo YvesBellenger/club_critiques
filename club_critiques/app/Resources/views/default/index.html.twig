@@ -8,7 +8,7 @@
                 <div class="col-md-8 col-md-offset-1">
                     <div class="concept">
                         <h2>{{ cms.title }}</h2>
-                        <p>{{ cms.content|raw }}</p>
+                        <p>{{ cms.content|purify }}</p>
                     </div>
                 </div>
                 <div class="float-menu col-md-3">

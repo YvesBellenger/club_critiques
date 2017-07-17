@@ -16,6 +16,8 @@ class User extends BaseUser
 {
     const CONTENT_TO_SHARE = 1;
     const CONTENT_WANTED = 2;
+    const CONTENT_SHARED = 3;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -87,6 +89,15 @@ class User extends BaseUser
     public $contentsWanted;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Content", cascade={"persist"})
+     * @ORM\JoinTable(name="user_contents_shared",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="content_id", referencedColumnName="id")}
+     * )
+     */
+    public $contentsShared;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date_add", type="datetime")
@@ -112,6 +123,7 @@ class User extends BaseUser
         $this->contacts = new ArrayCollection();
         $this->contentsToShare = new ArrayCollection();
         $this->contentsWanted = new ArrayCollection();
+        $this->contentsShared = new ArrayCollection();
         $this->status = 1;
     }
 
@@ -362,6 +374,41 @@ class User extends BaseUser
     public function removeContentToShare(\AppBundle\Entity\Content $content)
     {
         $this->contentsToShare->removeElement($content);
+    }
+
+    /**
+     * Get contentsShared
+     *
+     * @return ArrayCollection
+     */
+    public function getContentsShared()
+    {
+        return $this->contentsShared;
+    }
+
+    /**
+     * Add contentShared
+     *
+     * @param \AppBundle\Entity\Content $content
+     * @return User
+     */
+    public function addContentShared(\AppBundle\Entity\Content $content)
+    {
+        if(!$this->contentsShared->contains($content)) {
+            $this->contentsShared[] = $content;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove contentShared
+     *
+     * @param \AppBundle\Entity\Content $content
+     */
+    public function removeContentShared(\AppBundle\Entity\Content $content)
+    {
+        $this->contentsShared->removeElement($content);
     }
 
     /**
