@@ -234,19 +234,19 @@ class LobbyController extends Controller
             return $this->redirectToRoute('lobby_list_history');
         } else {
             $rooms = array();
-            $history = $lobby->getHistory();
+            $history = unserialize($lobby->getHistory());
             if (!empty($history)) {
                 foreach ($history as $room) {
                     if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-                        $rooms[$room['room_id']]['messages'] = $room['messages'];
+                        $rooms[$room->room_id]['messages'] = $room->messages;
                         foreach ($participations as $_participation) {
-                            if ($_participation->room == $room['room_id']) {
-                                $rooms[$room['room_id']]['participants'][] = $_participation;
+                            if ($_participation->room == $room->room_id) {
+                                $rooms[$room->room_id]['participants'][] = $_participation;
                             }
                         }
                     } else {
-                        if ($room['room_id'] == $participation->room) {
-                            $rooms[$participation->room]['messages'] = $room['messages'];
+                        if ($room->room_id == $participation->room) {
+                            $rooms[$participation->room]['messages'] = $room->messages;
                             foreach ($participations as $_participation) {
                                 if ($_participation->room == $participation->room) {
                                     $rooms[$participation->room]['participants'][] = $_participation;

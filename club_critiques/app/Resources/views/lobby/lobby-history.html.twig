@@ -15,7 +15,7 @@
             <div class="col-md-6 col-md-offset-1 bloc-chat" id="block-chat">
                 <section id="chat">
                         {% if is_granted('ROLE_ADMIN') %}
-                            <h3>Salon n° {{ room_id }}</h3>
+                            <h3>Salon n° {{ room_id+1 }}</h3>
                         {% endif %}
                         {% for message in room.messages %}
                             <p><strong>{{ message.username }}</strong>: {{ message.message }}</p>
@@ -31,24 +31,28 @@
                         <th>Action</th>
                     </tr>
                     </thead>
+                    {% if room.participants is defined %}
                     <tbody id="list-users">
-                    {%  for participant in room.participants %}
-                        <tr>
-                            <td scope="row">{{ participant.user.firstName ? participant.user.firstName|capitalize : 'John' }} {{ participant.user.lastName ? participant.user.lastName|upper : 'DOE' }} - ({% if participant.user.id != user.id %}{{ participant.user.username }}{% else %}moi{% endif %})</td>
-                            <td>
-                                <div class="liste-salon-item">
-                                    <span>
-                                        {% if participant.user.id != user.id %}
-                                            <a target="_blank" href="{{ path('user', {'id': participant.user.id}) }}">Profil</a>
-                                        {% else %}
-                                            -
-                                        {% endif %}
-                                    </span>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {%  for participant in room.participants %}
+                            <tr>
+                                <td scope="row">{{ participant.user.firstName ? participant.user.firstName|capitalize : 'John' }} {{ participant.user.lastName ? participant.user.lastName|upper : 'DOE' }} - ({% if participant.user.id != user.id %}{{ participant.user.username }}{% else %}moi{% endif %})</td>
+                                <td>
+                                    <div class="liste-salon-item">
+                                        <span>
+                                            {% if participant.user.id != user.id %}
+                                                <a target="_blank" href="{{ path('user', {'id': participant.user.id}) }}">Profil</a>
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
+                    {% else %}
+                        <p>Aucun participant enregistré</p>
+                    {% endif %}
                 </table>
             </div>
         </div>
