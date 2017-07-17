@@ -32,10 +32,15 @@
     cursor: pointer;
 }
 
-#home-page .featured h2{
-    margin-top: 0px;
+#home-page h1{
+    margin-bottom : 30px;
 }
 
-.book-info{
+#home-page .featured h2{
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.book-infos{
     margin-top: 10px;
 }
