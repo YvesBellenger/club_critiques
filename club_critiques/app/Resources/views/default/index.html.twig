@@ -2,9 +2,15 @@
 
 {% block title %} Club des critiques | Accueil {% endblock %}
 {% block body %}
-    <div class="wrapper container-fluid">
+    <div class="wrapper container-fluid" id="home-page">
         {% if cms %}
-            <div class="row">
+
+            <div class="row banner">
+                <img src="{{ asset('img/banner.jpg') }}" />
+            </div>
+
+
+            <div class="row header-wrapper">
                 <div class="col-md-8 col-md-offset-1">
                     <div class="concept">
                         <h2>{{ cms.title }}</h2>
@@ -31,6 +37,8 @@
                     </div>
                 </div>
             </div>
+
+
         {% endif %}
         <div class="featured row">
             {% if block_home %}

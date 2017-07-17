@@ -129,7 +129,7 @@ nav.hide-menu{
 
 .wrapper .float-menu.fix-top{
     /*animation: fix-top 400ms;*/
-    transform: translateY(-110px);
+    transform: translateY(-80px);
     margin-top: 10px;
 }
 
