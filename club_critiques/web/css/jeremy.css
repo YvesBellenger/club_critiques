@@ -160,7 +160,7 @@ button:hover {
 
 .mini-content-profil .img-thumbnail,
 .mini-contact .img-thumbnail{
-    max-height: 180px;
+    /*max-height: 180px;*/
 }
 
 .wrap-mini-contents-profil{
@@ -216,12 +216,11 @@ button:hover {
 /*}*/
 
 .photo-profil {
-    width: 300px;
+    /*width: 300px;*/
     overflow: hidden;
 }
 
-.photo-profil img{
-}
+
 
 .wrap-form div{
     margin-top: 10px;
