@@ -37,6 +37,22 @@ function onAddContent(elt) {
         });
 }
 
+/*function sharedContent(elt) {
+    $.ajax({
+        type: "POST",
+        url: 'content/shared/add',
+        data: {'content_id': $(elt).data('content-id'), 'type': $(elt).data('type')},
+        async: false
+    })
+        .done(function(response){
+            alert('le contenu a bien été ajouté');
+        })
+        .fail(function(jqXHR, textStatus, errorThrown){
+            alert('Error : ' + errorThrown);
+        });
+}*/
+
+
 function loadMore(elt) {
     var offset = $(elt).data('offset');
     $.ajax({
@@ -52,4 +68,49 @@ function loadMore(elt) {
     .fail(function(jqXHR, textStatus, errorThrown){
         alert('Error : ' + errorThrown);
     });
+}
+
+function toShareMail(elt){
+    var content_title = $(elt).data('content-title');
+    var content_authors = $(elt).data('content-authors');
+    var contact_subject_input = $('#contact_subject');
+    var contact_message_input = $('#contact_message');
+
+    var subject = "Je souhaite vous emprunter " + content_title;
+    var message = "Bonjour, \n \n";
+
+    message += "Voyant que vous mettez à disposition ce livre, je souhaiterais vous emprunter " + content_title + " de "+content_authors+".\n\n";
+    message += 'Merci. \n\n';
+    message += 'Cordialement, \n';
+    message += 'Prénom nom';
+
+
+    contact_subject_input.val(subject);
+    contact_message_input.val(message);
+    $(window).scrollTop( $("#contact-form").offset().top);
+}
+
+function wantedMail(elt){
+    var content_title = $(elt).data('content-title');
+    var content_authors = $(elt).data('content-authors');
+    var contact_subject_input = $('#contact_subject');
+    var contact_message_input = $('#contact_message');
+
+    var subject = "Je souhaite vous prêter " + content_title;
+    var message = "Bonjour, \n \n";
+    message += "Voyant que vous mettez à disposition ce livre, je souhaiterais vous emprunter " + content_title + " de "+content_authors+".\n\n";
+    message += 'Merci. \n\n';
+    message += 'Cordialement, \n';
+    message += 'Prénom nom';
+
+
+    contact_subject_input.val(subject);
+    contact_message_input.val(message);
+    $(window).scrollTop( $("#contact-form").offset().top);
+}
+
+function scroll_form(){
+    var objDiv = document.getElementById("contact-form");
+    objDiv.scrollTop = objDiv.scrollHeight;
+
 }

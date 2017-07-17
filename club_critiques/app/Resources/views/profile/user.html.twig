@@ -9,7 +9,11 @@
                 <div class="col-md-3 photo-profil">
                     <img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}">
                     <div id="liens-profil">
-                        <a href="{{ path('user_add', {'id': user.id}) }}"><button>Ajouter aux contacts</button></a>
+                        {% if connected_user.contacts.contains(user) %}
+                            <a href="{{ path('user_remove', {'id': user.id}) }}"><button>Supprimer de mes contacts</button></a>
+                        {% else %}
+                            <a href="{{ path('user_add', {'id': user.id}) }}"><button>Ajouter aux contacts</button></a>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -26,28 +30,6 @@
                 </div>
             </div>
         </div>
-        {#<div class="wrap-mini-contacts">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Contacts de {{ user.username }}</h2>
-                </div>
-            </div>
-            {% if user.getContacts().count > 0 %}
-                <div class="row">
-                    {% for contact in user.getContacts() %}
-                        <div class="col-md-2 mini-contact">
-                            <a href="{{ path('user', {'id': contact.id}) }}"><img class="img-responsive" src="{{ asset('img/avatar_placeholder.png') }}"></a>
-                            <h3>{{ contact.username }}</h3>
-                            <h4>{{ contact.firstName }} {{ contact.lastName }}</h4>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="row">
-                    <p>Aucun contacts</p>
-                </div>
-            {% endif %}
-        </div>#}
 
         {% if user.getContentsWanted().count > 0 %}
             <div class="wrap-mini-contents">
@@ -59,8 +41,9 @@
                 <div class="row">
                 {% for content in user.getContentsWanted() %}
                     <div class="col-md-2 col-lg-2 mini-content-profil echange">
-                        <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je possède : {{ content.title }} - {% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse organiser un échange ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
-                        <h3>{{ content.title }}</h3>
+                        {#<a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je possède : {{ content.title }} - {% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse organiser un échange ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>#}
+                        <a href="javascript:void(0);" data-content-title="{{ content.title }}" data-content-authors="{% for key,author in content.authors %}{{ author.name }}{% if (key+2) == content.authors|length %} et {% elseif (key+1) != content.authors|length %}, {% endif %}{% endfor %}" onclick="wantedMail(this)"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
+                        <a href="{{ path('contenu', {'id': content.id}) }}"><h3>{{ content.title }}</h3></a>
                         <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                     </div>
                 {% endfor %}
@@ -77,7 +60,8 @@
                 <div class="row">
                     {% for content in user.getContentsToShare() %}
                         <div class="col-md-2 col-lg-2 mini-content-profil echange">
-                            <a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je souhaite vous emprunter : {{ content.title }} - {% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse s'organiser ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
+                            {#<a href="mailto:{{ user.email }}?subject=Demande d'échange&body=Bonjour, %0D %0D Je souhaite vous emprunter : {{ content.title }} - {% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}. %0D Pouvez vous me recontacter afin que l'on puisse s'organiser ? %0D %0D Cordialement, %0D {{ connected_user.firstName|capitalize }} {{ connected_user.lastName|upper }}"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>#}
+                            <a href="javascript:void(0);" data-content-title="{{ content.title }}" data-content-authors="{% for key,author in content.authors %}{{ author.name }}{% if (key+2) == content.authors|length %} et {% elseif (key+1) != content.authors|length %}, {% endif %}{% endfor %}" onclick="toShareMail(this)"><img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}"></a>
                             <a href="{{ path('contenu', {'id': content.id}) }}"><h3>{{ content.title }}</h3></a>
                             <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                         </div>
@@ -89,7 +73,7 @@
         <div class="row">
             <h2 class="col-md-offset-3"> Contactez {{ user.lastName }} {{ user.firstName }}</h2>
         </div>
-        <div class="wrap-form">
+        <div class="wrap-form" id="contact-form">
             {{ form_start(form) }}
 
             <div class="row">
