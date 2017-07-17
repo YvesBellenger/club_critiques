@@ -1,0 +1,15 @@
+<div class="mail-container">
+    <p>
+        Suggestion de la part de {{ sender.firstName }} {{ sender.lastName }}<br>
+        Email : {{ sender.email }}<br><br>
+
+        <b>Type : </b> {{ data.type }}<br>
+        <b>Titre : </b> {{ data.titre }}<br>
+        <b>Auteur(s) : </b> {{ data.auteur }}<br>
+        <b>Catégorie : </b> {{ data.categorie }}<br>
+        <b>Année : </b> {{ data.publication }}<br><br>
+
+        Accéder au profil de <a href="{{ base_url }}{{ path('user', {'id': sender.id}) }}">{{ sender.username }}</a>
+    </p>
+
+</div>

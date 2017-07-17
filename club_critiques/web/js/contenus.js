@@ -11,7 +11,7 @@ function onFiltersChange(elt) {
     $.ajax({
         type: "POST",
         url: 'contenus/filters',
-        data: {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'publishedDate': $('#publishedDate').val()},
+        data: {'sub_category_id': $('#sub-category').val(), 'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'publishedDate': $('#orderBy').val()},
         async: false
     })
         .done(function(response){
@@ -73,6 +73,8 @@ function loadMore(elt) {
 function toShareMail(elt){
     var content_title = $(elt).data('content-title');
     var content_authors = $(elt).data('content-authors');
+    var user_prenom = $(elt).data('user-prenom');
+    var user_nom = $(elt).data('user-nom');
     var contact_subject_input = $('#contact_subject');
     var contact_message_input = $('#contact_message');
 
@@ -82,7 +84,7 @@ function toShareMail(elt){
     message += "Voyant que vous mettez à disposition ce livre, je souhaiterais vous emprunter " + content_title + " de "+content_authors+".\n\n";
     message += 'Merci. \n\n';
     message += 'Cordialement, \n';
-    message += 'Prénom nom';
+    message += user_prenom + " " + user_nom;
 
 
     contact_subject_input.val(subject);
@@ -93,6 +95,8 @@ function toShareMail(elt){
 function wantedMail(elt){
     var content_title = $(elt).data('content-title');
     var content_authors = $(elt).data('content-authors');
+    var user_prenom = $(elt).data('user-prenom');
+    var user_nom = $(elt).data('user-nom');
     var contact_subject_input = $('#contact_subject');
     var contact_message_input = $('#contact_message');
 
@@ -101,7 +105,7 @@ function wantedMail(elt){
     message += "Voyant que vous mettez à disposition ce livre, je souhaiterais vous emprunter " + content_title + " de "+content_authors+".\n\n";
     message += 'Merci. \n\n';
     message += 'Cordialement, \n';
-    message += 'Prénom nom';
+    message += user_prenom + " " + user_nom;
 
 
     contact_subject_input.val(subject);

@@ -50,6 +50,7 @@ class ContentController extends Controller
             'selected_category_id' => 0,
             'selected_sub_category_id' => 0,
             'selected_author_id' => 0,
+            'selected_orderBy' => 0,
             'modeAdd' => $modeAdd,
             'offset' => 8,
             'subcategories' => $subcategories
@@ -70,7 +71,7 @@ class ContentController extends Controller
         $sub_category_id = $request->get('sub_category_id');
         $author_id = $request->get('author_id');
         $title = $request->get('title');
-        $publishedDate = $request->get('publishedDate');
+        $orderBy = $request->get('orderBy');
         $author = $category = $sub_category = null;
         if ($author_id > 0) {
             $author = $doctrine->getRepository('AppBundle:Author')->find($author_id);
@@ -84,7 +85,7 @@ class ContentController extends Controller
             $category = $categoryRepository->find($category_id);
             $sub_categories = $categoryRepository->findBy(array('parentCategory' => $category));
         }
-        $contents = $doctrine->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $publishedDate);
+        $contents = $doctrine->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $orderBy);
         return $this->render('contents/content-list.html.twig', [
             'contents' => $contents ?: null,
             'subcategories' => $sub_categories,
@@ -94,6 +95,7 @@ class ContentController extends Controller
             'title' => $title,
             'offset' => 8,
             'selected_author_id' => $author_id,
+            'selected_orderBy' => $orderBy,
             'selected_sub_category_id' => $sub_category_id
         ]);
     }
@@ -115,7 +117,7 @@ class ContentController extends Controller
         $sub_category_id = $filters['sub_category_id'];
         $author_id = $filters['author_id'];
         $title = $filters['title'];
-        $publishedDate = $filters['publishedDate'];
+        $orderBy = $filters['orderBy'];
         $author = $category = $sub_category = null;
         if ($author_id > 0) {
             $author = $this->getDoctrine()->getRepository('AppBundle:Author')->find($author_id);
@@ -127,7 +129,7 @@ class ContentController extends Controller
         if ($category_id > 0) {
             $category = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
         }
-        $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $publishedDate, $limit, $offset);
+        $contents = $this->getDoctrine()->getRepository('AppBundle:Content')->getByFilters($category, $sub_category, $author, $title, $orderBy, $limit, $offset);
         return $this->render('contents/load-more.html.twig', [
             'contents' => $contents ?: null,
             'modeAdd' => $modeAdd,
@@ -351,6 +353,19 @@ class ContentController extends Controller
         if (!$user) {
             return $this->redirectToRoute('fos_user_security_login');
         } else {
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                if ($this->sendEmailSuggestContent($form->getData(), $user)) {
+                    $this->addFlash("success", "L'email a correctement été envoyé.");
+                    return $this->redirectToRoute('contenus_suggest');
+                } else {
+                    $this->addFlash("success", "Une erreur est survenue.");
+                    return $this->redirectToRoute('contenus_suggest');
+                }
+            }
+        }
+
             return $this->render('contents/suggest-content.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
                 'controller' => 'content',
@@ -358,6 +373,26 @@ class ContentController extends Controller
                 'form' => $form->createView()
             ]);
         }
-        return $this->redirectToRoute('profil');
+    }
+
+    private function sendEmailSuggestContent($data, $sender){
+        $mailer = $this->container->get('mailer');
+        $message = (new \Swift_Message('test'))
+            ->setFrom('noreply@club-cc.com')
+            ->setTo('lynohaz@gmail.com')
+            ->setSubject('[Suggestion de contenus] - '.$data["titre"])
+            ->setBody(
+                $this->renderView
+                (
+                    'mails/suggestion-contenus.html.twig',
+                    array
+                    (
+                        'data' => $data,
+                        'sender' => $sender
+                    )
+                ),'text/html'
+            );
+        return $mailer->send($message);
+
     }
 }

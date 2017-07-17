@@ -11,32 +11,31 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class SuggestionType extends  AbstractType
+class HomeContactType extends  AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type', TextType::class, array('attr' => array('class' => 'col-md-3','placeholder' =>'Livre, film...'),
+            ->add('name', TextType::class, array('attr' => array('class' => 'form-control'),
                 'constraints' => array(
                     new NotBlank(array("message" => "Merci de ne pas laisser ce champ vide")),
                 )
             ))
-            ->add('titre', TextType::class, array('attr' => array('class' => 'col-md-3','placeholder' =>'Harry Potter, Orange Mécanique...'),
+            ->add('subject', TextType::class, array('attr' => array('class' => 'form-control'),
                 'constraints' => array(
                     new NotBlank(array("message" => "Merci de ne pas laisser ce champ vide")),
                 )
             ))
-            ->add('auteur', TextType::class, array('attr' => array('class' => 'col-md-3','placeholder' =>'J.K. Rowling, Stanley Kubric..'),
+            ->add('email', EmailType::class, array('attr' => array('class' => 'form-control'),
                 'constraints' => array(
                     new NotBlank(array("message" => "Merci de ne pas laisser ce champ vide")),
+                    new Email(array("message" => "Le format de l'email n'est pas valide")),
                 )
             ))
-            ->add('categorie', TextType::class, array('attr' => array('class' => 'col-md-3','placeholder' =>'Thriller,Comédie..'),
-                'constraints' => array(
-                    new NotBlank(array("message" => "Merci de ne pas laisser ce champ vide")),
-                )
-            ))
-            ->add('publication', TextType::class, array('attr' => array('class' => 'col-md-3','placeholder' =>'1997, 1972...'),
+            ->add('message', TextareaType::class, array(
+                'attr' => array(
+                    'class' => 'form-control',
+                    'rows' => 8),
                 'constraints' => array(
                     new NotBlank(array("message" => "Merci de ne pas laisser ce champ vide")),
                 )
@@ -53,6 +52,6 @@ class SuggestionType extends  AbstractType
 
     public function getName()
     {
-        return 'suggestion_form';
+        return 'home_contact_form';
     }
 }

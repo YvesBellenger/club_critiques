@@ -17,6 +17,22 @@ class DefaultController extends Controller
         $cms_home = $doctrine->getRepository('AppBundle:CMS')->findOneByCode('home');
         $block_home = $doctrine->getRepository('AppBundle:BlockContent')->findOneByCode('a-la-une');
         $next_lobby = $doctrine->getRepository('AppBundle:Lobby')->findBy(array('status' => 1), array('date_start' => 'ASC'), 1);
+        $form = $this->createForm('AppBundle\Form\HomeContactType',null,array(
+            'method' => 'POST'
+        ));
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                if ($this->sendEmailFromHome($form->getData())) {
+                    $this->addFlash("success", "L'email a correctement été envoyé.");
+                    return $this->redirectToRoute('homepage');
+                } else {
+                    $this->addFlash("success", "Une erreur est survenue.");
+                    return $this->redirectToRoute('homepage');
+                }
+            }
+        }
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
@@ -24,8 +40,29 @@ class DefaultController extends Controller
             'controller' => 'accueil',
             'cms' => $cms_home,
             'next_lobby' => !empty($next_lobby) ? $next_lobby[0] : null,
-            'block_home' => $block_home
+            'block_home' => $block_home,
+            'form' => $form->createView(),
         ]);
+    }
+
+    private function sendEmailFromHome($data){
+        $mailer = $this->container->get('mailer');
+        $message = (new \Swift_Message('test'))
+            ->setFrom('noreply@club-cc.com')
+            ->setTo('lynohaz@gmail.com')
+            ->setSubject('[Formulaire de contact] - '.$data["subject"])
+            ->setBody(
+                $this->renderView
+                (
+                    'mails/email-index.html.twig',
+                    array
+                    (
+                        'data' => $data
+                    )
+                ),'text/html'
+            );
+        return $mailer->send($message);
+
     }
 
     public function footerAction(Request $request)
