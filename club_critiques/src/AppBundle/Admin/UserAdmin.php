@@ -14,9 +14,18 @@ class UserAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $container = $this->getConfigurationPool()->getContainer();
+        $roles = $container->getParameter('security.role_hierarchy.roles');
+        $rolesChoices = self::flattenRoles($roles);
+
         $formMapper->add('username', null, ['label' => 'Surnom', 'required' => true]);
         $formMapper->add('firstName', null, ['label' => 'Prénom', 'required' => true]);
         $formMapper->add('lastName', null, ['label' => 'Nom', 'required' => true]);
+        $formMapper->add('roles', 'choice', array(
+                                        'choices'  => $rolesChoices,
+                                        'multiple' => true
+                                    )
+                        );
         $formMapper->add('description', null, ['label' => 'Description']);
         $formMapper->add('nbReports', null, ['label' => 'Nb de fois signalé', 'disabled' => true]);
         $formMapper->add('contacts', 'entity', ['label' => 'Contacts',
@@ -61,5 +70,24 @@ class UserAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollection $collection) {
         $collection->add('banIp', $this->getRouterIdParameter().'/banIp');
+    }
+
+    protected static function flattenRoles($rolesHierarchy)
+    {
+        $flatRoles = array();
+        foreach($rolesHierarchy as $roles) {
+
+            if(empty($roles)) {
+                continue;
+            }
+
+            foreach($roles as $role) {
+                if(!isset($flatRoles[$role])) {
+                    $flatRoles[$role] = $role;
+                }
+            }
+        }
+
+        return $flatRoles;
     }
 }
