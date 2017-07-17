@@ -4,9 +4,13 @@
     font-family: 'Roboto', sans-serif;
 }
 
-h1,h2,h3,h4,h5,h6{
-    font-family: 'Quicksand', sans-serif;
-    font-weight: bold;
+h1,h2{
+    font-family: 'CaviarDreams', sans-serif;
+    /*font-weight: bold;*/
+}
+
+h1{
+    font-size: 48px;
 }
 
 .menu {
@@ -39,7 +43,7 @@ h1,h2,h3,h4,h5,h6{
     /*padding-top: 10px;*/
 }
 .logo img{
-    width: 125px;
+    width: 100px;
 }
 
 .logo, .user-actions {
@@ -100,10 +104,11 @@ h1,h2,h3,h4,h5,h6{
 
 .featured-item {
     display: inline-block;
-    width: auto;
+    /*width: auto;*/
+    min-height:340px;
     margin-right: 87px;
-    margin-bottom: 50px;
-    padding-left: 0px;
+    /*padding-bottom: 80px;*/
+    padding-left: 0;
 }
 
 .featured-item span{
