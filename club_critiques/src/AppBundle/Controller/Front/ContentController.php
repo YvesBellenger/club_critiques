@@ -182,16 +182,36 @@ class ContentController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         } else {
             $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
-            if ($request->get('type') == User::CONTENT_TO_SHARE) {
-                $user->addContentToShare($content);
-            } else {
-                $user->addContentWanted($content);
+            if (isset($content)) {
+                if ($request->get('type') == User::CONTENT_TO_SHARE && !$user->contentsWanted->contains($content) && !$user->contentsShared->contains($content)) {
+                    $user->addContentToShare($content);
+                    $this->addFlash("success", "Le contenu est désormais considéré comme disponible.");
+                } else if ($request->get('type') == User::CONTENT_WANTED && !$user->contentsToShare->contains($content) && !$user->contentsShared->contains($content)) {
+                    $user->addContentWanted($content);
+                    $this->addFlash("success", "Le contenu est désormais considéré comme recherché.");
+                } else if ($request->get('type') == User::CONTENT_SHARED && !$user->contentsWanted->contains($content) && $user->contentsToShare->contains($content)) {
+                    $user->removeContentToShare($content);
+                    $user->addContentShared($content);
+                    $this->addFlash("success", "Le contenu est désormais considéré comme prêté.");
+                } else if ($request->get('type') > 3){
+                    $this->addFlash("success", "Aucune action disponible.");
+                } else{
+                    $this->addFlash("success", "Une erreur est survenue.");
+                }
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
         }
-        return new Response();
+
+        $referer = $request->headers->get('referer');
+        if(isset($referer)) {
+            return $this->redirect($referer);
+        }
+        else{
+            return $this->redirectToRoute('contenus');
+        }
     }
 
     /**
@@ -204,17 +224,35 @@ class ContentController extends Controller
             return $this->redirectToRoute('fos_user_security_login');
         } else {
             $content = $this->getDoctrine()->getRepository('AppBundle:Content')->find($request->get('content_id'));
-            if ($request->get('type') == User::CONTENT_TO_SHARE) {
-                $user->removeContentToShare($content);
-            } else {
-                $user->removeContentWanted($content);
+            if(isset($content)) {
+                if ($request->get('type') == User::CONTENT_TO_SHARE) {
+                    $user->removeContentToShare($content);
+                    $this->addFlash("success", "Le contenu est désormais considéré comme indisponible.");
+                } else if ($request->get('type') == User::CONTENT_WANTED) {
+                    $user->removeContentWanted($content);
+                    $this->addFlash("success", "Le contenu est désormais considéré comme non recherché.");
+                } else if ($request->get('type') == User::CONTENT_SHARED) {
+                    $user->removeContentShared($content);
+                    $user->addContentToShare($content);
+                    $this->addFlash("success", "Le contenu est désormais considéré comme rendu.");
+                }
+                else if ($request->get('type') > 3){
+                    $this->addFlash("success", "Aucune action disponible.");
+                } else{
+                    $this->addFlash("success", "Une erreur est survenue.");
+                }
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
             }
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
         }
-        $this->addFlash("success", "Le contenu a bien été supprimé de votre liste.");
-        return $this->redirectToRoute('profil');
+        $referer = $request->headers->get('referer');
+        if(isset($referer)) {
+            return $this->redirect($referer);
+        }
+        else{
+            return $this->redirectToRoute('contenus');
+        }
     }
 
     /**

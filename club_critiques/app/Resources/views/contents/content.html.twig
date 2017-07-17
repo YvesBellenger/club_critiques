@@ -10,8 +10,17 @@
                     <div class="col-md-3 cover-oeuvre">
                         <img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
                         <div id="liens-profil">
-                            <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="2" onclick="onAddContent(this)"><button>Ajouter à ma liste de souhait</button></a>
-                            <a href="javascript:void(0);" data-content-id="{{ content.id }}" data-type="1" onclick="onAddContent(this)"><button>Ajouter à ma liste d'échange</button></a>
+                            {% if app.user.contentsWanted.contains(content) == true %}
+                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Je ne cherche plus ce livre</button></a>
+                            {% elseif app.user.contentsToShare.contains(content) == true %}
+                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button>Je ne propose plus ce livre</button></a>
+                                <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 3}) }}"><button>Prêter le livre</button></a>
+                            {% elseif app.user.contentsShared.contains(content) == true %}
+                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 3}) }}"><button>Livre rendu</button></a>
+                            {% elseif app.user.contentsWanted.contains(content) == false and app.user.contentsToShare.contains(content) == false and app.user.contentsShared.contains(content) == false  %}
+                                <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 2}) }}"><button>Je cherche ce livre</button></a>
+                                <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 1}) }}"><button>Je dispose de ce livre</button></a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -37,7 +46,7 @@
                         <h1>{{ content.title }}</h1>
                         <a href="#"><h2>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h2></a>
                         <div class="paragraphe-description">
-                            {{ content.description|trans|raw }}
+                            {{ content.description|trans|purify }}
                         </div>
                     </div>
 

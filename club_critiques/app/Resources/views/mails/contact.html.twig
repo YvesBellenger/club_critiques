@@ -1,0 +1,6 @@
+<div class="mail-container">
+        {{ data.message|nl2br }}<br><br>
+
+        Email de {{ data.name }} : {{ data.email }}<br>
+        Accéder au profil de <a href="{{ base_url }}{{ path('user', {'id': sender.id}) }}">{{ data.name }}</a>
+</div>
