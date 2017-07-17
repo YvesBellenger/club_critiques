@@ -85,7 +85,7 @@
             <div class="wrap-mini-contents">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2>Ce que j'ai</h2>
+                        <h2>Ce que j'ai de disponible</h2>
                     </div>
                 </div>
                 <div class="row">
@@ -97,7 +97,7 @@
                                 <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                                 <div class="buttons-share">
                                     <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button class="material-icon-delete" title="Supprimer"><i class="material-icons">&#xE872;</i></button></a>
-                                    <a href="{{ path('profil_add_shared_content', {'content_id': content.id}) }}"><button class="material-icon-share"><i class="material-icons">&#xE86C;</i></button></a>
+                                    <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 3}) }}"><button class="material-icon-share" title="Prêter"><i class="material-icons">&#xE86C;</i></button></a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -121,8 +121,7 @@
                                 <h3>{{ content.title }}</h3>
                                 <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
                                 <div class="buttons-share">
-                                    <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button class="material-icon-delete" title="Supprimer"><i class="material-icons">&#xE872;</i></button></a>
-                                    <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 3}) }}"><button class="material-icon-share"><i class="material-icons">&#xE86C;</i></button></a>
+                                    <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 3}) }}"><button class="material-icon-share"><i class="material-icons" title="Rendre">&#xE86C;</i></button></a>
                                 </div>
                             </div>
                         {% endfor %}
