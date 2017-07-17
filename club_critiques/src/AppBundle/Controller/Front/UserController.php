@@ -97,7 +97,7 @@ class UserController extends Controller
 
     private function sendEmailContact($data, $sender, $receiver){
         $mailer = $this->container->get('mailer');
-        $message = (new \Swift_Message('[Report] Un utilisateur a été signalé'))
+        $message = (new \Swift_Message())
             ->setFrom($data['email'])
             ->setTo($receiver)
             ->setSubject('[Club des critiques] '.$data['subject'])

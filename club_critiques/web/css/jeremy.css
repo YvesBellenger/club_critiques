@@ -317,5 +317,6 @@ button:hover {
     overflow-y: auto;
 }
 
-
-
+#contact_message{
+    min-height: 200px;
+}

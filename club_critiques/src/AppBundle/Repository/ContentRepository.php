@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class ContentRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getByFilters($category, $sub_category, $author, $title, $publishedDate, $limit = 8, $offset = 0) {
+    public function getByFilters($category, $sub_category, $author, $title, $orderBy, $limit = 8, $offset = 0) {
         $qb = $this->createQueryBuilder('c');
         $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat');
         $qb->where('1 = 1');
@@ -30,15 +30,26 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere('c.title LIKE :title');
             $qb->setParameter('title', '%'.$title.'%');
         }
-        if ($publishedDate) {
-            $qb->andWhere('c.publishedDate LIKE :publishedDate');
-            $qb->setParameter('publishedDate', '%'.$publishedDate.'%');
-        }
        $qb->andWhere('c.status = :status')
         ->setMaxResults($limit)
-        ->setFirstResult($offset)
-        ->orderBy('c.title')
-        ->setParameter('status', 1);
+        ->setFirstResult($offset);
+        if($orderBy == 0)
+        {
+            $qb->orderBy('c.title','ASC');
+        }
+        else if($orderBy == 1)
+        {
+            $qb->orderBy('c.title', 'DESC');
+        }
+        else if($orderBy == 2)
+        {
+            $qb->orderBy('c.publishedDate', 'ASC');
+        }
+        else if($orderBy == 3)
+        {
+            $qb->orderBy('c.publishedDate', 'DESC');
+        }
+        $qb->setParameter('status', 1);
 
         return $qb->getQuery()
             ->getResult();
