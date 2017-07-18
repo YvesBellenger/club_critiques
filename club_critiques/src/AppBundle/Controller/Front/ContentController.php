@@ -367,7 +367,7 @@ class ContentController extends Controller
 
     private function sendEmailSuggestContent($data, $sender){
         $mailer = $this->container->get('mailer');
-        $message = (new \Swift_Message('test'))
+        $message = (new \Swift_Message('mail'))
             ->setFrom($this->container->getParameter('mailer_user'))
             ->setTo($this->container->getParameter('mailer_user'))
             ->setSubject('[Suggestion de contenus] - '.$data["titre"])
