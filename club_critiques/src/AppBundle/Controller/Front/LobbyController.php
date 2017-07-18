@@ -356,7 +356,7 @@ class LobbyController extends Controller
             $mailer = $this->container->get('mailer');
 
             $message = (new \Swift_Message('[Suggestion] Un utilisateur a suggéré un salon.'))
-                ->setFrom('noreply@club-critiques.com')
+                ->setFrom($this->container->getParameter('mailer_user'))
                 ->setTo($this->container->getParameter('mailer_user'))
                 ->setBody(
                     $this->renderView(

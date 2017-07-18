@@ -186,8 +186,8 @@ class UserController extends Controller
         $em->flush();
         $mailer = $this->container->get('mailer');
         $message = (new \Swift_Message('[Report] Un utilisateur a été signalé'))
-            ->setFrom('noreply@club-critiques.com')
-            ->setTo('humbertsimon@gmail.com')
+            ->setFrom($this->container->getParameter('mailer_user'))
+            ->setTo($this->container->getParameter('mailer_user'))
             ->setBody(
                 $this->renderView(
                     'mails/report.html.twig',
