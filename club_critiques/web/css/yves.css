@@ -84,8 +84,9 @@ nav.hide-menu{
 }
 
 .floating-menu.second{
-    /*top: 43%;*/
-    margin-top: 10px;
+    background-color: #70BEB1;
+    border-color: #25283C;
+    color: #ffffff;
 }
 
 .form-control{
