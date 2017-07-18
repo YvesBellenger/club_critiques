@@ -23,7 +23,7 @@ socket.on('new_user_room', function(data) {
             '<div class="liste-salon-item">' +
             '<span>' +
             '<a data-participant-id="' + user.user.user_id + '" data-lobby-id="' + user.user.lobby + '" onclick="reportUser(this)" href="javascript:void(0)">Signaler</a> | '+
-            '<a target="_blank" href="http://club-critiques.dev/app_dev.php/user/'+user.user.user_id+'">Profil</a>' +
+            '<a target="_blank" href="http://club-critiques.dev/user/'+user.user.user_id+'">Profil</a>' +
             '</span>' +
             '</div>' +
             '</td>' +
@@ -44,7 +44,7 @@ socket.on('end_lobby', function(message) {
 });
 
 socket.on('redirect', function() {
-   window.location = "/app_dev.php";
+   window.location = "/";
 });
 
 socket.on('message', function(data) {
@@ -78,7 +78,7 @@ function reportUser(elt) {
     if (confirm('Êtes vous sur de vouloir signaler cet utilisateur ? Tout abus pourra être sanctionné.')) {
         $.ajax({
             type: "POST",
-            url: '/app_dev.php/salon/user/report',
+            url: '/salon/user/report',
             data: {'participant_id': $(elt).data('participant-id'), 'lobby_id': $(elt).data('lobby-id')},
             async: false
         })
@@ -109,7 +109,7 @@ function sendFiltersRequest()
 {
     $.ajax({
         type: "POST",
-        url: '/app_dev.php/salons/filters',
+        url: '/salons/filters',
         data: {'category_id': $('#category').val(), 'author_id': $('#author').val(), 'title': $('#title').val(), 'history': $('#history').val()},
         async: true
     })
@@ -125,7 +125,7 @@ function inviteUser(elt) {
     if (confirm('Un email sera envoyé à cet utilisateur afin qu\'il puisse rejoindre vote salon. Voulez vous continuer ?')) {
         $.ajax({
             type: "POST",
-            url: '/app_dev.php/salon/user/invitation',
+            url: '/salon/user/invitation',
             data: {'contact_id': $(elt).data('contact-id'), 'lobby_id': $(elt).data('lobby-id'), 'room_id': $(elt).data('room-id')},
             async: true
         })
