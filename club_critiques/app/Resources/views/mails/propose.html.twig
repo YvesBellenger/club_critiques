@@ -1,0 +1,9 @@
+<div class="mail-container">
+    <p> Bonjour, <br><br>
+        {{ user.firstName }} {{ user.lastName }} ({{ user.username }}) a récemment suggéré un salon : <br>
+        Contenu : {{ lobby.content }} <br>
+        Date de début : {{ lobby.date_start|date('d/m/Y') }} <br>
+        Date de fin : {{ lobby.date_end|date('d/m/Y') }} <br><br>
+        Consultez le <a href="{{ base_url }}{{ path('sonata_admin_dashboard') }}">Back Office</a> afin de valider ou non le salon.
+    </p>
+</div>

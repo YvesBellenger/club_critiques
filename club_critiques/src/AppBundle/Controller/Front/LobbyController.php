@@ -344,6 +344,22 @@ class LobbyController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($lobby);
             $em->flush();
+
+            $mailer = $this->container->get('mailer');
+
+            $message = (new \Swift_Message('[Suggestion] Un utilisateur a suggéré un salon.'))
+                ->setFrom('noreply@club-critiques.com')
+                ->setTo($this->container->getParameter('mailer_user'))
+                ->setBody(
+                    $this->renderView(
+                        'mails/propose.html.twig',
+                        array('lobby' => $lobby,
+                              'user' => $this->getUser())
+                    ),
+                    'text/html'
+                );
+            $mailer->send($message);
+
         }
 
         return $this->render('lobby/propose.html.twig', array(
