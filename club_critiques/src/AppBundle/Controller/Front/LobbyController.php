@@ -43,12 +43,12 @@ class LobbyController extends Controller
 
         $participation = $this->getDoctrine()->getRepository('AppBundle:Participation')->findOneBy(array('user' => $user, 'lobby' => $lobby));
 
-        if (!$participation && !$request->query->has('from_invite')) {
+        if (!$participation && !$request->query->has('from_invite') && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $this->addFlash("danger", "Vous n'êtes pas inscrit à ce salon");
             return $this->redirectToRoute('lobby_list');
         } else if (!$participation && $request->query->has('from_invite')) {
             return $this->redirectToRoute('lobby_register', array('id' => $lobby->id, 'from_invite' => true));
-        } else if ($participation) {
+        } else if ($participation || (!$participation && $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))) {
             if (date('Y-m-d H:i') > $lobby->date_end->format('Y-m-d H:i')) {
                 $this->addFlash("danger", "Ce salon est terminé. Si vous y avez participé, vous pouvez consulter l'historique.");
                 return $this->redirectToRoute('lobby_list_history');
@@ -64,29 +64,39 @@ class LobbyController extends Controller
             foreach ($participations as $_participation) {
                 $user_ids[] = $_participation->user->id;
             }
-            $notes = $this->getDoctrine()->getRepository('AppBundle:Note')->getNotesForLobby($lobby, $user_ids);
-            $repartition = array();
-            $nb_user_per_room = count($notes) / $nb_rooms;
-            for ($i = 0; $i < $nb_rooms; $i++) {
-                for ($j = 0; $j < $nb_user_per_room; $j++) {
-                    if ($j % 2 == 0) {
-                        $repartition[$i][] = $notes[0];
-                        unset($notes[0]);
-                    } else {
-                        $repartition[$i][] = $notes[count($notes) - 1];
-                        unset($notes[count($notes) - 1]);
+            if (count($user_ids)) {
+                $notes = $this->getDoctrine()->getRepository('AppBundle:Note')->getNotesForLobby($lobby, $user_ids);
+                $repartition = array();
+                $nb_user_per_room = count($notes) / $nb_rooms;
+                for ($i = 0; $i < $nb_rooms; $i++) {
+                    for ($j = 0; $j < $nb_user_per_room; $j++) {
+                        if ($j % 2 == 0) {
+                            $repartition[$i][] = $notes[0];
+                            unset($notes[0]);
+                        } else {
+                            $repartition[$i][] = $notes[count($notes) - 1];
+                            unset($notes[count($notes) - 1]);
+                        }
+                        $notes = array_values($notes);
                     }
-                    $notes = array_values($notes);
                 }
             }
-
+            if (!$participation && $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+                $participation = new Participation();
+                $participation->setLobby($lobby);
+                $participation->setUser($user);
+                $participation->setStatus(0);
+                $participation->setRoom(0);
+            }
             $user_note = $this->getDoctrine()->getRepository('AppBundle:Note')->findBy(array('content' => $lobby->content, 'user' => $user));
             $user_room = 0;
-            foreach ($repartition as $k => $room) {
-                foreach ($room as $participant) {
-                    if ($participant->id == $user_note[0]->user->id) {
+            if (isset($repartition)) {
+                foreach ($repartition as $k => $room) {
+                    foreach ($room as $participant) {
+                        if ($participant->id == $user_note[0]->user->id) {
 
-                        $user_room = $k + 1;
+                            $user_room = $k + 1;
+                        }
                     }
                 }
             }
@@ -94,6 +104,9 @@ class LobbyController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($participation);
             $em->flush();
+//            if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+//                $participation = new
+//            }
             return $this->render('lobby/lobby.html.twig', [
                 'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
                 'controller' => 'salon',
