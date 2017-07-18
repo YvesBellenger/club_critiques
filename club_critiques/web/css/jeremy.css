@@ -48,7 +48,8 @@ button:hover {
     text-transform: uppercase;
 }
 #content-list .mini-content{
-    height: 600px;
+    /*height: 600px;*/
+    min-height: 400px;
 }
 
 .wrap-mini-contents,wrap-mini-contacts {

@@ -19,9 +19,4 @@ $(function() {
         prev = scrollTop;
     });
 
-    // if($(".float-menu:not(.fix-top)")){
-    //     if($(".float").attr("top") == 0)
-    //     console.log('remove fix-top');
-    // }
-
 });
