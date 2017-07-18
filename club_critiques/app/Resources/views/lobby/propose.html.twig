@@ -15,23 +15,23 @@
 
                     <label class="col-md-3 col-form-label" for="name">Contenu :</label>
                     <div class="col-md-9">
-                        {{ form_widget(form.content) }}
-                        {{ form_errors(form.content) }}
+                        {{ form_widget(form.content, {'attr': {'class': 'form-control inline'}}) }}
+                        {{ form_errors(form.content, {'attr': {'class': 'form-control inline'}}) }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label">Date de début : </label>
                     <div class="col-md-9">
-                        {{ form_widget(form.date_start) }}
-                        {{ form_errors(form.date_start) }}
+                        {{ form_widget(form.date_start, {'attr': {'class': 'inline'}}) }}
+                        {{ form_errors(form.date_start, {'attr': {'class': 'inline'}}) }}
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label">Date de fin : </label>
 
                     <div class="col-md-9">
-                        {{ form_widget(form.date_end) }}
-                        {{ form_errors(form.date_end) }}
+                        {{ form_widget(form.date_end, {'attr': {'class': 'inline'}}) }}
+                        {{ form_errors(form.date_end, {'attr': {'class': 'inline'}}) }}
                     </div>
                 </div>
                 <div style="display:none">
@@ -45,3 +45,6 @@
         </div>
     </div>
 {% endblock %}
+{#{% block js %}#}
+    {#<script src="{{ asset('js/lobby-propose.js') }}"></script>#}
+{#{% endblock %}#}

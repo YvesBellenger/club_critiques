@@ -32,6 +32,38 @@
     color: #70BEB1;
 }
 
+#lobby-propose .form-group{
+    width: 100%;
+}
+
+#lobby-propose #lobby_date_end select,
+#lobby-propose #lobby_date_start select {
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    margin-right: 5px;
+}
+
+
+#lobby_content .form-control.inline{
+    width: 50%;
+}
+
+#lobby_date_start_date,
+#lobby_date_start_time,
+#lobby_date_end_date,
+#lobby_date_end_time{
+    display: inline-block;
+}
+
 /**** MEDIA QUERIES *****/
 
 @media screen and(max-width:768px){
