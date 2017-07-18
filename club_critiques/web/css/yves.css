@@ -30,9 +30,10 @@ h2{
     right: 0;
     padding-left: 5%;
     margin-top: 20px;
+    z-index: 10;
 }
 
-/****** NAVBAR ****AZ**/
+/****** NAVBAR ******/
 
 .navbar{
     border-radius : 0px !important;

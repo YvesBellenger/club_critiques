@@ -111,10 +111,8 @@ h2{
 
 .featured-item {
     display: inline-block;
-    /*width: auto;*/
     min-height:340px;
-    margin-right: 87px;
-    /*padding-bottom: 80px;*/
+    /*margin-right: 87px;*/
     padding-left: 0;
 }
 
