@@ -25,9 +25,9 @@ class Lobby
 
     /**
      *
-     * @ORM\Column(name="max_participations", type="integer")
+     * @ORM\Column(name="created_by_user", type="boolean", nullable=true)
      */
-    public $max_participations = 20;
+    public $createdByUser;
 
     /**
      * @var date
@@ -178,25 +178,25 @@ class Lobby
     }
 
     /**
-     * Set max_participations
+     * Set createdByUSer
      *
      *
      * @return Lobby
      */
-    public function setMaxParticipations($max_participations)
+    public function setCreatedByUser($createdByUser)
     {
-        $this->max_participations = $max_participations;
+        $this->createdByUser = $createdByUser;
         return $this;
     }
 
     /**
-     * Get max_participations
+     * Get createdByUser
      *
      */
 
-    public function getMaxParticipation()
+    public function getCreatedByUser()
     {
-        return $this->max_participations;
+        return $this->createdByUser;
     }
 
     /**
