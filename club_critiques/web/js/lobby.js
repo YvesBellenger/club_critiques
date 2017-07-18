@@ -43,7 +43,7 @@ socket.on('end_lobby', function(message) {
 
 socket.on('redirect', function() {
     setTimeout(function(){
-        window.location = "/app_dev.php";
+        window.location = "/";
     }, 10000);
 });
 
