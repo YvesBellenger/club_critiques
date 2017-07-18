@@ -47,9 +47,9 @@ class DefaultController extends Controller
 
     private function sendEmailFromHome($data){
         $mailer = $this->container->get('mailer');
-        $message = (new \Swift_Message('test'))
-            ->setFrom('noreply@club-cc.com')
-            ->setTo('lynohaz@gmail.com')
+        $message = (new \Swift_Message('mail'))
+            ->setFrom($this->container->getParameter('mailer_user'))
+            ->setTo($this->container->getParameter('mailer_user'))
             ->setSubject('[Formulaire de contact] - '.$data["subject"])
             ->setBody(
                 $this->renderView
