@@ -352,13 +352,16 @@ class LobbyController extends Controller
                 ->setTo($this->container->getParameter('mailer_user'))
                 ->setBody(
                     $this->renderView(
-                        'mails/propose.html.twig',
+                        'mails/propose-lobby.html.twig',
                         array('lobby' => $lobby,
                               'user' => $this->getUser())
                     ),
                     'text/html'
                 );
             $mailer->send($message);
+
+            $this->addFlash("success", "Le salon a correctement été proposé.");
+            $this->redirectToRoute("propose_lobby");
 
         }
 
