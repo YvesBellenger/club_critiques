@@ -1,0 +1,35 @@
+.contents-wrapper{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.placeholder{
+    color: #999999;
+
+}
+select option:first-child{
+    color: grey; display: none;
+
+}
+
+.filters .form-control.inline{
+    width: auto;
+}
+
+.filters .form-group{
+    width: auto;
+}
+
+.form-inline .form-group{
+    margin-right: 10px;
+}
+
+
+#contenus .filters{
+    margin-bottom: 50px;
+    display: flex;
+}
+
+.filters .form-inline{
+    margin: auto;
+}

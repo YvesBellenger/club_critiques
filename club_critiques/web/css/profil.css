@@ -1,0 +1,17 @@
+#profil .description-profil h2, h3{
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+#profil .wrap-profil{
+    margin-left: 20px;
+}
+
+#profil .wrap-mini-contacts .contacts .img-thumbnail{
+    max-height: 180px;
+    opacity: 1;
+}
+
+#profil .wrap-mini-contacts .contacts .img-thumbnail:hover{
+    opacity: 0.7;
+}
