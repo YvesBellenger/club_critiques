@@ -5,7 +5,7 @@ function search(elt) {
         timer = setTimeout(function request() {
             $.ajax({
                 type: "POST",
-                url: '/app_dev.php/admin/api/content/search',
+                url: '/admin/api/content/search',
                 data: {'keywords': $("#keywords").val()},
                 async: false
             })
@@ -27,7 +27,7 @@ function addContent(elt) {
         var index = $(elt).data('index');
         $.ajax({
             type: "POST",
-            url: '/app_dev.php/admin/api/content/add',
+            url: '/admin/api/content/add',
             data: {'title': $("#title-"+index).text(),
                     'authors': $("#authors-"+index).text(),
                     'publishedDate': $("#publishedDate-"+index).text(),

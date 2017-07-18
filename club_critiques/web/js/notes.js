@@ -35,7 +35,7 @@ $(document).ready(function(){
             noteActuelle=selectedNote;
             $.ajax({
                 type: "POST",
-                url: "/app_dev.php/contenus/note/save",
+                url: "/contenus/note/save",
                 data: {"note": noteActuelle, "content-id": contentID},
             })
             .done(function(data){
@@ -55,9 +55,9 @@ $(document).ready(function(){
                         params = '?from_invite=true';
                     }
                     if ($('#join').val() == 1) {
-                        window.location = "/app_dev.php/salon/" + $('#lobby_id').val() + "/register"+params
+                        window.location = "/salon/" + $('#lobby_id').val() + "/register"+params
                     } else {
-                        window.location = "/app_dev.php/salons";
+                        window.location = "/salons";
                     }
                 }
             })
