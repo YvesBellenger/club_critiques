@@ -2,11 +2,19 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Entity\Content;
+use AppBundle\Entity\Lobby;
 use AppBundle\Entity\Participation;
+use AppBundle\Form\LobbyType;
+use AppBundle\Repository\ContentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sonata\AdminBundle\Form\Type\Filter\DateTimeType;
+use Sonata\AdminBundle\Form\Type\Filter\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Intl\DateFormatter\IntlDateFormatter;
 
 class LobbyController extends Controller
 {
@@ -320,6 +328,28 @@ class LobbyController extends Controller
         } else {
             return $this->redirectToRoute('lobby_list');
         }
+    }
+
+    /**
+     * @Route("/salon/suggestion", name="propose_lobby")
+     */
+    public function proposeLobbyAction(Request $request) {
+
+        $lobby = new Lobby();
+        $form = $this->createForm('AppBundle\Form\LobbyType', $lobby);
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            $lobby->setStatus(0);
+            $lobby->setCreatedByUser(1);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($lobby);
+            $em->flush();
+        }
+
+        return $this->render('lobby/propose.html.twig', array(
+            'form' => $form->createView(),
+            'route' => 'propose_lobby'
+        ));
     }
 
 }

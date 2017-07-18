@@ -8,6 +8,7 @@
         <h2>SALONS</h2>
         {% if controller == 'lobby_list' %}
             <a href="{{ path('lobby_list_history') }}">Voir l'historique des salons</a>
+            <a href="{{ path('propose_lobby') }}">Suggérer un salon</a>
         {% else %}
             <a href="{{ path('lobby_list') }}">Voir les prochains salons</a>
         {% endif %}
