@@ -7,10 +7,6 @@
     color: #999999;
 
 }
-select option:first-child{
-    color: grey; display: none;
-
-}
 
 .filters .form-control.inline{
     width: auto;

@@ -9,8 +9,8 @@ class ProfileFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', null, array('label' => 'Prénom'));
-        $builder->add('lastName', null, array('label' => 'Nom'));
+        $builder->add('firstName', null, array('label' => 'Prénom', 'attr' => array('pattern' => "[A-Za-z]", 'title' => 'Seulement des caractères alphabétiques')));
+        $builder->add('lastName', null, array('label' => 'Nom', 'attr' => array('pattern' => "[A-Za-z]", 'title' => 'Seulement des caractères alphabétiques')));
         $builder->add('description');
     }
 

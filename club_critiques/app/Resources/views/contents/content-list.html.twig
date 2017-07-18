@@ -10,7 +10,7 @@
         <div class="form-group ">
             <label> Catégorie : </label>
             <select id="category" class="form-control inline placeholder" onchange="onFiltersChange(this);">
-                <option value="0">Livre, film, ...</option>
+                <option value="0">Toutes les catégories</option>
                 {% for category in categories %}
                     <option value="{{ category.id }}" {% if selected_category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
                 {% endfor %}
@@ -21,7 +21,7 @@
         <div class="form-group ">
             <label>Sous catégorie : </label>
             <select id="sub-category" class="form-control inline placeholder" onchange="onFiltersChange(this);">
-                <option value="0">Fantastique, Fiction,...</option>
+                <option value="0">Toutes les sous-catégories</option>
                 {% for subcategory in subcategories %}
                     <option value="{{ subcategory.id }}" {% if selected_sub_category_id == subcategory.id %}selected{% endif %}>{{ subcategory.name }}</option>
                 {% endfor %}
@@ -30,7 +30,7 @@
         <div class="form-group ">
             <label>Auteur : </label>
             <select id="author" class="form-control inline placeholder" onchange="onFiltersChange(this);">
-                <option value="0">Sélectionner un auteur</option>
+                <option value="0">Tous les auteurs</option>
                 {% for author in authors %}
                     <option value="{{ author.id }}" {% if selected_author_id == author.id %}selected{% endif %}>{{ author.name }}</option>
                 {% endfor %}
@@ -39,7 +39,7 @@
 
         <div class="form-group">
             <label>Tri par  : </label>
-            <select id="orderBy" class="form-control inline" onchange="onFiltersChange(this);">
+            <select id="orderBy" class="form-control inline placeholder" onchange="onFiltersChange(this);">
                 <option value="0" {% if selected_orderBy == 0 %}selected{% endif %}>Titres A-Z</option>
                 <option value="1" {% if selected_orderBy == 1 %}selected{% endif %}>Titres Z-A</option>
                 <option value="2" {% if selected_orderBy == 2 %}selected{% endif %}>Plus récents</option>
@@ -77,7 +77,6 @@
 </div>
 
 {% endblock %}
-{% block javascripts %}<script src="{{ asset('js/content-filter.js') }}"></script> {% endblock %}
 
 {#{% if newcontents is defined %}
 <div class="navigation text-center">
