@@ -4,7 +4,7 @@ namespace AppBundle\Repository;
 
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getByFilters($limit = 8, $offset = 0) {
+    public function getByFilters($limit = 12, $offset = 0) {
         $qb = $this->createQueryBuilder('c');
         $qb->where('1 = 1');
         $qb->andWhere('c.status = :status')
