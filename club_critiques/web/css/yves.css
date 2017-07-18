@@ -194,7 +194,7 @@ nav.hide-menu{
 }
 
 .table-hover>tbody>tr:hover{
-    background-color: #CEE8DF;
+    /*background-color: #e6e6e6;*/
 }
 
 /*.table{*/

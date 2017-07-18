@@ -12,6 +12,7 @@ h1,h2{
 h1{
     font-size: 42px;
     margin-bottom: 70px;
+    text-align: center;
     text-transform: uppercase;
 }
 
@@ -215,3 +216,4 @@ h2{
 .img-thumbnail:hover{
     opacity: 0.7;
 }
+

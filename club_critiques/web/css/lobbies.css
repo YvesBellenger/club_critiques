@@ -1,0 +1,41 @@
+#lobbies hr{
+    margin: 10px 72px 30px 72px;
+    border-top: solid 1px #70BEB1;
+}
+
+#lobbies .list-lobbies{
+    margin-left: 55px;
+    margin-right: 55px;
+}
+
+#lobbies .list-lobbies .table > tbody > tr > td{
+    vertical-align: middle;
+}
+
+#lobbies .btn-default,
+#liste-salons .btn-default{
+    min-width: 112px;
+    background-color: #70BEB1;
+    color: #ffffff;
+    border-color: #70BEB1;
+}
+
+#lobbies .btn-default:hover,
+#liste-salons .btn-default:hover{
+    border-color: #64ab9f;
+    background-color: #64ab9f;
+    color: #ffffff;
+}
+
+.list-lobbies td > a:hover{
+    text-decoration: none;
+    color: #70BEB1;
+}
+
+/**** MEDIA QUERIES *****/
+
+@media screen and(max-width:768px){
+    #lobbies .list-lobbies{
+        margin: 0;
+    }
+}

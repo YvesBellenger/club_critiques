@@ -5,13 +5,7 @@
 
     <div class="container-fluid wrapper" id="liste-salons">
 
-        <h2>SALONS</h2>
-        {% if controller == 'lobby_list' %}
-            <a href="{{ path('lobby_list_history') }}">Voir l'historique des salons</a>
-            <a href="{{ path('propose_lobby') }}">Suggérer un salon</a>
-        {% else %}
-            <a href="{{ path('lobby_list') }}">Voir les prochains salons</a>
-        {% endif %}
+        <h1>SALONS</h1>
         <div id="lobbies">
             {{ include('lobby/lobby-list.html.twig', { 'lobby_list': lobby_list }) }}
         </div>
