@@ -54,7 +54,11 @@ $(document).ready(function(){
                     if ($('#from_invite').val() > 0) {
                         params = '?from_invite=true';
                     }
-                    window.location = "/app_dev.php/salon/" + $('#lobby_id').val() + "/register"+params
+                    if ($('#join').val() == 1) {
+                        window.location = "/app_dev.php/salon/" + $('#lobby_id').val() + "/register"+params
+                    } else {
+                        window.location = "/app_dev.php/salons";
+                    }
                 }
             })
             .fail(function(jqXHR, textStatus, errorThrown){

@@ -139,8 +139,12 @@ class LobbyController extends Controller
                         return $this->redirectToRoute('lobby', array('id' => $lobby->id, 'from_invite' => 1));
                     }
                 } else {
-                    return $this->redirectToRoute('contenu', array('id' => $lobby->content->id, 'frmlby' => 1, 'lby' => $lobby->id));
-                }
+                    return $this->redirectToRoute('contenu', array(
+                                                'id' => $lobby->content->id,
+                                                'frmlby' => 1,
+                                                'lby' => $lobby->id,
+                                                'join' => $lobby->date_start->format('Y-m-d H:i') < date('Y-m-d H:i') ? 1 : 0));
+}
 
             }
             return $this->redirectToRoute('lobby_list');

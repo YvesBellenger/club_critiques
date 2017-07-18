@@ -31,6 +31,7 @@
                         <div id="note-oeuvre" data-content-id="{{ content.id }}">
                             <input type="hidden" name="lobby_id" id="lobby_id" value="{{ lobby_id }}" />
                             <input type="hidden" name="from_invite" id="from_invite" value="{{ from_lobby }}" />
+                            <input type="hidden" name="join" id="join" value="{{ join }}" />
                             {% if note_user[0] is defined %}
                                 <div id="1" class="{% if note_user[0].note >= 1 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 1 %}note-actuelle{% endif %}"></div>
                                 <div id="2" class="{% if note_user[0].note >= 2 %} note-active {% else %} note-inactive {% endif %} {% if note_user[0].note == 2 %}note-actuelle{% endif %}"></div>

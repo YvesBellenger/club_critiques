@@ -155,6 +155,7 @@ class ContentController extends Controller
             'controller' => 'oeuvre',
             'user' => $user,
             'content' => $content,
+            'join' => $request->get('join'),
             'from_lobby' => $from_lobby,
             'lobby_id' => $request->query->has('lby') ? $request->get('lby') : 0,
             'other_contents' => $other_contents,
