@@ -62,6 +62,7 @@ class UserController extends Controller
     public function userActions (Request $request)
     {
         if (!$this->getUser()) {
+            $this->addFlash("danger", "Il faut être connecté pour voir les profils des utilisateurs.");
             return $this->redirectToRoute('fos_user_security_login');
         }
         else
@@ -79,7 +80,7 @@ class UserController extends Controller
                         $this->addFlash("success", "L'email a correctement été envoyé.");
                         return $this->redirectToRoute('user',array('id' => $request->get('id')));
                     } else {
-                        $this->addFlash("success", "Une erreur est survenue.");
+                        $this->addFlash("danger", "Une erreur est survenue.");
                         return $this->redirectToRoute('user',array('id' => $request->get('id')));
                     }
                 }

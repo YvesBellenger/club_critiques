@@ -320,3 +320,18 @@ button:hover {
 #contact_message{
     min-height: 200px;
 }
+
+.historic-chat{
+    margin-bottom : 15px
+}
+
+.room-id{
+    border: solid 1px #cacaca;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-bottom: none;
+}
+
+.historic-title{
+    margin-left: 0;
+}

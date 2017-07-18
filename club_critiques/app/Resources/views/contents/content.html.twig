@@ -10,16 +10,18 @@
                     <div class="col-md-3 cover-oeuvre">
                         <img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
                         <div id="liens-profil">
-                            {% if app.user.contentsWanted.contains(content) == true %}
-                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Je ne cherche plus ce livre</button></a>
-                            {% elseif app.user.contentsToShare.contains(content) == true %}
-                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button>Je ne propose plus ce livre</button></a>
-                                <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 3}) }}"><button>Prêter le livre</button></a>
-                            {% elseif app.user.contentsShared.contains(content) == true %}
-                                <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 3}) }}"><button>Livre rendu</button></a>
-                            {% elseif app.user.contentsWanted.contains(content) == false and app.user.contentsToShare.contains(content) == false and app.user.contentsShared.contains(content) == false  %}
-                                <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 2}) }}"><button>Je cherche ce livre</button></a>
-                                <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 1}) }}"><button>Je dispose de ce livre</button></a>
+                            {% if app.user %}
+                                {% if app.user.contentsWanted.contains(content) == true %}
+                                    <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 2}) }}"><button>Je ne cherche plus ce livre</button></a>
+                                {% elseif app.user.contentsToShare.contains(content) == true %}
+                                    <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 1}) }}"><button>Je ne propose plus ce livre</button></a>
+                                    <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 3}) }}"><button>Prêter le livre</button></a>
+                                {% elseif app.user.contentsShared.contains(content) == true %}
+                                    <a href="{{ path('user_remove_content', {'content_id': content.id, 'type': 3}) }}"><button>Livre rendu</button></a>
+                                {% elseif app.user.contentsWanted.contains(content) == false and app.user.contentsToShare.contains(content) == false and app.user.contentsShared.contains(content) == false  %}
+                                    <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 2}) }}"><button>Je cherche ce livre</button></a>
+                                    <a href="{{ path('user_add_content', {'content_id': content.id, 'type': 1}) }}"><button>Je dispose de ce livre</button></a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -77,7 +79,7 @@
             </div>
             <div class="row">
                 {% for user in to_share_contents %}
-                    {% if app.user.id == user.id %}
+                    {% if app.user and app.user.id == user.id %}
                         <div class="col-md-2 mini-contact">
                             <a href="{{ path('profil')}}"><img class="img-thumbnail" src="{{ asset('img/avatar_placeholder.png') }}"></a>
                             <h3>{{ user.username }} (Moi)</h3>
@@ -105,7 +107,7 @@
             </div>
             <div class="row">
                 {% for user in wanted_contents %}
-                    {% if app.user.id == user.id %}
+                    {% if app.user and app.user.id == user.id %}
                         <div class="col-md-2 mini-contact">
                             <a href="{{ path('profil')}}"><img class="img-thumbnail" src="{{ asset('img/avatar_placeholder.png') }}"></a>
                             <h3>{{ user.username }} (Moi)</h3>
