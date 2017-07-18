@@ -2,6 +2,10 @@
     <div class="row">
         <div class="form-group center">
 
+            <label for="title">Titre</label>
+            <input type="text" name="title" id="title" class="form-control inline" value="{% if title is defined %}{{ title }}{% endif %}" onkeyup="onFilterChange(this)">
+            <input type="hidden" name="history" id="history" class="form-control inline" value="{% if controller == 'lobby_list_history' %}1{% else %}0{% endif %}" />
+
             <select id="category" class="form-control inline" onchange="onFilterChange(this);">
                 <option value="0">Catégorie</option>
                 {% for subcategory in subcategories %}
@@ -15,15 +19,22 @@
                     <option value="{{ author.id }}" {% if selected_author_id == author.id %}selected{% endif %}>{{ author.name }}</option>
                 {% endfor %}
             </select>
-            <label for="title">Titre</label>
-            <input type="text" name="title" id="title" value="{% if title is defined %}{{ title }}{% endif %}" onkeyup="onFilterChange(this)">
-            <input type="hidden" name="history" id="history" value="{% if controller == 'lobby_list_history' %}1{% else %}0{% endif %}" />
+
+            {% if controller == 'lobby_list' %}
+                <a href="{{ path('lobby_list_history') }}" class="btn btn-default">Voir l'historique des salons</a>
+                <a href="{{ path('propose_lobby') }}" class="btn btn-default">Suggérer un salon</a>
+            {% else %}
+                <a href="{{ path('lobby_list') }}" class="btn btn-default">Voir les prochains salons</a>
+            {% endif %}
+
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <table class="table table-striped table-bordered table-hover">
+    <hr>
+
+    <div class="row list-lobbies">
+        <div class="col-md-12">
+            <table class="table table-responsive">
                 <thead>
                 <tr>
                     <th>Titre</th>
@@ -59,18 +70,18 @@
                                     {% if controller == 'lobby_list' %}
                                         <span>
                                             {% if lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i') and note == 'false' %}
-                                                <a href="{{ path('contenu', {'id': lobby.content.id, 'frmlby': 1, 'lby': lobby.id}) }}">Noter l'oeuvre</a>
+                                                <a href="{{ path('contenu', {'id': lobby.content.id, 'frmlby': 1, 'lby': lobby.id}) }}" class="btn btn-default">Noter l'oeuvre</a>
                                             {% elseif lobby.date_start|date('Y-m-d H:i') > "now"|date('Y-m-d H:i') and note == 'true' %}
-                                                <a href="{{ path('lobby_register', {'id': lobby.id}) }}">S'inscrire</a>
+                                                <a href="{{ path('lobby_register', {'id': lobby.id}) }}" class="btn btn-default">S'inscrire</a>
                                             {% elseif "now"|date('Y-m-d H:i') <= lobby.date_start|date_modify("+10 minutes")|date('Y-m-d H:i') and "now"|date('Y-m-d H:i') >= lobby.date_start|date('Y-m-d H:i') and participation == 'true' %}
-                                                <a href="{{ path('lobby', {'id': lobby.id}) }}">Rejoindre</a>
+                                                <a href="{{ path('lobby', {'id': lobby.id}) }}" class="btn btn-default">Rejoindre</a>
                                             {% else %}
                                                 <span>Inscription closes</span>
                                             {% endif %}
                                         </span>
                                     {% else %}
                                         <span>
-                                            <a href="{{ path('lobby_history', {'id': lobby.id}) }}">Voir le salon</a>
+                                            <a href="{{ path('lobby_history', {'id': lobby.id}) }}" class="btn btn-default" >Voir le salon</a>
                                         </span>
                                     {% endif %}
                                 </div>
