@@ -28,7 +28,7 @@ class ContentController extends Controller
 
         /** Contents **/
         $category = $categoryRepository->findOneByCode('livre');
-        $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1), array('title' => 'ASC'), 8);
+        $contents = $doctrine->getRepository('AppBundle:Content')->findBy(array('status' => 1), array('title' => 'ASC'), 12);
 
         /*$paginator = $this->get('knp_paginator');
         $contents = $paginator->paginate(
@@ -47,7 +47,7 @@ class ContentController extends Controller
             'selected_sub_category_id' => 0,
             'selected_author_id' => 0,
             'selected_orderBy' => 0,
-            'offset' => 8,
+            'offset' => 12,
             'subcategories' => $subcategories
         ]);
     }
@@ -88,7 +88,7 @@ class ContentController extends Controller
             'categories' => $categories,
             'selected_category_id' => $category_id,
             'title' => $title,
-            'offset' => 8,
+            'offset' => 12,
             'selected_author_id' => $author_id,
             'selected_orderBy' => $orderBy,
             'selected_sub_category_id' => $sub_category_id
@@ -101,7 +101,7 @@ class ContentController extends Controller
     public function loadMoreAction(Request $request)
     {
 
-        $limit = 8;
+        $limit = 12;
         $offset = $request->get('offset');
         $filters = $request->get('filters');
         $category_id = $filters['category_id'];
@@ -368,7 +368,7 @@ class ContentController extends Controller
 
     private function sendEmailSuggestContent($data, $sender){
         $mailer = $this->container->get('mailer');
-        $message = (new \Swift_Message('test'))
+        $message = (new \Swift_Message('mail'))
             ->setFrom($this->container->getParameter('mailer_user'))
             ->setTo($this->container->getParameter('mailer_user'))
             ->setSubject('[Suggestion de contenus] - '.$data["titre"])

@@ -32,7 +32,7 @@ function loadMore(elt) {
     })
     .done(function(response){
         $('#content-list').append(response);
-        $('#loadMore').data('offset', offset+8);
+        $('#loadMore').data('offset', offset+12);
     })
     .fail(function(jqXHR, textStatus, errorThrown){
         alert('Error : ' + errorThrown);

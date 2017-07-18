@@ -39,12 +39,12 @@ socket.on('user_disconnect', function(data) {
 
 socket.on('end_lobby', function(message) {
     $('#chat').append('<p><em>' + message + '</em></p>');
-    $('#message').disable();
-    $('#send').disable();
 });
 
 socket.on('redirect', function() {
-   window.location = "/";
+    setTimeout(function(){
+        window.location = "/app_dev.php";
+    }, 10000);
 });
 
 socket.on('message', function(data) {

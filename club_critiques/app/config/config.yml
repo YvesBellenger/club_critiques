@@ -79,11 +79,14 @@ fos_user:
     firewall_name: main
     user_class: AppBundle\Entity\User
     from_email:
-        address: "%mailer_user%"
-        sender_name: "%mailer_user%"
+        address: %mailer_user%
+        sender_name: %mailer_user%
     profile:
         form:
           type: AppBundle\Form\ProfileFormType
+    registration:
+      confirmation:
+        enabled: true
 
 ivory_ck_editor:
     input_sync: true

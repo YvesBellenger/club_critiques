@@ -40,13 +40,6 @@
                                 <a href="{{ path('contenus') }}">Contenus</a>
                             </span>
                         </div>
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <div class="menu-item {% if controller is defined and controller == 'users' %}active{% endif %}">
-                            <span>
-                                <a class="" href="{{ path('users') }}">Utilisateurs</a>
-                            </span>
-                        </div>
-                        {% endif %}
                         <div class="menu-item {% if controller is defined and controller == 'salons' %}active{% endif %}">
                             <span>
                                 <a class="" href="{{ path('lobby_list') }}">Salons</a>

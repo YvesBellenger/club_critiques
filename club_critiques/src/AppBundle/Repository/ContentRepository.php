@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class ContentRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function getByFilters($category, $sub_category, $author, $title, $orderBy, $limit = 8, $offset = 0) {
+    public function getByFilters($category, $sub_category, $author, $title, $orderBy, $limit = 12, $offset = 0) {
         $qb = $this->createQueryBuilder('c');
         $qb->join('AppBundle:Category', 'cat', 'WITH', 'c.category = cat');
         $qb->where('1 = 1');

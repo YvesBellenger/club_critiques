@@ -1,11 +1,12 @@
 {% for content in contents  %}
-    <div class="col-md-3  mini-content">
+    <div class="col-md-2  mini-content">
         <a href="{{ path('contenu',{'id': content.id}) }}">
-            <img class="img-responsive" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
+            <img class="img-thumbnail" src="{% if content.image %}{{ content.image }}{% else %}{{ asset('img/image_missing.jpeg') }}{% endif %}">
         </a>
         <div class="book-infos">
-            <h3>{{ content.title }}</h3>
+            <p>{{ content.title }}</p>
             <a href="#"><h4>{% for key,author in content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %}</h4></a>
+            <a href="#"><p>{{ content.publishedDate }}</p></a>
         </div>
     </div>
 {% endfor %}
