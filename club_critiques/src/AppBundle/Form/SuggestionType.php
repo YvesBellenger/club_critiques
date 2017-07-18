@@ -26,7 +26,7 @@ class SuggestionType extends  AbstractType
                     new NotBlank(array("message" => "Merci de ne pas laisser ce champ vide")),
                 )
             ))
-            ->add('auteur', TextType::class, array('attr' => array('class' => 'col-md-3','placeholder' =>'J.K. Rowling, Stanley Kubric..'),
+            ->add('auteur', TextType::class, array('attr' => array('class' => 'col-md-3','placeholder' =>'J.K. Rowling, Stanley Kubrick..'),
                 'constraints' => array(
                     new NotBlank(array("message" => "Merci de ne pas laisser ce champ vide")),
                 )
