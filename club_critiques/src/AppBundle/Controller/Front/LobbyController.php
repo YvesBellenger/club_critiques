@@ -105,30 +105,38 @@ class LobbyController extends Controller
     function lobbyRegisterAction(Request $request)
     {
         $user = $this->getUser();
-        $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
-        $participation = $this->getDoctrine()->getRepository('AppBundle:Participation')->findOneBy(array('lobby' => $lobby, 'user' => $user));
-        if ($participation) {
-            $this->addFlash("warning", "Vous êtes déjà inscrit à ce salon");
-        } else {
-            $note = $this->getDoctrine()->getRepository('AppBundle:Note')->findOneBy(array('content' => $lobby->content, 'user' => $this->getUser()));
-            if ($note) {
-                $this->addFlash("success", "Vous êtes maintenant inscrit à ce salon");
-                $participation = new Participation();
-                $participation->setUser($user);
-                $participation->setLobby($lobby);
-                $participation->setStatus(1);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($participation);
-                $em->flush();
-                if ($request->query->has('from_invite')) {
-                    return $this->redirectToRoute('lobby', array('id' => $lobby->id, 'from_invite' => 1));
-                }
-            } else {
-                return $this->redirectToRoute('contenu', array('id' => $lobby->content->id, 'frmlby' => 1, 'lby' => $lobby->id));
-            }
-
+        if (!$user)
+        {
+            $this->addFlash("danger", "Vous devez être connecté pour participer aux salons.");
+            return $this->redirectToRoute('lobby_list');
         }
-        return $this->redirectToRoute('lobby_list');
+        else
+        {
+            $lobby = $this->getDoctrine()->getRepository('AppBundle:Lobby')->find($request->get('id'));
+            $participation = $this->getDoctrine()->getRepository('AppBundle:Participation')->findOneBy(array('lobby' => $lobby, 'user' => $user));
+            if ($participation) {
+                $this->addFlash("warning", "Vous êtes déjà inscrit à ce salon");
+            } else {
+                $note = $this->getDoctrine()->getRepository('AppBundle:Note')->findOneBy(array('content' => $lobby->content, 'user' => $this->getUser()));
+                if ($note) {
+                    $this->addFlash("success", "Vous êtes maintenant inscrit à ce salon");
+                    $participation = new Participation();
+                    $participation->setUser($user);
+                    $participation->setLobby($lobby);
+                    $participation->setStatus(1);
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($participation);
+                    $em->flush();
+                    if ($request->query->has('from_invite')) {
+                        return $this->redirectToRoute('lobby', array('id' => $lobby->id, 'from_invite' => 1));
+                    }
+                } else {
+                    return $this->redirectToRoute('contenu', array('id' => $lobby->content->id, 'frmlby' => 1, 'lby' => $lobby->id));
+                }
+
+            }
+            return $this->redirectToRoute('lobby_list');
+        }
     }
 
     /**

@@ -22,37 +22,6 @@ function onFiltersChange(elt) {
         });
 }
 
-function onAddContent(elt) {
-    $.ajax({
-        type: "POST",
-        url: 'content/add',
-        data: {'content_id': $(elt).data('content-id'), 'type': $(elt).data('type')},
-        async: false
-    })
-        .done(function(response){
-            alert('le contenu a bien été ajouté');
-        })
-        .fail(function(jqXHR, textStatus, errorThrown){
-            alert('Error : ' + errorThrown);
-        });
-}
-
-/*function sharedContent(elt) {
-    $.ajax({
-        type: "POST",
-        url: 'content/shared/add',
-        data: {'content_id': $(elt).data('content-id'), 'type': $(elt).data('type')},
-        async: false
-    })
-        .done(function(response){
-            alert('le contenu a bien été ajouté');
-        })
-        .fail(function(jqXHR, textStatus, errorThrown){
-            alert('Error : ' + errorThrown);
-        });
-}*/
-
-
 function loadMore(elt) {
     var offset = $(elt).data('offset');
     $.ajax({

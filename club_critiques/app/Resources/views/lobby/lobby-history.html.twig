@@ -6,19 +6,24 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <div class="concept">
-                    <h2>Salon : {{ lobby.content.title }} - {% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != content.authors|length %},{% endif %}{% endfor %} - {{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_start|date('i') }}/{{ lobby.date_start|date('d/m/Y H') }}h{{ lobby.date_end|date('i') }}</h2>
+                    <h2 class="historic-title">Historique du salon </h2>
+                    <h3>{{ lobby.content.title }} - {% for key,author in lobby.content.authors %}{{ author.name }}{% if (key+1) != lobby.content.authors|length %},{% endif %}{% endfor %}</h3>
+                    <h4>Le {{ lobby.date_start|date('d.m.Y') }} débuté à {{ lobby.date_start|date('h') }}h{{ lobby.date_start|date('i') }}, terminé à {{ lobby.date_end|date('H') }}h{{ lobby.date_end|date('i') }}.</h4>
                 </div>
             </div>
         </div>
-        {% for room_id, room in rooms %}
+        {% for room_id, room in rooms|reverse %}
             <div class="row">
-            <div class="col-md-6 col-md-offset-1 bloc-chat" id="block-chat">
+            <div class="col-md-6 col-md-offset-1 bloc-chat historic-chat" id="block-chat">
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="room-id">
+                        <h3>Salon n° {{ room_id+1 }}</h3>
+                    </div>
+                {% endif %}
                 <section id="chat">
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <h3>Salon n° {{ room_id+1 }}</h3>
-                        {% endif %}
+
                         {% for message in room.messages %}
-                            <p><strong>{{ message.username }}</strong>: {{ message.message }}</p>
+                            <p><strong>{{ message.username }}</strong>: {{ message.message|raw }}</p>
                         {% endfor %}
                 </section>
             </div>

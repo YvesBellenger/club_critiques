@@ -10,7 +10,7 @@ var date_end = $('#lobby_date_end').val();
 var room = $('#room').val();
 var user_note = $('#user_note').val();
 
-socket.emit('new_user', {"username" : xssFilters.inHTMLData(encode_utf8(username)), "firstName": xssFilters.inHTMLData(encode_utf8(firstName)), "lastName": xssFilters.inHTMLData(encode_utf8(lastName)), "lobby" : lobby, "user_id": user_id, "lobby_date_start": date_start, "lobby_date_end": date_end, "room": room});
+socket.emit('new_user', {"username" : encode_utf8(username), "firstName": encode_utf8(firstName), "lastName": encode_utf8(lastName), "lobby" : lobby, "user_id": user_id, "lobby_date_start": date_start, "lobby_date_end": date_end, "room": room});
 
 socket.on('new_user_room', function(data) {
     $('#chat').append('<p><em>' + data.username + ' a rejoint le salon !</em></p>');
@@ -53,7 +53,7 @@ socket.on('message', function(data) {
 
 $('#form-chat').submit(function () {
     var message = $('#message').val();
-    message = xssFilters.inHTMLData(message);
+    message = message;
     updateChatUser(message);
     socket.emit('message', message);
     $('#message').val('').focus();
@@ -70,7 +70,7 @@ function updateChat(username, message) {
 }
 
 function updateChatUser(message) {
-    $('#chat').append('<p class="user-sending"><strong> Moi </strong>: ' + message + '</p>');
+    $('#chat').append('<p class="user-sending"><strong> Moi </strong>: ' + xssFilters.inHTMLData(message) + '</p>');
     scroll_chat();
 }
 
