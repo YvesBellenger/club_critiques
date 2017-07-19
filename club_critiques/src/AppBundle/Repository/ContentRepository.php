@@ -43,11 +43,11 @@ class ContentRepository extends \Doctrine\ORM\EntityRepository
         }
         else if($orderBy == 2)
         {
-            $qb->orderBy('c.publishedDate', 'ASC');
+            $qb->orderBy('c.publishedDate', 'DESC');
         }
         else if($orderBy == 3)
         {
-            $qb->orderBy('c.publishedDate', 'DESC');
+            $qb->orderBy('c.publishedDate', 'ASC');
         }
         $qb->setParameter('status', 1);
 
